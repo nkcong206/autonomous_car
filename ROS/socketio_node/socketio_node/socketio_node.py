@@ -7,17 +7,16 @@ import time
 import numpy as np
 
 gps_data = [0.0,0.0]
+gps_status = 0.0
 places = []
 class SocketIOListener(Node):
     def __init__(self):
         super().__init__('socketio_listener')
-        self.SERVER_SOCKETIO = "http://10.10.10.247:5001"
+        self.SERVER_SOCKETIO = "http://10.10.10.28:5001"
         self.ID = "robot1"
         self.NAME = "123"
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
         self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
-        # self.publisher = self.create_publisher(Float32MultiArray, 'float_array_topic', 10)
-
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
         self.sio = socketio.Client()
 
@@ -50,9 +49,9 @@ class SocketIOListener(Node):
                 new_places.append(float(point[0]))
                 new_places.append(float(point[1]))
             place_msg.data = new_places
-            print(place_msg.data)
-
             self.places_publisher.publish(place_msg)
+            print("place_msg",place_msg)
+
 
         @self.sio.on("robot_location") 
         def thread_location():
@@ -82,8 +81,9 @@ class SocketIOListener(Node):
     
     
     def gps_callback(self, data_msg: Float32MultiArray):
-        global gps_data
+        global gps_data, gps_status
         gps_data = data_msg.data[0:2]
+        gps_status = data_msg.data[2]
         
     def start(self):
         self.sio.connect(self.SERVER_SOCKETIO)
