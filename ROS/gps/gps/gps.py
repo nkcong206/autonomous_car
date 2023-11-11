@@ -38,7 +38,6 @@ class gps_pubisher(Node):
         global gps_data
         my_gps = Float32MultiArray()
         my_gps.data = gps_data
-        # my_gps.data.append(gps_status)
         self.gps_pub.publish(my_gps)
         print(my_gps)
 

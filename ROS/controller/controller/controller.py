@@ -217,7 +217,7 @@ def distance_cal( lat_end, lon_end, lat_start, lon_start):
 
 def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
     global gps_status, gps_data, signal, automatic, places
-    
+    print(f"place: [{lat}, {lon}]")
     lat_end = math.radians(lat)
     lon_end = math.radians(lon)
     lat_start = math.radians(gps_data[0])
@@ -226,8 +226,8 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
     distance = distance_cal( lat_end, lon_end, lat_start, lon_start)
     
     while (distance >= threshold):
-        print(f"place: [{lat_end}, {lon_end}]")
         print("gps status: ", gps_status)
+        print("automatic: ", automatic)
         if gps_status == 0 or automatic != 0:
             if(gps_status == 0):
                 print("Error gps!")
@@ -237,7 +237,6 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
                 signal = 5
             Car.steering = 0
             Car.stop() 
-            #time.sleep(1)
         else:
             lat_start = math.radians(gps_data[0])
             lon_start = math.radians(gps_data[1])    
@@ -273,7 +272,7 @@ def travel_journey(Car, lidar, places):
         input('enter to next place')  
 
 def controller_thread():
-    global places, automatic, speed, steering
+    global places, automatic, speed, steering, signal
     print("Startup car!")
     Car = Pilot.AutoCar()
     Car.setObstacleDistance(distance=0)
@@ -281,10 +280,6 @@ def controller_thread():
     lidar = LiDAR.Rplidar()
     lidar.connect()
     lidar.startMotor()
-    # places = [[21.04834105425579, 105.8016542764174],[21.048343381786204, 105.80093602424105],[21.048178127036262, 105.80093353030988]]
-    # places = [[21.047939828195936, 105.80094216574687],[21.0483257655548, 105.80093777817802],[21.048348287067167, 105.80070414013677]]
-    # places = [[21.0483257655548, 105.80093777817802],[21.048348287067167, 105.80070414013677]]
-
     while not event.is_set():
         if not places:
             print("places is empty!")
