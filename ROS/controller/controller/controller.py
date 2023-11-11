@@ -227,17 +227,16 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
     while (distance >= threshold):
         print("gps status: ", gps_status)
         print("automatic: ", automatic)
-        if gps_status == 0 or automatic != 0:
+        if gps_status == 0 or automatic == 0:
             if(gps_status == 0):
                 print("Error gps!")
                 signal = 4
-            else:
+            if(automatic == 0):
                 print("Stop car!")
                 signal = 5
             Car.steering = 0
             Car.stop() 
             time.sleep(1) 
-
         else:
             lat_start = math.radians(gps_data[0])
             lon_start = math.radians(gps_data[1])    

@@ -12,7 +12,7 @@ places = []
 class SocketIOListener(Node):
     def __init__(self):
         super().__init__('socketio_listener')
-        self.SERVER_SOCKETIO = "http://10.10.10.28:5001"
+        self.SERVER_SOCKETIO = "http://192.168.0.33:5001"
         self.ID = "robot1"
         self.NAME = "123"
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
