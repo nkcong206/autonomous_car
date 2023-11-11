@@ -11,7 +11,7 @@ places = []
 class SocketIOListener(Node):
     def __init__(self):
         super().__init__('socketio_listener')
-        self.SERVER_SOCKETIO = "http://10.10.10.247:5001"
+        self.SERVER_SOCKETIO = "http://10.10.10.28:5001"
         self.ID = "robot1"
         self.NAME = "123"
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
@@ -43,14 +43,16 @@ class SocketIOListener(Node):
         def locations_direction(data):
             place_msg = Float32MultiArray()
             places = data['locations']
+            places = places[1:]
+            places = places[0]
             new_places = []
             for point in places:
                 new_places.append(float(point[0]))
                 new_places.append(float(point[1]))
             place_msg.data = new_places
-            print(place_msg.data)
-
             self.places_publisher.publish(place_msg)
+            print("place_msg",place_msg)
+
 
         @self.sio.on("robot_location") 
         def thread_location():
