@@ -43,6 +43,8 @@ class SocketIOListener(Node):
         def locations_direction(data):
             place_msg = Float32MultiArray()
             places = data['locations']
+            places = places[1:]
+            places = places[0]
             new_places = []
             for point in places:
                 new_places.append(float(point[0]))

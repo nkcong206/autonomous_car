@@ -154,12 +154,15 @@ def locations_direction(data):
     robot_id = data["robot_id"]
     locations = data["locations"]
     client_id = request.sid
-    client_c_robot = get_c_id_by_robot_id(robot_id)
+   # client_c_robot = get_c_id_by_robot_id(robot_id)
+    client_c_robot = get_c_id_by_robot_id("robot1")
     status = 0
     print("locations : ", locations, flush=True)
     if client_c_robot:
+        print("1111")
         status = 1
         sio.emit("locations_direction_robot", {"locations" : locations}, room=client_c_robot)
+        print("222")
     sio.emit("locations_direction", {"status" : status}, room=client_id)
     
 @sio.on("send_signal")

@@ -10,7 +10,7 @@ services:
     build:
       context: . 
     environment:
-      SERVER_RTMP: "rtmp://10.10.11.39:1935"
+      SERVER_RTMP: "rtmp://10.10.10.28:1935"
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81abc
