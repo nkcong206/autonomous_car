@@ -217,7 +217,6 @@ def distance_cal( lat_end, lon_end, lat_start, lon_start):
 
 def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
     global gps_status, gps_data, signal, automatic, places
-    print(f"place: [{lat}, {lon}]")
     lat_end = math.radians(lat)
     lon_end = math.radians(lon)
     lat_start = math.radians(gps_data[0])
@@ -237,6 +236,8 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
                 signal = 5
             Car.steering = 0
             Car.stop() 
+            time.sleep(1) 
+
         else:
             lat_start = math.radians(gps_data[0])
             lon_start = math.radians(gps_data[1])    
@@ -258,7 +259,7 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
                 
             print(f"distance {distance}")   
             print(f"steering: {steering}, speed: {speed}")    
-        time.sleep(0.1) 
+            time.sleep(0.1) 
 
     signal = 0
     Car.steering = 0
@@ -269,7 +270,7 @@ def travel_journey(Car, lidar, places):
     global threshold
     for place in places:
         go_to_lat_lon(Car, lidar, place[0], place[1], threshold)  
-        input('enter to next place')  
+        print(f"place: [{place[0]}, {place[1]}]")
 
 def controller_thread():
     global places, automatic, speed, steering, signal
