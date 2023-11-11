@@ -11,7 +11,9 @@ import time
 import numpy as np
 
 signal = -1
+manual = ""
 places = []
+place_id = 0
 gps_data = [0.0,0.0]
 gps_status = 0.0
 automatic = True
@@ -38,7 +40,7 @@ class DriveController(Node):
         self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_callback, 10)
         self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_callback, 10)
         self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
-     #   self.cmd_vel_sub = self.create_subscription(String, "/cmd_vel", self.cmd_vel_callback, 10)
+        self.cmd_vel_sub = self.create_subscription(String, "/cmd_vel", self.cmd_vel_callback, 10)
 
     def places_callback(self, places_msg = Float32MultiArray):
         global places
@@ -58,12 +60,10 @@ class DriveController(Node):
         else:
             automatic = False
             
-    # def cmd_vel_callback(self, cmd_vel_msg: String):
-    #     global speed, steering, automatic
-    #     if not automatic:
-    #         steering = cmd_vel_msg.data[0]
-    #         speed = max_speed*cmd_vel_msg.data[1]
-            
+    def cmd_vel_callback(self, cmd_vel_msg: String):
+        global manual
+        manual = cmd_vel_msg
+           
     def led_callback(self):
         global signal
         led_msg = Int32()
@@ -265,13 +265,13 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
     print(f"reach destination {lat}, {lon}")   
 
 def travel_journey(Car, lidar, places):
-    global threshold
-    for place in places:
-        go_to_lat_lon(Car, lidar, place[0], place[1], threshold)  
-        print(f"place: [{place[0]}, {place[1]}]")
+    global threshold, place_id
+    for place_id in range(len(places)):
+        go_to_lat_lon(Car, lidar, places[place_id][0], places[place_id][1], threshold)  
+        print(f"place: [{places[place_id][0]}, {places[place_id][1]}]")
 
 def controller_thread():
-    global places, automatic, speed, steering, signal
+    global places, automatic, max_speed, manual
     print("Startup car!")
     Car = Pilot.AutoCar()
     Car.setObstacleDistance(distance=0)
@@ -280,11 +280,29 @@ def controller_thread():
     lidar.connect()
     lidar.startMotor()
     while not event.is_set():
-        if not places:
-            print("places is empty!")
-            time.sleep(1)
-        else:    
-            travel_journey(Car, lidar,places)
+        if automatic:
+            if not places:
+                print("places is empty!")
+                time.sleep(1)
+            else:    
+                travel_journey(Car, lidar,places)
+        else:
+            if manual == "UP" or manual=="TOP":
+                Car.forward(max_speed)
+                Car.steering = 0
+                time.sleep(1)
+            elif manual == "DOWN":
+                Car.backward(max_speed)    
+                Car.steering = 0
+                time.sleep(1)
+            elif manual == "LEFT":
+                Car.forward(max_speed*5/6)
+                Car.steering = -1
+                time.sleep(1)
+            elif manual == "RIGHT":
+                Car.forward(max_speed*5/6)
+                Car.steering = 1
+                time.sleep(1)    
     
     signal = -1
     Car.steering = 0
