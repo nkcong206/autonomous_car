@@ -1,0 +1,48 @@
+[2.505s] Invoking command in '/home/soda/Documents/nkcong/auto_car': PYTHONPATH=/home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/auto_car build --build-base /home/soda/Documents/nkcong/auto_car/build/auto_car/build install --prefix /home/soda/Documents/nkcong/auto_car/install/auto_car --record /home/soda/Documents/nkcong/auto_car/build/auto_car/install.log --single-version-externally-managed
+[4.443s] running egg_info
+[4.446s] creating build/auto_car/auto_car.egg-info
+[4.446s] writing build/auto_car/auto_car.egg-info/PKG-INFO
+[4.447s] writing dependency_links to build/auto_car/auto_car.egg-info/dependency_links.txt
+[4.448s] writing entry points to build/auto_car/auto_car.egg-info/entry_points.txt
+[4.449s] writing requirements to build/auto_car/auto_car.egg-info/requires.txt
+[4.450s] writing top-level names to build/auto_car/auto_car.egg-info/top_level.txt
+[4.467s] writing manifest file 'build/auto_car/auto_car.egg-info/SOURCES.txt'
+[4.476s] reading manifest file 'build/auto_car/auto_car.egg-info/SOURCES.txt'
+[4.482s] writing manifest file 'build/auto_car/auto_car.egg-info/SOURCES.txt'
+[4.483s] running build
+[4.483s] running build_py
+[4.484s] creating /home/soda/Documents/nkcong/auto_car/build/auto_car/build
+[4.485s] creating /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib
+[4.485s] creating /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car
+[4.486s] copying auto_car/__init__.py -> /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car
+[4.486s] copying auto_car/drive_controller.py -> /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car
+[4.487s] copying auto_car/ps4.py -> /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car
+[4.487s] running install
+[4.488s] /home/soda/.local/lib/python3.6/site-packages/setuptools/command/install.py:37: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[4.488s]   setuptools.SetuptoolsDeprecationWarning,
+[4.489s] running install_lib
+[4.493s] creating /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car
+[4.493s] copying /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car/__init__.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car
+[4.494s] copying /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car/drive_controller.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car
+[4.494s] copying /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car/ps4.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car
+[4.496s] byte-compiling /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car/__init__.py to __init__.cpython-36.pyc
+[4.496s] byte-compiling /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car/drive_controller.py to drive_controller.cpython-36.pyc
+[4.501s] byte-compiling /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car/ps4.py to ps4.cpython-36.pyc
+[4.503s] running install_data
+[4.507s] creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index
+[4.508s] creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index/resource_index
+[4.508s] creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index/resource_index/packages
+[4.509s] copying resource/auto_car -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index/resource_index/packages
+[4.509s] copying package.xml -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car
+[4.510s] creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/launch
+[4.510s] copying launch/driver.launch.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/launch
+[4.511s] creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/urdf
+[4.511s] copying urdf/auto_car.urdf -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/urdf
+[4.512s] creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/rviz
+[4.512s] copying rviz/driver.rviz -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/rviz
+[4.513s] running install_egg_info
+[4.520s] Copying build/auto_car/auto_car.egg-info to /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car-0.0.0-py3.6.egg-info
+[4.524s] running install_scripts
+[4.616s] Installing drive_controller = auto_car.drive_controller:mainps4 script to /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/auto_car
+[4.617s] writing list of installed files to '/home/soda/Documents/nkcong/auto_car/build/auto_car/install.log'
+[4.745s] Invoked command in '/home/soda/Documents/nkcong/auto_car' returned '0': PYTHONPATH=/home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base build/auto_car build --build-base /home/soda/Documents/nkcong/auto_car/build/auto_car/build install --prefix /home/soda/Documents/nkcong/auto_car/install/auto_car --record /home/soda/Documents/nkcong/auto_car/build/auto_car/install.log --single-version-externally-managed

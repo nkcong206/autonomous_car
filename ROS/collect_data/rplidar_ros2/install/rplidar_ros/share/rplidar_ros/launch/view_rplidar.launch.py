@@ -1,0 +1,1 @@
+/home/soda/Documents/nkcong/rplidar_ros2/launch/view_rplidar.launch.py

@@ -1,0 +1,101 @@
+[0.000000] (-) TimerEvent: {}
+[0.000610] (auto_car) JobQueued: {'identifier': 'auto_car', 'dependencies': OrderedDict()}
+[0.000828] (auto_car) JobStarted: {'identifier': 'auto_car'}
+[0.093772] (-) TimerEvent: {}
+[0.195255] (-) TimerEvent: {}
+[0.296373] (-) TimerEvent: {}
+[0.397451] (-) TimerEvent: {}
+[0.498153] (-) TimerEvent: {}
+[0.598989] (-) TimerEvent: {}
+[0.700095] (-) TimerEvent: {}
+[0.801180] (-) TimerEvent: {}
+[0.902263] (-) TimerEvent: {}
+[1.003014] (-) TimerEvent: {}
+[1.104098] (-) TimerEvent: {}
+[1.205182] (-) TimerEvent: {}
+[1.305977] (-) TimerEvent: {}
+[1.406844] (-) TimerEvent: {}
+[1.507786] (-) TimerEvent: {}
+[1.608841] (-) TimerEvent: {}
+[1.709893] (-) TimerEvent: {}
+[1.811357] (-) TimerEvent: {}
+[1.912422] (-) TimerEvent: {}
+[2.013217] (-) TimerEvent: {}
+[2.114455] (-) TimerEvent: {}
+[2.215502] (-) TimerEvent: {}
+[2.316279] (-) TimerEvent: {}
+[2.417409] (-) TimerEvent: {}
+[2.501384] (auto_car) Command: {'cmd': ['/usr/bin/python3', 'setup.py', 'egg_info', '--egg-base', 'build/auto_car', 'build', '--build-base', '/home/soda/Documents/nkcong/auto_car/build/auto_car/build', 'install', '--prefix', '/home/soda/Documents/nkcong/auto_car/install/auto_car', '--record', '/home/soda/Documents/nkcong/auto_car/build/auto_car/install.log', '--single-version-externally-managed'], 'cwd': '/home/soda/Documents/nkcong/auto_car', 'env': {'OPENBLAS_CORETYPE': 'ARMV8', 'MAIL': '/var/mail/soda', 'LC_TIME': 'ko_KR.UTF-8', 'USER': 'soda', 'SSH_CLIENT': '10.10.13.45 48392 22', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/eloquent/opt/yaml_cpp_vendor/lib:/opt/ros/eloquent/opt/rviz_ogre_vendor/lib:/opt/ros/eloquent/lib/aarch64-linux-gnu:/opt/ros/eloquent/lib:/usr/local/cuda/lib64', 'HOME': '/home/soda', 'OLDPWD': '/home/soda', 'LESS': '-R', 'TERMINFO': '/home/soda/.terminfo', 'SSH_TTY': '/dev/pts/0', 'ZSH': '/home/soda/.oh-my-zsh', 'LSCOLORS': 'Gxfxcxdxbxegedabagacad', 'PAGER': 'less', 'ROS_PYTHON_VERSION': '3', 'LC_MONETARY': 'ko_KR.UTF-8', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'P9K_TTY': 'old', 'ROS_DISTRO': 'eloquent', 'LOGNAME': 'soda', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '19', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/eloquent/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'LC_ADDRESS': 'ko_KR.UTF-8', 'XDG_RUNTIME_DIR': '/run/user/1000', 'LANG': 'ko_KR.UTF-8', 'LC_TELEPHONE': 'ko_KR.UTF-8', 'LS_COLORS': 'no=00;38;5;244:rs=0:di=00;38;5;33:ln=01;38;5;37:mh=00:pi=48;5;230;38;5;136;01:so=48;5;230;38;5;136;01:do=48;5;230;38;5;136;01:bd=48;5;230;38;5;244;01:cd=48;5;230;38;5;244;01:or=48;5;235;38;5;160:su=48;5;160;38;5;230:sg=48;5;136;38;5;230:ca=30;41:tw=48;5;64;38;5;230:ow=48;5;235;38;5;33:st=48;5;33;38;5;230:ex=01;38;5;64:*.tar=00;38;5;61:*.tgz=01;38;5;61:*.arj=01;38;5;61:*.taz=01;38;5;61:*.lzh=01;38;5;61:*.lzma=01;38;5;61:*.tlz=01;38;5;61:*.txz=01;38;5;61:*.zip=01;38;5;61:*.zst=01;38;5;61:*.z=01;38;5;61:*.Z=01;38;5;61:*.dz=01;38;5;61:*.gz=01;38;5;61:*.lz=01;38;5;61:*.xz=01;38;5;61:*.bz2=01;38;5;61:*.bz=01;38;5;61:*.tbz=01;38;5;61:*.tbz2=01;38;5;61:*.tz=01;38;5;61:*.deb=01;38;5;61:*.rpm=01;38;5;61:*.jar=01;38;5;61:*.rar=01;38;5;61:*.ace=01;38;5;61:*.zoo=01;38;5;61:*.cpio=01;38;5;61:*.7z=01;38;5;61:*.rz=01;38;5;61:*.apk=01;38;5;61:*.gem=01;38;5;61:*.jpg=00;38;5;136:*.JPG=00;38;5;136:*.jpeg=00;38;5;136:*.gif=00;38;5;136:*.bmp=00;38;5;136:*.pbm=00;38;5;136:*.pgm=00;38;5;136:*.ppm=00;38;5;136:*.tga=00;38;5;136:*.xbm=00;38;5;136:*.xpm=00;38;5;136:*.tif=00;38;5;136:*.tiff=00;38;5;136:*.png=00;38;5;136:*.PNG=00;38;5;136:*.svg=00;38;5;136:*.svgz=00;38;5;136:*.mng=00;38;5;136:*.pcx=00;38;5;136:*.dl=00;38;5;136:*.xcf=00;38;5;136:*.xwd=00;38;5;136:*.yuv=00;38;5;136:*.cgm=00;38;5;136:*.emf=00;38;5;136:*.eps=00;38;5;136:*.CR2=00;38;5;136:*.ico=00;38;5;136:*.nef=00;38;5;136:*.NEF=00;38;5;136:*.webp=00;38;5;136:*.tex=01;38;5;245:*.rdf=01;38;5;245:*.owl=01;38;5;245:*.n3=01;38;5;245:*.ttl=01;38;5;245:*.nt=01;38;5;245:*.torrent=01;38;5;245:*.xml=01;38;5;245:*Makefile=01;38;5;245:*Rakefile=01;38;5;245:*Dockerfile=01;38;5;245:*build.xml=01;38;5;245:*rc=01;38;5;245:*1=01;38;5;245:*.nfo=01;38;5;245:*README=01;38;5;245:*README.txt=01;38;5;245:*readme.txt=01;38;5;245:*.md=01;38;5;245:*README.markdown=01;38;5;245:*.ini=01;38;5;245:*.yml=01;38;5;245:*.cfg=01;38;5;245:*.conf=01;38;5;245:*.h=01;38;5;245:*.hpp=01;38;5;245:*.c=01;38;5;245:*.cpp=01;38;5;245:*.cxx=01;38;5;245:*.cc=01;38;5;245:*.objc=01;38;5;245:*.sqlite=01;38;5;245:*.go=01;38;5;245:*.sql=01;38;5;245:*.csv=01;38;5;245:*.log=00;38;5;240:*.bak=00;38;5;240:*.aux=00;38;5;240:*.lof=00;38;5;240:*.lol=00;38;5;240:*.lot=00;38;5;240:*.out=00;38;5;240:*.toc=00;38;5;240:*.bbl=00;38;5;240:*.blg=00;38;5;240:*~=00;38;5;240:*#=00;38;5;240:*.part=00;38;5;240:*.incomplete=00;38;5;240:*.swp=00;38;5;240:*.tmp=00;38;5;240:*.temp=00;38;5;240:*.o=00;38;5;240:*.pyc=00;38;5;240:*.class=00;38;5;240:*.cache=00;38;5;240:*.aac=00;38;5;166:*.au=00;38;5;166:*.flac=00;38;5;166:*.mid=00;38;5;166:*.midi=00;38;5;166:*.mka=00;38;5;166:*.mp3=00;38;5;166:*.mpc=00;38;5;166:*.ogg=00;38;5;166:*.opus=00;38;5;166:*.ra=00;38;5;166:*.wav=00;38;5;166:*.m4a=00;38;5;166:*.axa=00;38;5;166:*.oga=00;38;5;166:*.spx=00;38;5;166:*.xspf=00;38;5;166:*.mov=01;38;5;166:*.MOV=01;38;5;166:*.mpg=01;38;5;166:*.mpeg=01;38;5;166:*.m2v=01;38;5;166:*.mkv=01;38;5;166:*.ogm=01;38;5;166:*.mp4=01;38;5;166:*.m4v=01;38;5;166:*.mp4v=01;38;5;166:*.vob=01;38;5;166:*.qt=01;38;5;166:*.nuv=01;38;5;166:*.wmv=01;38;5;166:*.asf=01;38;5;166:*.rm=01;38;5;166:*.rmvb=01;38;5;166:*.flc=01;38;5;166:*.avi=01;38;5;166:*.fli=01;38;5;166:*.flv=01;38;5;166:*.gl=01;38;5;166:*.m2ts=01;38;5;166:*.divx=01;38;5;166:*.webm=01;38;5;166:*.axv=01;38;5;166:*.anx=01;38;5;166:*.ogv=01;38;5;166:*.ogx=01;38;5;166:', 'LC_MESSAGES': 'POSIX', 'AMENT_PREFIX_PATH': '/opt/ros/eloquent', 'LC_NAME': 'ko_KR.UTF-8', 'SHELL': '/bin/zsh', 'LC_MEASUREMENT': 'ko_KR.UTF-8', 'LC_IDENTIFICATION': 'ko_KR.UTF-8', 'P9K_SSH': '1', 'LC_ALL': 'en_US.UTF-8', 'PWD': '/home/soda/Documents/nkcong/auto_car/build/auto_car', 'SSH_CONNECTION': '10.10.13.45 48392 10.10.13.233 22', '_P9K_TTY': '/dev/pts/0', 'LC_NUMERIC': 'ko_KR.UTF-8', 'PYTHONPATH': '/home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages:/opt/ros/eloquent/lib/python3.6/site-packages', 'LC_PAPER': 'ko_KR.UTF-8', 'COLCON': '1'}, 'shell': False}
+[2.518660] (-) TimerEvent: {}
+[2.619869] (-) TimerEvent: {}
+[2.720580] (-) TimerEvent: {}
+[2.821330] (-) TimerEvent: {}
+[2.922001] (-) TimerEvent: {}
+[3.023527] (-) TimerEvent: {}
+[3.124199] (-) TimerEvent: {}
+[3.224903] (-) TimerEvent: {}
+[3.325600] (-) TimerEvent: {}
+[3.426401] (-) TimerEvent: {}
+[3.527096] (-) TimerEvent: {}
+[3.627742] (-) TimerEvent: {}
+[3.728392] (-) TimerEvent: {}
+[3.829081] (-) TimerEvent: {}
+[3.929775] (-) TimerEvent: {}
+[4.030565] (-) TimerEvent: {}
+[4.131258] (-) TimerEvent: {}
+[4.231924] (-) TimerEvent: {}
+[4.332606] (-) TimerEvent: {}
+[4.433403] (-) TimerEvent: {}
+[4.442784] (auto_car) StdoutLine: {'line': b'running egg_info\n'}
+[4.445967] (auto_car) StdoutLine: {'line': b'creating build/auto_car/auto_car.egg-info\n'}
+[4.446835] (auto_car) StdoutLine: {'line': b'writing build/auto_car/auto_car.egg-info/PKG-INFO\n'}
+[4.447609] (auto_car) StdoutLine: {'line': b'writing dependency_links to build/auto_car/auto_car.egg-info/dependency_links.txt\n'}
+[4.448322] (auto_car) StdoutLine: {'line': b'writing entry points to build/auto_car/auto_car.egg-info/entry_points.txt\n'}
+[4.449096] (auto_car) StdoutLine: {'line': b'writing requirements to build/auto_car/auto_car.egg-info/requires.txt\n'}
+[4.449917] (auto_car) StdoutLine: {'line': b'writing top-level names to build/auto_car/auto_car.egg-info/top_level.txt\n'}
+[4.467305] (auto_car) StdoutLine: {'line': b"writing manifest file 'build/auto_car/auto_car.egg-info/SOURCES.txt'\n"}
+[4.476744] (auto_car) StdoutLine: {'line': b"reading manifest file 'build/auto_car/auto_car.egg-info/SOURCES.txt'\n"}
+[4.482436] (auto_car) StdoutLine: {'line': b"writing manifest file 'build/auto_car/auto_car.egg-info/SOURCES.txt'\n"}
+[4.483212] (auto_car) StdoutLine: {'line': b'running build\n'}
+[4.483723] (auto_car) StdoutLine: {'line': b'running build_py\n'}
+[4.484600] (auto_car) StdoutLine: {'line': b'creating /home/soda/Documents/nkcong/auto_car/build/auto_car/build\n'}
+[4.485192] (auto_car) StdoutLine: {'line': b'creating /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib\n'}
+[4.485732] (auto_car) StdoutLine: {'line': b'creating /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car\n'}
+[4.486197] (auto_car) StdoutLine: {'line': b'copying auto_car/__init__.py -> /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car\n'}
+[4.486827] (auto_car) StdoutLine: {'line': b'copying auto_car/drive_controller.py -> /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car\n'}
+[4.487291] (auto_car) StdoutLine: {'line': b'copying auto_car/ps4.py -> /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car\n'}
+[4.487904] (auto_car) StdoutLine: {'line': b'running install\n'}
+[4.488388] (auto_car) StderrLine: {'line': b'/home/soda/.local/lib/python3.6/site-packages/setuptools/command/install.py:37: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.\n'}
+[4.488928] (auto_car) StderrLine: {'line': b'  setuptools.SetuptoolsDeprecationWarning,\n'}
+[4.489483] (auto_car) StdoutLine: {'line': b'running install_lib\n'}
+[4.493070] (auto_car) StdoutLine: {'line': b'creating /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car\n'}
+[4.493743] (auto_car) StdoutLine: {'line': b'copying /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car/__init__.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car\n'}
+[4.494370] (auto_car) StdoutLine: {'line': b'copying /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car/drive_controller.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car\n'}
+[4.494951] (auto_car) StdoutLine: {'line': b'copying /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car/ps4.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car\n'}
+[4.496046] (auto_car) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car/__init__.py to __init__.cpython-36.pyc\n'}
+[4.496916] (auto_car) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car/drive_controller.py to drive_controller.cpython-36.pyc\n'}
+[4.501663] (auto_car) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car/ps4.py to ps4.cpython-36.pyc\n'}
+[4.503863] (auto_car) StdoutLine: {'line': b'running install_data\n'}
+[4.507410] (auto_car) StdoutLine: {'line': b'creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index\n'}
+[4.508155] (auto_car) StdoutLine: {'line': b'creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index/resource_index\n'}
+[4.508690] (auto_car) StdoutLine: {'line': b'creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index/resource_index/packages\n'}
+[4.509207] (auto_car) StdoutLine: {'line': b'copying resource/auto_car -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index/resource_index/packages\n'}
+[4.509761] (auto_car) StdoutLine: {'line': b'copying package.xml -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car\n'}
+[4.510355] (auto_car) StdoutLine: {'line': b'creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/launch\n'}
+[4.510853] (auto_car) StdoutLine: {'line': b'copying launch/driver.launch.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/launch\n'}
+[4.511459] (auto_car) StdoutLine: {'line': b'creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/urdf\n'}
+[4.511929] (auto_car) StdoutLine: {'line': b'copying urdf/auto_car.urdf -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/urdf\n'}
+[4.512469] (auto_car) StdoutLine: {'line': b'creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/rviz\n'}
+[4.512932] (auto_car) StdoutLine: {'line': b'copying rviz/driver.rviz -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/rviz\n'}
+[4.513383] (auto_car) StdoutLine: {'line': b'running install_egg_info\n'}
+[4.520439] (auto_car) StdoutLine: {'line': b'Copying build/auto_car/auto_car.egg-info to /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car-0.0.0-py3.6.egg-info\n'}
+[4.524419] (auto_car) StdoutLine: {'line': b'running install_scripts\n'}
+[4.533550] (-) TimerEvent: {}
+[4.616114] (auto_car) StdoutLine: {'line': b'Installing drive_controller = auto_car.drive_controller:mainps4 script to /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/auto_car\n'}
+[4.617680] (auto_car) StdoutLine: {'line': b"writing list of installed files to '/home/soda/Documents/nkcong/auto_car/build/auto_car/install.log'\n"}
+[4.633764] (-) TimerEvent: {}
+[4.735009] (-) TimerEvent: {}
+[4.744703] (auto_car) CommandEnded: {'returncode': 0}
+[4.835908] (-) TimerEvent: {}
+[4.865307] (auto_car) JobEnded: {'identifier': 'auto_car', 'rc': 0}
+[4.869614] (-) EventReactorShutdown: {}

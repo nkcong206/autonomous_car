@@ -1,0 +1,91 @@
+[2.245s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--symlink-install']
+[2.245s] DEBUG:colcon:Parsed command line arguments: Namespace(ament_cmake_args=None, base_paths=['.'], build_base='build', catkin_cmake_args=None, catkin_skip_building_tests=False, cmake_args=None, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, cmake_target=None, cmake_target_skip_unavailable=False, continue_on_error=False, event_handlers=None, executor='parallel', ignore_user_meta=False, install_base='install', log_base=None, log_level=None, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7f825a9198>>, merge_install=False, metas=['./colcon.meta'], packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_end=None, packages_ignore=None, packages_ignore_regex=None, packages_select=None, packages_select_build_failed=False, packages_select_by_dep=None, packages_select_regex=None, packages_select_test_failures=False, packages_skip=None, packages_skip_build_finished=False, packages_skip_by_dep=None, packages_skip_regex=None, packages_skip_test_passed=False, packages_skip_up_to=None, packages_start=None, packages_up_to=None, packages_up_to_regex=None, parallel_workers=4, paths=None, symlink_install=True, test_result_base=None, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7f825a9198>, verb_name='build', verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7f82442ba8>)
+[2.284s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[2.284s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[2.284s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[2.285s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[2.285s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[2.286s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[2.287s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/soda/Documents/nkcong/auto_car'
+[2.287s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[2.288s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[2.288s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[2.288s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[2.289s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[2.289s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[2.289s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[2.289s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[2.290s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[2.525s] DEBUG:colcon.colcon_core.package_identification:Package '.' with type 'ros.ament_python' and name 'auto_car'
+[2.525s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[2.527s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[2.527s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[2.527s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[2.527s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[2.662s] Level 5:colcon.colcon_core.verb:set package 'auto_car' build argument 'cmake_args' from command line to 'None'
+[2.663s] Level 5:colcon.colcon_core.verb:set package 'auto_car' build argument 'cmake_target' from command line to 'None'
+[2.663s] Level 5:colcon.colcon_core.verb:set package 'auto_car' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[2.663s] Level 5:colcon.colcon_core.verb:set package 'auto_car' build argument 'cmake_clean_cache' from command line to 'False'
+[2.663s] Level 5:colcon.colcon_core.verb:set package 'auto_car' build argument 'cmake_clean_first' from command line to 'False'
+[2.664s] Level 5:colcon.colcon_core.verb:set package 'auto_car' build argument 'cmake_force_configure' from command line to 'False'
+[2.664s] Level 5:colcon.colcon_core.verb:set package 'auto_car' build argument 'ament_cmake_args' from command line to 'None'
+[2.664s] Level 5:colcon.colcon_core.verb:set package 'auto_car' build argument 'catkin_cmake_args' from command line to 'None'
+[2.664s] Level 5:colcon.colcon_core.verb:set package 'auto_car' build argument 'catkin_skip_building_tests' from command line to 'False'
+[2.664s] DEBUG:colcon.colcon_core.verb:Building package 'auto_car' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/soda/Documents/nkcong/auto_car/build/auto_car', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/soda/Documents/nkcong/auto_car/install/auto_car', 'merge_install': False, 'path': '/home/soda/Documents/nkcong/auto_car', 'symlink_install': True, 'test_result_base': None}
+[2.667s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[2.679s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[2.681s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/soda/Documents/nkcong/auto_car' with build type 'ament_python'
+[2.682s] Level 1:colcon.colcon_core.shell:create_environment_hook('auto_car', 'ament_prefix_path')
+[2.699s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[2.701s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/hook/ament_prefix_path.ps1'
+[2.705s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/hook/ament_prefix_path.dsv'
+[2.707s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/hook/ament_prefix_path.sh'
+[2.716s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.716s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.734s] DEBUG:colcon.colcon_core.shell:Ignoring prefix path '/opt/ros/eloquent'
+[4.723s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/soda/Documents/nkcong/auto_car'
+[4.728s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[4.729s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[4.741s] DEBUG:colcon.colcon_core.shell:Ignoring prefix path '/opt/ros/eloquent'
+[4.764s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/soda/Documents/nkcong/auto_car/build/auto_car': PYTHONPATH=/home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --prefix /home/soda/Documents/nkcong/auto_car/install/auto_car --editable --build-directory /home/soda/Documents/nkcong/auto_car/build/auto_car/build --no-deps install_data --install-dir /home/soda/Documents/nkcong/auto_car/install/auto_car
+[8.275s] Level 1:colcon.colcon_core.shell:create_environment_hook('auto_car', 'pythonpath_develop')
+[8.280s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/soda/Documents/nkcong/auto_car/build/auto_car/share/auto_car/hook/pythonpath_develop.ps1'
+[8.282s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/soda/Documents/nkcong/auto_car/build/auto_car' returned '0': PYTHONPATH=/home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --prefix /home/soda/Documents/nkcong/auto_car/install/auto_car --editable --build-directory /home/soda/Documents/nkcong/auto_car/build/auto_car/build --no-deps install_data --install-dir /home/soda/Documents/nkcong/auto_car/install/auto_car
+[8.285s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/soda/Documents/nkcong/auto_car/build/auto_car/share/auto_car/hook/pythonpath_develop.dsv'
+[8.287s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/soda/Documents/nkcong/auto_car/build/auto_car/share/auto_car/hook/pythonpath_develop.sh'
+[8.305s] Level 1:colcon.colcon_core.environment:checking '/home/soda/Documents/nkcong/auto_car/install/auto_car' for CMake module files
+[8.309s] Level 1:colcon.colcon_core.environment:checking '/home/soda/Documents/nkcong/auto_car/install/auto_car' for CMake config files
+[8.313s] Level 1:colcon.colcon_core.environment:checking '/home/soda/Documents/nkcong/auto_car/install/auto_car/lib'
+[8.314s] Level 1:colcon.colcon_core.environment:checking '/home/soda/Documents/nkcong/auto_car/install/auto_car/bin'
+[8.314s] Level 1:colcon.colcon_core.environment:checking '/home/soda/Documents/nkcong/auto_car/install/auto_car/lib/pkgconfig/auto_car.pc'
+[8.315s] Level 1:colcon.colcon_core.environment:checking '/home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages'
+[8.316s] Level 1:colcon.colcon_core.shell:create_environment_hook('auto_car', 'pythonpath')
+[8.320s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/hook/pythonpath.ps1'
+[8.323s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/hook/pythonpath.dsv'
+[8.324s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/hook/pythonpath.sh'
+[8.326s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(auto_car)
+[8.331s] INFO:colcon.colcon_core.shell:Creating package script '/home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/package.ps1'
+[8.336s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/package.dsv'
+[8.340s] INFO:colcon.colcon_core.shell:Creating package script '/home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/package.sh'
+[8.344s] INFO:colcon.colcon_core.shell:Creating package script '/home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/package.bash'
+[8.349s] INFO:colcon.colcon_core.shell:Creating package script '/home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/package.zsh'
+[8.353s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/soda/Documents/nkcong/auto_car/install/auto_car/share/colcon-core/packages/auto_car)
+[8.355s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[8.357s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[8.357s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[8.358s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[8.392s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify_send': Could not find 'notify-send'
+[8.392s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[8.393s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[8.393s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[8.435s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[8.440s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/soda/Documents/nkcong/auto_car/install/local_setup.ps1'
+[8.446s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/soda/Documents/nkcong/auto_car/install/_local_setup_util_ps1.py'
+[8.456s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/soda/Documents/nkcong/auto_car/install/setup.ps1'
+[8.473s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/soda/Documents/nkcong/auto_car/install/local_setup.sh'
+[8.477s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/soda/Documents/nkcong/auto_car/install/_local_setup_util_sh.py'
+[8.480s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/soda/Documents/nkcong/auto_car/install/setup.sh'
+[8.498s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/soda/Documents/nkcong/auto_car/install/local_setup.bash'
+[8.500s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/soda/Documents/nkcong/auto_car/install/setup.bash'
+[8.517s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/soda/Documents/nkcong/auto_car/install/local_setup.zsh'
+[8.519s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/soda/Documents/nkcong/auto_car/install/setup.zsh'

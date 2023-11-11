@@ -1,0 +1,105 @@
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake_auto: 0.8.3 (/opt/ros/eloquent/share/ament_cmake_auto/cmake)
+-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.6.9", minimum required is "3") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python3
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found ament_cmake_ros: 0.8.0 (/opt/ros/eloquent/share/ament_cmake_ros/cmake)
+-- Found rosidl_adapter: 0.8.3 (/opt/ros/eloquent/share/rosidl_adapter/cmake)
+-- Found rmw_implementation_cmake: 0.8.1 (/opt/ros/eloquent/share/rmw_implementation_cmake/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Found poco_vendor:  (/opt/ros/eloquent/share/poco_vendor/cmake)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros
+[35m[1mScanning dependencies of target rplidar_composition_node[0m
+[35m[1mScanning dependencies of target rplidarNode[0m
+[35m[1mScanning dependencies of target rplidarNodeClient[0m
+[  5%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/sdk/src/arch/linux/net_serial.cpp.o[0m
+[ 11%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/src/node.cpp.o[0m
+[ 16%] [32mBuilding CXX object CMakeFiles/rplidarNodeClient.dir/src/client.cpp.o[0m
+[ 22%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/src/rplidar_node.cpp.o[0m
+[ 27%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/sdk/src/arch/linux/net_socket.cpp.o[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/sdk/src/arch/linux/net_serial.cpp.o[0m
+[ 38%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/sdk/src/arch/linux/net_socket.cpp.o[0m
+[ 44%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/sdk/src/arch/linux/timer.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/sdk/src/hal/thread.cpp.o[0m
+[ 55%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/sdk/src/arch/linux/timer.cpp.o[0m
+[ 61%] [32m[1mLinking CXX executable rplidarNodeClient[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/sdk/src/hal/thread.cpp.o[0m
+[ 72%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/sdk/src/rplidar_driver.cpp.o[0m
+[ 72%] Built target rplidarNodeClient
+[ 77%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/sdk/src/rplidar_driver.cpp.o[0m
+[ 83%] [32m[1mLinking CXX shared library librplidar_composition_node.so[0m
+[ 88%] [32m[1mLinking CXX executable rplidarNode[0m
+[ 88%] Built target rplidar_composition_node
+[35m[1mScanning dependencies of target rplidar_composition[0m
+[ 88%] Built target rplidarNode
+[ 94%] [32mBuilding CXX object CMakeFiles/rplidar_composition.dir/src/standalone_rplidar.cpp.o[0m
+[100%] [32m[1mLinking CXX executable rplidar_composition[0m
+[100%] Built target rplidar_composition
+[ 11%] Built target rplidarNodeClient
+[ 50%] Built target rplidarNode
+[ 88%] Built target rplidar_composition_node
+[100%] Built target rplidar_composition
+[36mInstall the project...[0m
+-- Install configuration: ""
+-- Execute custom install script
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNode
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNodeClient
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidar_composition
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar.launch.py
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar_a3.launch.py
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar_s1.launch.py
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar_s1_tcp.launch.py
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/test_rplidar.launch.py
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/test_rplidar_a3.launch.py
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar.launch.py
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_a3.launch.py
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_s1.launch.py
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_s1_tcp.launch.py
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/rviz/rplidar.rviz
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/librplidar_composition_node.so
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/include/rplidar_node.hpp
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/include/visibility.h
+-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNode
+-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNodeClient
+-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidar_composition
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/ament_index/resource_index/package_run_dependencies/rplidar_ros
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/ament_index/resource_index/parent_prefix_path/rplidar_ros
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/ament_prefix_path.sh
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/ament_prefix_path.dsv
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/path.sh
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/path.dsv
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.bash
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.sh
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.zsh
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.dsv
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/package.dsv
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/ament_index/resource_index/packages/rplidar_ros
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/rplidar_rosConfig.cmake
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/rplidar_rosConfig-version.cmake
+-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/package.xml

@@ -1,0 +1,46 @@
+running egg_info
+creating build/auto_car/auto_car.egg-info
+writing build/auto_car/auto_car.egg-info/PKG-INFO
+writing dependency_links to build/auto_car/auto_car.egg-info/dependency_links.txt
+writing entry points to build/auto_car/auto_car.egg-info/entry_points.txt
+writing requirements to build/auto_car/auto_car.egg-info/requires.txt
+writing top-level names to build/auto_car/auto_car.egg-info/top_level.txt
+writing manifest file 'build/auto_car/auto_car.egg-info/SOURCES.txt'
+reading manifest file 'build/auto_car/auto_car.egg-info/SOURCES.txt'
+writing manifest file 'build/auto_car/auto_car.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/soda/Documents/nkcong/auto_car/build/auto_car/build
+creating /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib
+creating /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car
+copying auto_car/__init__.py -> /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car
+copying auto_car/drive_controller.py -> /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car
+copying auto_car/ps4.py -> /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car
+running install
+/home/soda/.local/lib/python3.6/site-packages/setuptools/command/install.py:37: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  setuptools.SetuptoolsDeprecationWarning,
+running install_lib
+creating /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car
+copying /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car/__init__.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car
+copying /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car/drive_controller.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car
+copying /home/soda/Documents/nkcong/auto_car/build/auto_car/build/lib/auto_car/ps4.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car
+byte-compiling /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car/__init__.py to __init__.cpython-36.pyc
+byte-compiling /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car/drive_controller.py to drive_controller.cpython-36.pyc
+byte-compiling /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car/ps4.py to ps4.cpython-36.pyc
+running install_data
+creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index
+creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index/resource_index
+creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index/resource_index/packages
+copying resource/auto_car -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/ament_index/resource_index/packages
+copying package.xml -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car
+creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/launch
+copying launch/driver.launch.py -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/launch
+creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/urdf
+copying urdf/auto_car.urdf -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/urdf
+creating /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/rviz
+copying rviz/driver.rviz -> /home/soda/Documents/nkcong/auto_car/install/auto_car/share/auto_car/rviz
+running install_egg_info
+Copying build/auto_car/auto_car.egg-info to /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto_car-0.0.0-py3.6.egg-info
+running install_scripts
+Installing drive_controller = auto_car.drive_controller:mainps4 script to /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/auto_car
+writing list of installed files to '/home/soda/Documents/nkcong/auto_car/build/auto_car/install.log'

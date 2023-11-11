@@ -1,0 +1,10 @@
+redis==5.0.0
+pyPS4Controller==1.2.5
+pygame==2.5.1
+pyPS4Controller
+folium
+
+python-dotenv
+python-socketio
+geocoder==1.38.1
+beautifulsoup4==4.12.2

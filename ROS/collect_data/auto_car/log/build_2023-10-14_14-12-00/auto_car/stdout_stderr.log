@@ -1,0 +1,22 @@
+running develop
+/home/soda/.local/lib/python3.6/site-packages/setuptools/command/easy_install.py:159: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.
+  EasyInstallDeprecationWarning,
+/home/soda/.local/lib/python3.6/site-packages/setuptools/command/install.py:37: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  setuptools.SetuptoolsDeprecationWarning,
+/home/soda/.local/lib/python3.6/site-packages/pkg_resources/__init__.py:119: PkgResourcesDeprecationWarning: 0.18ubuntu0.18.04.1 is an invalid version and will not be supported in a future release
+  PkgResourcesDeprecationWarning,
+running egg_info
+writing auto_car.egg-info/PKG-INFO
+writing dependency_links to auto_car.egg-info/dependency_links.txt
+writing entry points to auto_car.egg-info/entry_points.txt
+writing requirements to auto_car.egg-info/requires.txt
+writing top-level names to auto_car.egg-info/top_level.txt
+reading manifest file 'auto_car.egg-info/SOURCES.txt'
+writing manifest file 'auto_car.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto-car.egg-link (link to .)
+Installing drive_controller script to /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/auto_car
+Installing ps4 script to /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/auto_car
+
+Installed /home/soda/Documents/nkcong/auto_car/build/auto_car
+running install_data

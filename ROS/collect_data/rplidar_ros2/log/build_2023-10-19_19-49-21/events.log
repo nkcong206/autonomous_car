@@ -1,0 +1,370 @@
+[0.000000] (-) TimerEvent: {}
+[0.000501] (rplidar_ros) JobQueued: {'identifier': 'rplidar_ros', 'dependencies': OrderedDict()}
+[0.002238] (rplidar_ros) JobStarted: {'identifier': 'rplidar_ros'}
+[0.076606] (rplidar_ros) JobProgress: {'identifier': 'rplidar_ros', 'progress': 'cmake'}
+[0.081812] (rplidar_ros) JobProgress: {'identifier': 'rplidar_ros', 'progress': 'build'}
+[0.085237] (rplidar_ros) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros', '--', '-j4', '-l4'], 'cwd': '/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros', 'env': OrderedDict([('OPENBLAS_CORETYPE', 'ARMV8'), ('MAIL', '/var/mail/soda'), ('USER', 'soda'), ('SSH_CLIENT', '10.10.12.202 49592 22'), ('LC_TIME', 'ko_KR.UTF-8'), ('SHLVL', '3'), ('BROWSER', '/home/soda/.vscode-server/bin/f1b07bd25dfad64b0167beb15359ae573aecd2cc/bin/helpers/browser.sh'), ('LD_LIBRARY_PATH', '/home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib:/opt/ros/eloquent/opt/yaml_cpp_vendor/lib:/opt/ros/eloquent/opt/rviz_ogre_vendor/lib:/opt/ros/eloquent/lib/aarch64-linux-gnu:/opt/ros/eloquent/lib:/usr/local/cuda/lib64'), ('OLDPWD', '/home/soda/Documents/nkcong/rplidar_ros2'), ('HOME', '/home/soda'), ('LESS', '-R'), ('TERMINFO', '/home/soda/.terminfo'), ('TERM_PROGRAM_VERSION', '1.83.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/1000/vscode-ipc-f00e36bb-5af7-429d-b9dc-d79340d2e267.sock'), ('ZSH', '/home/soda/.oh-my-zsh'), ('LSCOLORS', 'Gxfxcxdxbxegedabagacad'), ('PAGER', 'less'), ('ROS_PYTHON_VERSION', '3'), ('LC_MONETARY', 'ko_KR.UTF-8'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('P9K_TTY', 'old'), ('COLORTERM', 'truecolor'), ('ROS_DISTRO', 'eloquent'), ('COLCON_PREFIX_PATH', '/home/soda/Documents/nkcong/rplidar_ros2/install'), ('LOGNAME', 'soda'), ('_', '/usr/bin/colcon'), ('USER_ZDOTDIR', '/home/soda'), ('ROS_VERSION', '2'), ('XDG_SESSION_ID', '3'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/eloquent/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('LC_ADDRESS', 'ko_KR.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('LANG', 'ko_KR.UTF-8'), ('LC_TELEPHONE', 'ko_KR.UTF-8'), ('VSCODE_INJECTION', '1'), ('TERM_PROGRAM', 'vscode'), ('LS_COLORS', 'no=00;38;5;244:rs=0:di=00;38;5;33:ln=01;38;5;37:mh=00:pi=48;5;230;38;5;136;01:so=48;5;230;38;5;136;01:do=48;5;230;38;5;136;01:bd=48;5;230;38;5;244;01:cd=48;5;230;38;5;244;01:or=48;5;235;38;5;160:su=48;5;160;38;5;230:sg=48;5;136;38;5;230:ca=30;41:tw=48;5;64;38;5;230:ow=48;5;235;38;5;33:st=48;5;33;38;5;230:ex=01;38;5;64:*.tar=00;38;5;61:*.tgz=01;38;5;61:*.arj=01;38;5;61:*.taz=01;38;5;61:*.lzh=01;38;5;61:*.lzma=01;38;5;61:*.tlz=01;38;5;61:*.txz=01;38;5;61:*.zip=01;38;5;61:*.zst=01;38;5;61:*.z=01;38;5;61:*.Z=01;38;5;61:*.dz=01;38;5;61:*.gz=01;38;5;61:*.lz=01;38;5;61:*.xz=01;38;5;61:*.bz2=01;38;5;61:*.bz=01;38;5;61:*.tbz=01;38;5;61:*.tbz2=01;38;5;61:*.tz=01;38;5;61:*.deb=01;38;5;61:*.rpm=01;38;5;61:*.jar=01;38;5;61:*.rar=01;38;5;61:*.ace=01;38;5;61:*.zoo=01;38;5;61:*.cpio=01;38;5;61:*.7z=01;38;5;61:*.rz=01;38;5;61:*.apk=01;38;5;61:*.gem=01;38;5;61:*.jpg=00;38;5;136:*.JPG=00;38;5;136:*.jpeg=00;38;5;136:*.gif=00;38;5;136:*.bmp=00;38;5;136:*.pbm=00;38;5;136:*.pgm=00;38;5;136:*.ppm=00;38;5;136:*.tga=00;38;5;136:*.xbm=00;38;5;136:*.xpm=00;38;5;136:*.tif=00;38;5;136:*.tiff=00;38;5;136:*.png=00;38;5;136:*.PNG=00;38;5;136:*.svg=00;38;5;136:*.svgz=00;38;5;136:*.mng=00;38;5;136:*.pcx=00;38;5;136:*.dl=00;38;5;136:*.xcf=00;38;5;136:*.xwd=00;38;5;136:*.yuv=00;38;5;136:*.cgm=00;38;5;136:*.emf=00;38;5;136:*.eps=00;38;5;136:*.CR2=00;38;5;136:*.ico=00;38;5;136:*.nef=00;38;5;136:*.NEF=00;38;5;136:*.webp=00;38;5;136:*.tex=01;38;5;245:*.rdf=01;38;5;245:*.owl=01;38;5;245:*.n3=01;38;5;245:*.ttl=01;38;5;245:*.nt=01;38;5;245:*.torrent=01;38;5;245:*.xml=01;38;5;245:*Makefile=01;38;5;245:*Rakefile=01;38;5;245:*Dockerfile=01;38;5;245:*build.xml=01;38;5;245:*rc=01;38;5;245:*1=01;38;5;245:*.nfo=01;38;5;245:*README=01;38;5;245:*README.txt=01;38;5;245:*readme.txt=01;38;5;245:*.md=01;38;5;245:*README.markdown=01;38;5;245:*.ini=01;38;5;245:*.yml=01;38;5;245:*.cfg=01;38;5;245:*.conf=01;38;5;245:*.h=01;38;5;245:*.hpp=01;38;5;245:*.c=01;38;5;245:*.cpp=01;38;5;245:*.cxx=01;38;5;245:*.cc=01;38;5;245:*.objc=01;38;5;245:*.sqlite=01;38;5;245:*.go=01;38;5;245:*.sql=01;38;5;245:*.csv=01;38;5;245:*.log=00;38;5;240:*.bak=00;38;5;240:*.aux=00;38;5;240:*.lof=00;38;5;240:*.lol=00;38;5;240:*.lot=00;38;5;240:*.out=00;38;5;240:*.toc=00;38;5;240:*.bbl=00;38;5;240:*.blg=00;38;5;240:*~=00;38;5;240:*#=00;38;5;240:*.part=00;38;5;240:*.incomplete=00;38;5;240:*.swp=00;38;5;240:*.tmp=00;38;5;240:*.temp=00;38;5;240:*.o=00;38;5;240:*.pyc=00;38;5;240:*.class=00;38;5;240:*.cache=00;38;5;240:*.aac=00;38;5;166:*.au=00;38;5;166:*.flac=00;38;5;166:*.mid=00;38;5;166:*.midi=00;38;5;166:*.mka=00;38;5;166:*.mp3=00;38;5;166:*.mpc=00;38;5;166:*.ogg=00;38;5;166:*.opus=00;38;5;166:*.ra=00;38;5;166:*.wav=00;38;5;166:*.m4a=00;38;5;166:*.axa=00;38;5;166:*.oga=00;38;5;166:*.spx=00;38;5;166:*.xspf=00;38;5;166:*.mov=01;38;5;166:*.MOV=01;38;5;166:*.mpg=01;38;5;166:*.mpeg=01;38;5;166:*.m2v=01;38;5;166:*.mkv=01;38;5;166:*.ogm=01;38;5;166:*.mp4=01;38;5;166:*.m4v=01;38;5;166:*.mp4v=01;38;5;166:*.vob=01;38;5;166:*.qt=01;38;5;166:*.nuv=01;38;5;166:*.wmv=01;38;5;166:*.asf=01;38;5;166:*.rm=01;38;5;166:*.rmvb=01;38;5;166:*.flc=01;38;5;166:*.avi=01;38;5;166:*.fli=01;38;5;166:*.flv=01;38;5;166:*.gl=01;38;5;166:*.m2ts=01;38;5;166:*.divx=01;38;5;166:*.webm=01;38;5;166:*.axv=01;38;5;166:*.anx=01;38;5;166:*.ogv=01;38;5;166:*.ogx=01;38;5;166:'), ('LC_MESSAGES', 'POSIX'), ('AMENT_PREFIX_PATH', '/home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros:/opt/ros/eloquent'), ('ROS_DOMAIN_ID', '30'), ('LC_NAME', 'ko_KR.UTF-8'), ('SHELL', '/bin/zsh'), ('LC_MEASUREMENT', 'ko_KR.UTF-8'), ('LC_IDENTIFICATION', 'ko_KR.UTF-8'), ('P9K_SSH', '1'), ('LC_ALL', 'en_US.UTF-8'), ('PWD', '/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros'), ('SSH_CONNECTION', '10.10.12.202 49592 10.10.14.27 22'), ('ZDOTDIR', '/home/soda'), ('_P9K_TTY', '/dev/pts/3'), ('LC_NUMERIC', 'ko_KR.UTF-8'), ('PYTHONPATH', '/opt/ros/eloquent/lib/python3.6/site-packages'), ('LC_PAPER', 'ko_KR.UTF-8'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros:/opt/ros/eloquent')]), 'shell': False}
+[0.099716] (-) TimerEvent: {}
+[0.202088] (-) TimerEvent: {}
+[0.303036] (-) TimerEvent: {}
+[0.403816] (-) TimerEvent: {}
+[0.449676] (rplidar_ros) StdoutLine: {'line': b'\x1b[35m\x1b[1mScanning dependencies of target rplidarNode\x1b[0m\n'}
+[0.450774] (rplidar_ros) StdoutLine: {'line': b'\x1b[35m\x1b[1mScanning dependencies of target rplidar_composition_node\x1b[0m\n'}
+[0.504003] (-) TimerEvent: {}
+[0.549979] (rplidar_ros) StdoutLine: {'line': b'[ 11%] Built target rplidarNodeClient\n'}
+[0.604199] (-) TimerEvent: {}
+[0.607000] (rplidar_ros) StdoutLine: {'line': b'[ 16%] \x1b[32mBuilding CXX object CMakeFiles/rplidarNode.dir/src/node.cpp.o\x1b[0m\n'}
+[0.619005] (rplidar_ros) StdoutLine: {'line': b'[ 22%] \x1b[32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/src/rplidar_node.cpp.o\x1b[0m\n'}
+[0.704378] (-) TimerEvent: {}
+[0.805231] (-) TimerEvent: {}
+[0.906513] (-) TimerEvent: {}
+[1.007267] (-) TimerEvent: {}
+[1.108036] (-) TimerEvent: {}
+[1.208824] (-) TimerEvent: {}
+[1.306182] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:231:14:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kinvalid suffix on literal; C++11 requires a space between literal and string macro [\x1b[01;35m\x1b[K-Wliteral-suffix\x1b[m\x1b[K]\n'}
+[1.307056] (rplidar_ros) StderrLine: {'line': b'     ROS_INFO(\x1b[01;35m\x1b[K"\x1b[m\x1b[KRPLIDAR running on ROS package rplidar_ros. SDK Version:"RPLIDAR_SDK_VERSION"");\n'}
+[1.307688] (rplidar_ros) StderrLine: {'line': b'              \x1b[01;35m\x1b[K^\x1b[m\x1b[K\n'}
+[1.308940] (-) TimerEvent: {}
+[1.410519] (-) TimerEvent: {}
+[1.514481] (-) TimerEvent: {}
+[1.615960] (-) TimerEvent: {}
+[1.717564] (-) TimerEvent: {}
+[1.821086] (-) TimerEvent: {}
+[1.922670] (-) TimerEvent: {}
+[2.023480] (-) TimerEvent: {}
+[2.125024] (-) TimerEvent: {}
+[2.226116] (-) TimerEvent: {}
+[2.327020] (-) TimerEvent: {}
+[2.428723] (-) TimerEvent: {}
+[2.530891] (-) TimerEvent: {}
+[2.631755] (-) TimerEvent: {}
+[2.732667] (-) TimerEvent: {}
+[2.833838] (-) TimerEvent: {}
+[2.934742] (-) TimerEvent: {}
+[3.035592] (-) TimerEvent: {}
+[3.137242] (-) TimerEvent: {}
+[3.238135] (-) TimerEvent: {}
+[3.340153] (-) TimerEvent: {}
+[3.441040] (-) TimerEvent: {}
+[3.542356] (-) TimerEvent: {}
+[3.643228] (-) TimerEvent: {}
+[3.744161] (-) TimerEvent: {}
+[3.845014] (-) TimerEvent: {}
+[3.945942] (-) TimerEvent: {}
+[4.046905] (-) TimerEvent: {}
+[4.147757] (-) TimerEvent: {}
+[4.248814] (-) TimerEvent: {}
+[4.349787] (-) TimerEvent: {}
+[4.450670] (-) TimerEvent: {}
+[4.551533] (-) TimerEvent: {}
+[4.652499] (-) TimerEvent: {}
+[4.753414] (-) TimerEvent: {}
+[4.854257] (-) TimerEvent: {}
+[4.955633] (-) TimerEvent: {}
+[5.056895] (-) TimerEvent: {}
+[5.157810] (-) TimerEvent: {}
+[5.258676] (-) TimerEvent: {}
+[5.265327] (rplidar_ros) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:39:0\x1b[m\x1b[K,\n'}
+[5.266153] (rplidar_ros) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/include/rplidar_node.hpp:41\x1b[m\x1b[K,\n'}
+[5.268639] (rplidar_ros) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:36\x1b[m\x1b[K:\n'}
+[5.269413] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_protocol.h:59:15:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[KISO C++ forbids zero-size array \xe2\x80\x98\x1b[01m\x1b[Kdata\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wpedantic\x1b[m\x1b[K]\n'}
+[5.270150] (rplidar_ros) StderrLine: {'line': b'     _u8 data[0\x1b[01;35m\x1b[K]\x1b[m\x1b[K;\n'}
+[5.271004] (rplidar_ros) StderrLine: {'line': b'               \x1b[01;35m\x1b[K^\x1b[m\x1b[K\n'}
+[5.271902] (rplidar_ros) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:40:0\x1b[m\x1b[K,\n'}
+[5.277913] (rplidar_ros) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/include/rplidar_node.hpp:41\x1b[m\x1b[K,\n'}
+[5.278663] (rplidar_ros) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:36\x1b[m\x1b[K:\n'}
+[5.279260] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_cmd.h:260:19:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[KISO C++ forbids zero-size array \xe2\x80\x98\x1b[01m\x1b[Kpayload\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wpedantic\x1b[m\x1b[K]\n'}
+[5.279854] (rplidar_ros) StderrLine: {'line': b'     _u8  payload[0\x1b[01;35m\x1b[K]\x1b[m\x1b[K;\n'}
+[5.280485] (rplidar_ros) StderrLine: {'line': b'                   \x1b[01;35m\x1b[K^\x1b[m\x1b[K\n'}
+[5.344353] (rplidar_ros) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:39:0\x1b[m\x1b[K,\n'}
+[5.346663] (rplidar_ros) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:45\x1b[m\x1b[K:\n'}
+[5.347821] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_protocol.h:59:15:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[KISO C++ forbids zero-size array \xe2\x80\x98\x1b[01m\x1b[Kdata\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wpedantic\x1b[m\x1b[K]\n'}
+[5.348870] (rplidar_ros) StderrLine: {'line': b'     _u8 data[0\x1b[01;35m\x1b[K]\x1b[m\x1b[K;\n'}
+[5.349886] (rplidar_ros) StderrLine: {'line': b'               \x1b[01;35m\x1b[K^\x1b[m\x1b[K\n'}
+[5.352707] (rplidar_ros) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:40:0\x1b[m\x1b[K,\n'}
+[5.353634] (rplidar_ros) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:45\x1b[m\x1b[K:\n'}
+[5.354432] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_cmd.h:260:19:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[KISO C++ forbids zero-size array \xe2\x80\x98\x1b[01m\x1b[Kpayload\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wpedantic\x1b[m\x1b[K]\n'}
+[5.355135] (rplidar_ros) StderrLine: {'line': b'     _u8  payload[0\x1b[01;35m\x1b[K]\x1b[m\x1b[K;\n'}
+[5.355783] (rplidar_ros) StderrLine: {'line': b'                   \x1b[01;35m\x1b[K^\x1b[m\x1b[K\n'}
+[5.360496] (-) TimerEvent: {}
+[5.459826] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:\x1b[m\x1b[K In function \xe2\x80\x98\x1b[01m\x1b[Kbool stop_motor(std::shared_ptr<std_srvs::srv::Empty_Request_<std::allocator<void> > >, std::shared_ptr<std_srvs::srv::Empty_Response_<std::allocator<void> > >)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[5.460657] (-) TimerEvent: {}
+[5.463018] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:166:70:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kreq\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-parameter\x1b[m\x1b[K]\n'}
+[5.463905] (rplidar_ros) StderrLine: {'line': b' bool stop_motor(const std::shared_ptr<std_srvs::srv::Empty::Request> \x1b[01;35m\x1b[Kreq\x1b[m\x1b[K,\n'}
+[5.464557] (rplidar_ros) StderrLine: {'line': b'                                                                      \x1b[01;35m\x1b[K^~~\x1b[m\x1b[K\n'}
+[5.465184] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:167:65:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kres\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-parameter\x1b[m\x1b[K]\n'}
+[5.465836] (rplidar_ros) StderrLine: {'line': b'                 std::shared_ptr<std_srvs::srv::Empty::Response> \x1b[01;35m\x1b[Kres\x1b[m\x1b[K)\n'}
+[5.466550] (rplidar_ros) StderrLine: {'line': b'                                                                 \x1b[01;35m\x1b[K^~~\x1b[m\x1b[K\n'}
+[5.467212] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:\x1b[m\x1b[K In function \xe2\x80\x98\x1b[01m\x1b[Kbool start_motor(std::shared_ptr<std_srvs::srv::Empty_Request_<std::allocator<void> > >, std::shared_ptr<std_srvs::srv::Empty_Response_<std::allocator<void> > >)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[5.467916] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:178:71:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kreq\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-parameter\x1b[m\x1b[K]\n'}
+[5.476136] (rplidar_ros) StderrLine: {'line': b' bool start_motor(const std::shared_ptr<std_srvs::srv::Empty::Request> \x1b[01;35m\x1b[Kreq\x1b[m\x1b[K,\n'}
+[5.476982] (rplidar_ros) StderrLine: {'line': b'                                                                       \x1b[01;35m\x1b[K^~~\x1b[m\x1b[K\n'}
+[5.477723] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:179:66:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kres\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-parameter\x1b[m\x1b[K]\n'}
+[5.478445] (rplidar_ros) StderrLine: {'line': b'                  std::shared_ptr<std_srvs::srv::Empty::Response> \x1b[01;35m\x1b[Kres\x1b[m\x1b[K)\n'}
+[5.479124] (rplidar_ros) StderrLine: {'line': b'                                                                  \x1b[01;35m\x1b[K^~~\x1b[m\x1b[K\n'}
+[5.560934] (-) TimerEvent: {}
+[5.650397] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:\x1b[m\x1b[K In function \xe2\x80\x98\x1b[01m\x1b[Kint main(int, char**)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[5.651275] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:356:111:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[KISO C++ forbids variable length array \xe2\x80\x98\x1b[01m\x1b[Kangle_compensate_nodes\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wvla\x1b[m\x1b[K]\n'}
+[5.654072] (rplidar_ros) StderrLine: {'line': b'                     rplidar_response_measurement_node_hq_t angle_compensate_nodes[angle_compensate_nodes_count\x1b[01;35m\x1b[K]\x1b[m\x1b[K;\n'}
+[5.654917] (rplidar_ros) StderrLine: {'line': b'                                                                                                               \x1b[01;35m\x1b[K^\x1b[m\x1b[K\n'}
+[5.657657] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:360:30:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison between signed and unsigned integer expressions [\x1b[01;35m\x1b[K-Wsign-compare\x1b[m\x1b[K]\n'}
+[5.659955] (rplidar_ros) StderrLine: {'line': b'                     for( ; \x1b[01;35m\x1b[Ki < count\x1b[m\x1b[K; i++ ) {\n'}
+[5.660805] (rplidar_ros) StderrLine: {'line': b'                            \x1b[01;35m\x1b[K~~^~~~~~~\x1b[m\x1b[K\n'}
+[5.661448] (-) TimerEvent: {}
+[5.664933] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid rplidar_ros::rplidar_node::stop_motor({anonymous}::EmptyRequest, {anonymous}::EmptyResponse)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[5.665787] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:245:50:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kreq\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-parameter\x1b[m\x1b[K]\n'}
+[5.671110] (rplidar_ros) StderrLine: {'line': b' void rplidar_node::stop_motor(const EmptyRequest \x1b[01;35m\x1b[Kreq\x1b[m\x1b[K, EmptyResponse res)\n'}
+[5.671912] (rplidar_ros) StderrLine: {'line': b'                                                  \x1b[01;35m\x1b[K^~~\x1b[m\x1b[K\n'}
+[5.672613] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:245:69:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kres\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-parameter\x1b[m\x1b[K]\n'}
+[5.673330] (rplidar_ros) StderrLine: {'line': b' void rplidar_node::stop_motor(const EmptyRequest req, EmptyResponse \x1b[01;35m\x1b[Kres\x1b[m\x1b[K)\n'}
+[5.674005] (rplidar_ros) StderrLine: {'line': b'                                                                     \x1b[01;35m\x1b[K^~~\x1b[m\x1b[K\n'}
+[5.678610] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid rplidar_ros::rplidar_node::start_motor({anonymous}::EmptyRequest, {anonymous}::EmptyResponse)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[5.679364] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:256:51:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kreq\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-parameter\x1b[m\x1b[K]\n'}
+[5.683215] (rplidar_ros) StderrLine: {'line': b' void rplidar_node::start_motor(const EmptyRequest \x1b[01;35m\x1b[Kreq\x1b[m\x1b[K, EmptyResponse res)\n'}
+[5.685692] (rplidar_ros) StderrLine: {'line': b'                                                   \x1b[01;35m\x1b[K^~~\x1b[m\x1b[K\n'}
+[5.686496] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:256:70:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused parameter \xe2\x80\x98\x1b[01m\x1b[Kres\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-parameter\x1b[m\x1b[K]\n'}
+[5.687270] (rplidar_ros) StderrLine: {'line': b' void rplidar_node::start_motor(const EmptyRequest req, EmptyResponse \x1b[01;35m\x1b[Kres\x1b[m\x1b[K)\n'}
+[5.694111] (rplidar_ros) StderrLine: {'line': b'                                                                      \x1b[01;35m\x1b[K^~~\x1b[m\x1b[K\n'}
+[5.696820] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid rplidar_ros::rplidar_node::publish_loop()\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[5.697701] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:343:97:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[KISO C++ forbids variable length array \xe2\x80\x98\x1b[01m\x1b[Kangle_compensate_nodes\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wvla\x1b[m\x1b[K]\n'}
+[5.700477] (rplidar_ros) StderrLine: {'line': b'       rplidar_response_measurement_node_hq_t angle_compensate_nodes[angle_compensate_nodes_count\x1b[01;35m\x1b[K]\x1b[m\x1b[K;\n'}
+[5.701908] (rplidar_ros) StderrLine: {'line': b'                                                                                                 \x1b[01;35m\x1b[K^\x1b[m\x1b[K\n'}
+[5.702713] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:353:25:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison between signed and unsigned integer expressions [\x1b[01;35m\x1b[K-Wsign-compare\x1b[m\x1b[K]\n'}
+[5.703440] (rplidar_ros) StderrLine: {'line': b'           for (j = 0; \x1b[01;35m\x1b[Kj < m_angle_compensate_multiple\x1b[m\x1b[K; j++) {\n'}
+[5.704182] (rplidar_ros) StderrLine: {'line': b'                       \x1b[01;35m\x1b[K~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[5.704880] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:374:44:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison between signed and unsigned integer expressions [\x1b[01;35m\x1b[K-Wsign-compare\x1b[m\x1b[K]\n'}
+[5.705555] (rplidar_ros) StderrLine: {'line': b'       for (size_t x = start_node, y = 0; \x1b[01;35m\x1b[Kx < end_node\x1b[m\x1b[K; ++x, ++y) {\n'}
+[5.706257] (rplidar_ros) StderrLine: {'line': b'                                          \x1b[01;35m\x1b[K~~^~~~~~~~~~\x1b[m\x1b[K\n'}
+[5.724741] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:381:11:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused variable \xe2\x80\x98\x1b[01m\x1b[Kangle_min\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-variable\x1b[m\x1b[K]\n'}
+[5.726336] (rplidar_ros) StderrLine: {'line': b'     float \x1b[01;35m\x1b[Kangle_min\x1b[m\x1b[K = deg_2_rad(0.0f);\n'}
+[5.726988] (rplidar_ros) StderrLine: {'line': b'           \x1b[01;35m\x1b[K^~~~~~~~~\x1b[m\x1b[K\n'}
+[5.727575] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:382:11:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kunused variable \xe2\x80\x98\x1b[01m\x1b[Kangle_max\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wunused-variable\x1b[m\x1b[K]\n'}
+[5.728134] (rplidar_ros) StderrLine: {'line': b'     float \x1b[01;35m\x1b[Kangle_max\x1b[m\x1b[K = deg_2_rad(359.0f);\n'}
+[5.728701] (rplidar_ros) StderrLine: {'line': b'           \x1b[01;35m\x1b[K^~~~~~~~~\x1b[m\x1b[K\n'}
+[5.761721] (-) TimerEvent: {}
+[5.862640] (-) TimerEvent: {}
+[5.963552] (-) TimerEvent: {}
+[6.064475] (-) TimerEvent: {}
+[6.166441] (-) TimerEvent: {}
+[6.267379] (-) TimerEvent: {}
+[6.368303] (-) TimerEvent: {}
+[6.469157] (-) TimerEvent: {}
+[6.570700] (-) TimerEvent: {}
+[6.671644] (-) TimerEvent: {}
+[6.772477] (-) TimerEvent: {}
+[6.873380] (-) TimerEvent: {}
+[6.974331] (-) TimerEvent: {}
+[7.075235] (-) TimerEvent: {}
+[7.176342] (-) TimerEvent: {}
+[7.277306] (-) TimerEvent: {}
+[7.378274] (-) TimerEvent: {}
+[7.479229] (-) TimerEvent: {}
+[7.580111] (-) TimerEvent: {}
+[7.681964] (-) TimerEvent: {}
+[7.783417] (-) TimerEvent: {}
+[7.884621] (-) TimerEvent: {}
+[7.985876] (-) TimerEvent: {}
+[8.087178] (-) TimerEvent: {}
+[8.188374] (-) TimerEvent: {}
+[8.289283] (-) TimerEvent: {}
+[8.390550] (-) TimerEvent: {}
+[8.491394] (-) TimerEvent: {}
+[8.592181] (-) TimerEvent: {}
+[8.693031] (-) TimerEvent: {}
+[8.793875] (-) TimerEvent: {}
+[8.894744] (-) TimerEvent: {}
+[8.995628] (-) TimerEvent: {}
+[9.096922] (-) TimerEvent: {}
+[9.197953] (-) TimerEvent: {}
+[9.298871] (-) TimerEvent: {}
+[9.399739] (-) TimerEvent: {}
+[9.500554] (-) TimerEvent: {}
+[9.601469] (-) TimerEvent: {}
+[9.705612] (-) TimerEvent: {}
+[9.806576] (-) TimerEvent: {}
+[9.908488] (-) TimerEvent: {}
+[10.009342] (-) TimerEvent: {}
+[10.110193] (-) TimerEvent: {}
+[10.211111] (-) TimerEvent: {}
+[10.312383] (-) TimerEvent: {}
+[10.413625] (-) TimerEvent: {}
+[10.514473] (-) TimerEvent: {}
+[10.615316] (-) TimerEvent: {}
+[10.716154] (-) TimerEvent: {}
+[10.819961] (-) TimerEvent: {}
+[10.921724] (-) TimerEvent: {}
+[11.022571] (-) TimerEvent: {}
+[11.123632] (-) TimerEvent: {}
+[11.224476] (-) TimerEvent: {}
+[11.325282] (-) TimerEvent: {}
+[11.426096] (-) TimerEvent: {}
+[11.526975] (-) TimerEvent: {}
+[11.627784] (-) TimerEvent: {}
+[11.728577] (-) TimerEvent: {}
+[11.829315] (-) TimerEvent: {}
+[11.930196] (-) TimerEvent: {}
+[12.031245] (-) TimerEvent: {}
+[12.133082] (-) TimerEvent: {}
+[12.234726] (-) TimerEvent: {}
+[12.335571] (-) TimerEvent: {}
+[12.437406] (-) TimerEvent: {}
+[12.538374] (-) TimerEvent: {}
+[12.639346] (-) TimerEvent: {}
+[12.729992] (rplidar_ros) StdoutLine: {'line': b'[ 27%] \x1b[32m\x1b[1mLinking CXX executable rplidarNode\x1b[0m\n'}
+[12.739509] (-) TimerEvent: {}
+[12.840485] (-) TimerEvent: {}
+[12.941322] (-) TimerEvent: {}
+[13.042256] (-) TimerEvent: {}
+[13.051305] (rplidar_ros) StdoutLine: {'line': b'[ 33%] \x1b[32m\x1b[1mLinking CXX shared library librplidar_composition_node.so\x1b[0m\n'}
+[13.142487] (-) TimerEvent: {}
+[13.243418] (-) TimerEvent: {}
+[13.344536] (-) TimerEvent: {}
+[13.447152] (-) TimerEvent: {}
+[13.549735] (-) TimerEvent: {}
+[13.651082] (-) TimerEvent: {}
+[13.751899] (-) TimerEvent: {}
+[13.852666] (-) TimerEvent: {}
+[13.953538] (-) TimerEvent: {}
+[13.976546] (rplidar_ros) StdoutLine: {'line': b'[ 61%] Built target rplidar_composition_node\n'}
+[14.035725] (rplidar_ros) StdoutLine: {'line': b'\x1b[35m\x1b[1mScanning dependencies of target rplidar_composition\x1b[0m\n'}
+[14.053771] (-) TimerEvent: {}
+[14.070827] (rplidar_ros) StdoutLine: {'line': b'[ 88%] Built target rplidarNode\n'}
+[14.151175] (rplidar_ros) StdoutLine: {'line': b'[ 94%] \x1b[32mBuilding CXX object CMakeFiles/rplidar_composition.dir/src/standalone_rplidar.cpp.o\x1b[0m\n'}
+[14.153929] (-) TimerEvent: {}
+[14.254901] (-) TimerEvent: {}
+[14.355741] (-) TimerEvent: {}
+[14.457075] (-) TimerEvent: {}
+[14.558007] (-) TimerEvent: {}
+[14.658884] (-) TimerEvent: {}
+[14.759734] (-) TimerEvent: {}
+[14.860541] (-) TimerEvent: {}
+[14.961412] (-) TimerEvent: {}
+[15.062199] (-) TimerEvent: {}
+[15.163056] (-) TimerEvent: {}
+[15.263877] (-) TimerEvent: {}
+[15.364712] (-) TimerEvent: {}
+[15.465575] (-) TimerEvent: {}
+[15.566505] (-) TimerEvent: {}
+[15.667329] (-) TimerEvent: {}
+[15.768186] (-) TimerEvent: {}
+[15.869053] (-) TimerEvent: {}
+[15.969950] (-) TimerEvent: {}
+[16.070864] (-) TimerEvent: {}
+[16.171670] (-) TimerEvent: {}
+[16.272498] (-) TimerEvent: {}
+[16.373327] (-) TimerEvent: {}
+[16.474165] (-) TimerEvent: {}
+[16.574984] (-) TimerEvent: {}
+[16.675760] (-) TimerEvent: {}
+[16.776534] (-) TimerEvent: {}
+[16.877601] (-) TimerEvent: {}
+[16.978441] (-) TimerEvent: {}
+[17.079577] (-) TimerEvent: {}
+[17.180658] (-) TimerEvent: {}
+[17.281452] (-) TimerEvent: {}
+[17.382388] (-) TimerEvent: {}
+[17.483197] (-) TimerEvent: {}
+[17.584032] (-) TimerEvent: {}
+[17.685689] (-) TimerEvent: {}
+[17.786486] (-) TimerEvent: {}
+[17.887273] (-) TimerEvent: {}
+[17.988071] (-) TimerEvent: {}
+[18.088900] (-) TimerEvent: {}
+[18.179387] (rplidar_ros) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:39:0\x1b[m\x1b[K,\n'}
+[18.180228] (rplidar_ros) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/include/rplidar_node.hpp:41\x1b[m\x1b[K,\n'}
+[18.181362] (rplidar_ros) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/standalone_rplidar.cpp:16\x1b[m\x1b[K:\n'}
+[18.182010] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_protocol.h:59:15:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[KISO C++ forbids zero-size array \xe2\x80\x98\x1b[01m\x1b[Kdata\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wpedantic\x1b[m\x1b[K]\n'}
+[18.182682] (rplidar_ros) StderrLine: {'line': b'     _u8 data[0\x1b[01;35m\x1b[K]\x1b[m\x1b[K;\n'}
+[18.183235] (rplidar_ros) StderrLine: {'line': b'               \x1b[01;35m\x1b[K^\x1b[m\x1b[K\n'}
+[18.183815] (rplidar_ros) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:40:0\x1b[m\x1b[K,\n'}
+[18.184378] (rplidar_ros) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/include/rplidar_node.hpp:41\x1b[m\x1b[K,\n'}
+[18.184940] (rplidar_ros) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/standalone_rplidar.cpp:16\x1b[m\x1b[K:\n'}
+[18.185489] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_cmd.h:260:19:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[KISO C++ forbids zero-size array \xe2\x80\x98\x1b[01m\x1b[Kpayload\x1b[m\x1b[K\xe2\x80\x99 [\x1b[01;35m\x1b[K-Wpedantic\x1b[m\x1b[K]\n'}
+[18.186063] (rplidar_ros) StderrLine: {'line': b'     _u8  payload[0\x1b[01;35m\x1b[K]\x1b[m\x1b[K;\n'}
+[18.186780] (rplidar_ros) StderrLine: {'line': b'                   \x1b[01;35m\x1b[K^\x1b[m\x1b[K\n'}
+[18.189132] (-) TimerEvent: {}
+[18.290732] (-) TimerEvent: {}
+[18.392370] (-) TimerEvent: {}
+[18.493265] (-) TimerEvent: {}
+[18.595149] (-) TimerEvent: {}
+[18.696862] (-) TimerEvent: {}
+[18.798110] (-) TimerEvent: {}
+[18.870594] (rplidar_ros) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/src/standalone_rplidar.cpp:16:0\x1b[m\x1b[K:\n'}
+[18.871430] (rplidar_ros) StderrLine: {'line': b'\x1b[01m\x1b[K/home/soda/Documents/nkcong/rplidar_ros2/include/rplidar_node.hpp:76:14:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kfloat rplidar_ros::getAngle(const rplidar_response_measurement_node_hq_t&)\x1b[m\x1b[K\xe2\x80\x99 defined but not used [\x1b[01;35m\x1b[K-Wunused-function\x1b[m\x1b[K]\n'}
+[18.872032] (rplidar_ros) StderrLine: {'line': b' static float \x1b[01;35m\x1b[KgetAngle\x1b[m\x1b[K(const rplidar_response_measurement_node_hq_t& node)\n'}
+[18.872603] (rplidar_ros) StderrLine: {'line': b'              \x1b[01;35m\x1b[K^~~~~~~~\x1b[m\x1b[K\n'}
+[18.898405] (-) TimerEvent: {}
+[18.999284] (-) TimerEvent: {}
+[19.100426] (-) TimerEvent: {}
+[19.201941] (-) TimerEvent: {}
+[19.291890] (rplidar_ros) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable rplidar_composition\x1b[0m\n'}
+[19.302171] (-) TimerEvent: {}
+[19.402978] (-) TimerEvent: {}
+[19.503847] (-) TimerEvent: {}
+[19.604769] (-) TimerEvent: {}
+[19.705675] (-) TimerEvent: {}
+[19.806981] (-) TimerEvent: {}
+[19.908203] (-) TimerEvent: {}
+[20.009045] (-) TimerEvent: {}
+[20.028623] (rplidar_ros) StdoutLine: {'line': b'[100%] Built target rplidar_composition\n'}
+[20.070842] (rplidar_ros) CommandEnded: {'returncode': 0}
+[20.109345] (-) TimerEvent: {}
+[20.210337] (-) TimerEvent: {}
+[20.235339] (rplidar_ros) JobProgress: {'identifier': 'rplidar_ros', 'progress': 'install'}
+[20.274022] (rplidar_ros) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros', '--target', 'install', '--', '-j4', '-l4'], 'cwd': '/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros', 'env': OrderedDict([('OPENBLAS_CORETYPE', 'ARMV8'), ('MAIL', '/var/mail/soda'), ('USER', 'soda'), ('SSH_CLIENT', '10.10.12.202 49592 22'), ('LC_TIME', 'ko_KR.UTF-8'), ('SHLVL', '3'), ('BROWSER', '/home/soda/.vscode-server/bin/f1b07bd25dfad64b0167beb15359ae573aecd2cc/bin/helpers/browser.sh'), ('LD_LIBRARY_PATH', '/home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib:/opt/ros/eloquent/opt/yaml_cpp_vendor/lib:/opt/ros/eloquent/opt/rviz_ogre_vendor/lib:/opt/ros/eloquent/lib/aarch64-linux-gnu:/opt/ros/eloquent/lib:/usr/local/cuda/lib64'), ('OLDPWD', '/home/soda/Documents/nkcong/rplidar_ros2'), ('HOME', '/home/soda'), ('LESS', '-R'), ('TERMINFO', '/home/soda/.terminfo'), ('TERM_PROGRAM_VERSION', '1.83.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/1000/vscode-ipc-f00e36bb-5af7-429d-b9dc-d79340d2e267.sock'), ('ZSH', '/home/soda/.oh-my-zsh'), ('LSCOLORS', 'Gxfxcxdxbxegedabagacad'), ('PAGER', 'less'), ('ROS_PYTHON_VERSION', '3'), ('LC_MONETARY', 'ko_KR.UTF-8'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('P9K_TTY', 'old'), ('COLORTERM', 'truecolor'), ('ROS_DISTRO', 'eloquent'), ('COLCON_PREFIX_PATH', '/home/soda/Documents/nkcong/rplidar_ros2/install'), ('LOGNAME', 'soda'), ('_', '/usr/bin/colcon'), ('USER_ZDOTDIR', '/home/soda'), ('ROS_VERSION', '2'), ('XDG_SESSION_ID', '3'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/eloquent/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('LC_ADDRESS', 'ko_KR.UTF-8'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('LANG', 'ko_KR.UTF-8'), ('LC_TELEPHONE', 'ko_KR.UTF-8'), ('VSCODE_INJECTION', '1'), ('TERM_PROGRAM', 'vscode'), ('LS_COLORS', 'no=00;38;5;244:rs=0:di=00;38;5;33:ln=01;38;5;37:mh=00:pi=48;5;230;38;5;136;01:so=48;5;230;38;5;136;01:do=48;5;230;38;5;136;01:bd=48;5;230;38;5;244;01:cd=48;5;230;38;5;244;01:or=48;5;235;38;5;160:su=48;5;160;38;5;230:sg=48;5;136;38;5;230:ca=30;41:tw=48;5;64;38;5;230:ow=48;5;235;38;5;33:st=48;5;33;38;5;230:ex=01;38;5;64:*.tar=00;38;5;61:*.tgz=01;38;5;61:*.arj=01;38;5;61:*.taz=01;38;5;61:*.lzh=01;38;5;61:*.lzma=01;38;5;61:*.tlz=01;38;5;61:*.txz=01;38;5;61:*.zip=01;38;5;61:*.zst=01;38;5;61:*.z=01;38;5;61:*.Z=01;38;5;61:*.dz=01;38;5;61:*.gz=01;38;5;61:*.lz=01;38;5;61:*.xz=01;38;5;61:*.bz2=01;38;5;61:*.bz=01;38;5;61:*.tbz=01;38;5;61:*.tbz2=01;38;5;61:*.tz=01;38;5;61:*.deb=01;38;5;61:*.rpm=01;38;5;61:*.jar=01;38;5;61:*.rar=01;38;5;61:*.ace=01;38;5;61:*.zoo=01;38;5;61:*.cpio=01;38;5;61:*.7z=01;38;5;61:*.rz=01;38;5;61:*.apk=01;38;5;61:*.gem=01;38;5;61:*.jpg=00;38;5;136:*.JPG=00;38;5;136:*.jpeg=00;38;5;136:*.gif=00;38;5;136:*.bmp=00;38;5;136:*.pbm=00;38;5;136:*.pgm=00;38;5;136:*.ppm=00;38;5;136:*.tga=00;38;5;136:*.xbm=00;38;5;136:*.xpm=00;38;5;136:*.tif=00;38;5;136:*.tiff=00;38;5;136:*.png=00;38;5;136:*.PNG=00;38;5;136:*.svg=00;38;5;136:*.svgz=00;38;5;136:*.mng=00;38;5;136:*.pcx=00;38;5;136:*.dl=00;38;5;136:*.xcf=00;38;5;136:*.xwd=00;38;5;136:*.yuv=00;38;5;136:*.cgm=00;38;5;136:*.emf=00;38;5;136:*.eps=00;38;5;136:*.CR2=00;38;5;136:*.ico=00;38;5;136:*.nef=00;38;5;136:*.NEF=00;38;5;136:*.webp=00;38;5;136:*.tex=01;38;5;245:*.rdf=01;38;5;245:*.owl=01;38;5;245:*.n3=01;38;5;245:*.ttl=01;38;5;245:*.nt=01;38;5;245:*.torrent=01;38;5;245:*.xml=01;38;5;245:*Makefile=01;38;5;245:*Rakefile=01;38;5;245:*Dockerfile=01;38;5;245:*build.xml=01;38;5;245:*rc=01;38;5;245:*1=01;38;5;245:*.nfo=01;38;5;245:*README=01;38;5;245:*README.txt=01;38;5;245:*readme.txt=01;38;5;245:*.md=01;38;5;245:*README.markdown=01;38;5;245:*.ini=01;38;5;245:*.yml=01;38;5;245:*.cfg=01;38;5;245:*.conf=01;38;5;245:*.h=01;38;5;245:*.hpp=01;38;5;245:*.c=01;38;5;245:*.cpp=01;38;5;245:*.cxx=01;38;5;245:*.cc=01;38;5;245:*.objc=01;38;5;245:*.sqlite=01;38;5;245:*.go=01;38;5;245:*.sql=01;38;5;245:*.csv=01;38;5;245:*.log=00;38;5;240:*.bak=00;38;5;240:*.aux=00;38;5;240:*.lof=00;38;5;240:*.lol=00;38;5;240:*.lot=00;38;5;240:*.out=00;38;5;240:*.toc=00;38;5;240:*.bbl=00;38;5;240:*.blg=00;38;5;240:*~=00;38;5;240:*#=00;38;5;240:*.part=00;38;5;240:*.incomplete=00;38;5;240:*.swp=00;38;5;240:*.tmp=00;38;5;240:*.temp=00;38;5;240:*.o=00;38;5;240:*.pyc=00;38;5;240:*.class=00;38;5;240:*.cache=00;38;5;240:*.aac=00;38;5;166:*.au=00;38;5;166:*.flac=00;38;5;166:*.mid=00;38;5;166:*.midi=00;38;5;166:*.mka=00;38;5;166:*.mp3=00;38;5;166:*.mpc=00;38;5;166:*.ogg=00;38;5;166:*.opus=00;38;5;166:*.ra=00;38;5;166:*.wav=00;38;5;166:*.m4a=00;38;5;166:*.axa=00;38;5;166:*.oga=00;38;5;166:*.spx=00;38;5;166:*.xspf=00;38;5;166:*.mov=01;38;5;166:*.MOV=01;38;5;166:*.mpg=01;38;5;166:*.mpeg=01;38;5;166:*.m2v=01;38;5;166:*.mkv=01;38;5;166:*.ogm=01;38;5;166:*.mp4=01;38;5;166:*.m4v=01;38;5;166:*.mp4v=01;38;5;166:*.vob=01;38;5;166:*.qt=01;38;5;166:*.nuv=01;38;5;166:*.wmv=01;38;5;166:*.asf=01;38;5;166:*.rm=01;38;5;166:*.rmvb=01;38;5;166:*.flc=01;38;5;166:*.avi=01;38;5;166:*.fli=01;38;5;166:*.flv=01;38;5;166:*.gl=01;38;5;166:*.m2ts=01;38;5;166:*.divx=01;38;5;166:*.webm=01;38;5;166:*.axv=01;38;5;166:*.anx=01;38;5;166:*.ogv=01;38;5;166:*.ogx=01;38;5;166:'), ('LC_MESSAGES', 'POSIX'), ('AMENT_PREFIX_PATH', '/home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros:/opt/ros/eloquent'), ('ROS_DOMAIN_ID', '30'), ('LC_NAME', 'ko_KR.UTF-8'), ('SHELL', '/bin/zsh'), ('LC_MEASUREMENT', 'ko_KR.UTF-8'), ('LC_IDENTIFICATION', 'ko_KR.UTF-8'), ('P9K_SSH', '1'), ('LC_ALL', 'en_US.UTF-8'), ('PWD', '/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros'), ('SSH_CONNECTION', '10.10.12.202 49592 10.10.14.27 22'), ('ZDOTDIR', '/home/soda'), ('_P9K_TTY', '/dev/pts/3'), ('LC_NUMERIC', 'ko_KR.UTF-8'), ('PYTHONPATH', '/opt/ros/eloquent/lib/python3.6/site-packages'), ('LC_PAPER', 'ko_KR.UTF-8'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros:/opt/ros/eloquent')]), 'shell': False}
+[20.310585] (-) TimerEvent: {}
+[20.411886] (-) TimerEvent: {}
+[20.513860] (-) TimerEvent: {}
+[20.528986] (rplidar_ros) StdoutLine: {'line': b'[ 11%] Built target rplidarNodeClient\n'}
+[20.534961] (rplidar_ros) StdoutLine: {'line': b'[ 50%] Built target rplidarNode\n'}
+[20.537368] (rplidar_ros) StdoutLine: {'line': b'[ 88%] Built target rplidar_composition_node\n'}
+[20.614081] (-) TimerEvent: {}
+[20.666646] (rplidar_ros) StdoutLine: {'line': b'[100%] Built target rplidar_composition\n'}
+[20.714267] (-) TimerEvent: {}
+[20.738061] (rplidar_ros) StdoutLine: {'line': b'\x1b[36mInstall the project...\x1b[0m\n'}
+[20.773386] (rplidar_ros) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[20.776680] (rplidar_ros) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[20.779127] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNode\n'}
+[20.780114] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNodeClient\n'}
+[20.781163] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidar_composition\n'}
+[20.783405] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar.launch.py\n'}
+[20.784104] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar_a3.launch.py\n'}
+[20.784771] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar_s1.launch.py\n'}
+[20.785478] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar_s1_tcp.launch.py\n'}
+[20.786182] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/test_rplidar.launch.py\n'}
+[20.787121] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/test_rplidar_a3.launch.py\n'}
+[20.787870] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar.launch.py\n'}
+[20.788526] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_a3.launch.py\n'}
+[20.789228] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_s1.launch.py\n'}
+[20.789933] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_s1_tcp.launch.py\n'}
+[20.791421] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/rviz/rplidar.rviz\n'}
+[20.793884] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/librplidar_composition_node.so\n'}
+[20.795722] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/include/rplidar_node.hpp\n'}
+[20.796405] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/include/visibility.h\n'}
+[20.799588] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNode\n'}
+[20.800609] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNodeClient\n'}
+[20.801656] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidar_composition\n'}
+[20.802932] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/ament_index/resource_index/package_run_dependencies/rplidar_ros\n'}
+[20.804246] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/ament_index/resource_index/parent_prefix_path/rplidar_ros\n'}
+[20.805520] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/ament_prefix_path.sh\n'}
+[20.807220] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/ament_prefix_path.dsv\n'}
+[20.808194] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/path.sh\n'}
+[20.809432] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/path.dsv\n'}
+[20.810653] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.bash\n'}
+[20.811731] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.sh\n'}
+[20.812880] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.zsh\n'}
+[20.813977] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.dsv\n'}
+[20.814525] (-) TimerEvent: {}
+[20.815148] (rplidar_ros) StdoutLine: {'line': b'-- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/package.dsv\n'}
+[20.851434] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/ament_index/resource_index/packages/rplidar_ros\n'}
+[20.853198] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[20.854476] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[20.855598] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/rplidar_rosConfig.cmake\n'}
+[20.856448] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/rplidar_rosConfig-version.cmake\n'}
+[20.857589] (rplidar_ros) StdoutLine: {'line': b'-- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/package.xml\n'}
+[20.869502] (rplidar_ros) CommandEnded: {'returncode': 0}
+[20.914893] (-) TimerEvent: {}
+[21.015779] (-) TimerEvent: {}
+[21.116768] (-) TimerEvent: {}
+[21.197597] (rplidar_ros) JobEnded: {'identifier': 'rplidar_ros', 'rc': 0}
+[21.202395] (-) EventReactorShutdown: {}

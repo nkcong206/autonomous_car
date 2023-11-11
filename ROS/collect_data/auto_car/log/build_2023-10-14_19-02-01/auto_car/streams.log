@@ -1,0 +1,24 @@
+[2.019s] Invoking command in '/home/soda/Documents/nkcong/auto_car/build/auto_car': PYTHONPATH=/home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --prefix /home/soda/Documents/nkcong/auto_car/install/auto_car --editable --build-directory /home/soda/Documents/nkcong/auto_car/build/auto_car/build --no-deps install_data --install-dir /home/soda/Documents/nkcong/auto_car/install/auto_car
+[3.979s] running develop
+[3.980s] /home/soda/.local/lib/python3.6/site-packages/setuptools/command/easy_install.py:159: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.
+[3.981s]   EasyInstallDeprecationWarning,
+[3.988s] /home/soda/.local/lib/python3.6/site-packages/setuptools/command/install.py:37: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[3.988s]   setuptools.SetuptoolsDeprecationWarning,
+[4.377s] /home/soda/.local/lib/python3.6/site-packages/pkg_resources/__init__.py:119: PkgResourcesDeprecationWarning: 0.18ubuntu0.18.04.1 is an invalid version and will not be supported in a future release
+[4.378s]   PkgResourcesDeprecationWarning,
+[5.117s] running egg_info
+[5.119s] writing auto_car.egg-info/PKG-INFO
+[5.120s] writing dependency_links to auto_car.egg-info/dependency_links.txt
+[5.120s] writing entry points to auto_car.egg-info/entry_points.txt
+[5.121s] writing requirements to auto_car.egg-info/requires.txt
+[5.121s] writing top-level names to auto_car.egg-info/top_level.txt
+[5.137s] reading manifest file 'auto_car.egg-info/SOURCES.txt'
+[5.143s] writing manifest file 'auto_car.egg-info/SOURCES.txt'
+[5.365s] running build_ext
+[5.366s] Creating /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages/auto-car.egg-link (link to .)
+[5.372s] Installing drive_controller script to /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/auto_car
+[5.373s] Installing ps4 script to /home/soda/Documents/nkcong/auto_car/install/auto_car/lib/auto_car
+[5.373s] 
+[5.374s] Installed /home/soda/Documents/nkcong/auto_car/build/auto_car
+[5.374s] running install_data
+[5.535s] Invoked command in '/home/soda/Documents/nkcong/auto_car/build/auto_car' returned '0': PYTHONPATH=/home/soda/Documents/nkcong/auto_car/install/auto_car/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --prefix /home/soda/Documents/nkcong/auto_car/install/auto_car --editable --build-directory /home/soda/Documents/nkcong/auto_car/build/auto_car/build --no-deps install_data --install-dir /home/soda/Documents/nkcong/auto_car/install/auto_car

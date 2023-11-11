@@ -1,0 +1,153 @@
+[0.088s] Invoking command in '/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/eloquent /usr/bin/cmake --build /home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros -- -j4 -l4
+[0.448s] [35m[1mScanning dependencies of target rplidarNode[0m
+[0.449s] [35m[1mScanning dependencies of target rplidar_composition_node[0m
+[0.548s] [ 11%] Built target rplidarNodeClient
+[0.605s] [ 16%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/src/node.cpp.o[0m
+[0.617s] [ 22%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/src/rplidar_node.cpp.o[0m
+[1.305s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:231:14:[m[K [01;35m[Kwarning: [m[Kinvalid suffix on literal; C++11 requires a space between literal and string macro [[01;35m[K-Wliteral-suffix[m[K]
+[1.305s]      ROS_INFO([01;35m[K"[m[KRPLIDAR running on ROS package rplidar_ros. SDK Version:"RPLIDAR_SDK_VERSION"");
+[1.306s]               [01;35m[K^[m[K
+[5.264s] In file included from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:39:0[m[K,
+[5.266s]                  from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/include/rplidar_node.hpp:41[m[K,
+[5.267s]                  from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:36[m[K:
+[5.268s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_protocol.h:59:15:[m[K [01;35m[Kwarning: [m[KISO C++ forbids zero-size array ‘[01m[Kdata[m[K’ [[01;35m[K-Wpedantic[m[K]
+[5.268s]      _u8 data[0[01;35m[K][m[K;
+[5.269s]                [01;35m[K^[m[K
+[5.275s] In file included from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:40:0[m[K,
+[5.276s]                  from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/include/rplidar_node.hpp:41[m[K,
+[5.277s]                  from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:36[m[K:
+[5.277s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_cmd.h:260:19:[m[K [01;35m[Kwarning: [m[KISO C++ forbids zero-size array ‘[01m[Kpayload[m[K’ [[01;35m[K-Wpedantic[m[K]
+[5.278s]      _u8  payload[0[01;35m[K][m[K;
+[5.279s]                    [01;35m[K^[m[K
+[5.343s] In file included from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:39:0[m[K,
+[5.345s]                  from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:45[m[K:
+[5.346s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_protocol.h:59:15:[m[K [01;35m[Kwarning: [m[KISO C++ forbids zero-size array ‘[01m[Kdata[m[K’ [[01;35m[K-Wpedantic[m[K]
+[5.347s]      _u8 data[0[01;35m[K][m[K;
+[5.348s]                [01;35m[K^[m[K
+[5.351s] In file included from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:40:0[m[K,
+[5.352s]                  from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:45[m[K:
+[5.353s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_cmd.h:260:19:[m[K [01;35m[Kwarning: [m[KISO C++ forbids zero-size array ‘[01m[Kpayload[m[K’ [[01;35m[K-Wpedantic[m[K]
+[5.353s]      _u8  payload[0[01;35m[K][m[K;
+[5.354s]                    [01;35m[K^[m[K
+[5.458s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:[m[K In function ‘[01m[Kbool stop_motor(std::shared_ptr<std_srvs::srv::Empty_Request_<std::allocator<void> > >, std::shared_ptr<std_srvs::srv::Empty_Response_<std::allocator<void> > >)[m[K’:
+[5.461s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:166:70:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kreq[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+[5.462s]  bool stop_motor(const std::shared_ptr<std_srvs::srv::Empty::Request> [01;35m[Kreq[m[K,
+[5.463s]                                                                       [01;35m[K^~~[m[K
+[5.463s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:167:65:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kres[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+[5.464s]                  std::shared_ptr<std_srvs::srv::Empty::Response> [01;35m[Kres[m[K)
+[5.465s]                                                                  [01;35m[K^~~[m[K
+[5.465s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:[m[K In function ‘[01m[Kbool start_motor(std::shared_ptr<std_srvs::srv::Empty_Request_<std::allocator<void> > >, std::shared_ptr<std_srvs::srv::Empty_Response_<std::allocator<void> > >)[m[K’:
+[5.466s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:178:71:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kreq[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+[5.474s]  bool start_motor(const std::shared_ptr<std_srvs::srv::Empty::Request> [01;35m[Kreq[m[K,
+[5.475s]                                                                        [01;35m[K^~~[m[K
+[5.476s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:179:66:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kres[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+[5.477s]                   std::shared_ptr<std_srvs::srv::Empty::Response> [01;35m[Kres[m[K)
+[5.477s]                                                                   [01;35m[K^~~[m[K
+[5.649s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[5.652s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:356:111:[m[K [01;35m[Kwarning: [m[KISO C++ forbids variable length array ‘[01m[Kangle_compensate_nodes[m[K’ [[01;35m[K-Wvla[m[K]
+[5.652s]                      rplidar_response_measurement_node_hq_t angle_compensate_nodes[angle_compensate_nodes_count[01;35m[K][m[K;
+[5.655s]                                                                                                                [01;35m[K^[m[K
+[5.656s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/node.cpp:360:30:[m[K [01;35m[Kwarning: [m[Kcomparison between signed and unsigned integer expressions [[01;35m[K-Wsign-compare[m[K]
+[5.658s]                      for( ; [01;35m[Ki < count[m[K; i++ ) {
+[5.659s]                             [01;35m[K~~^~~~~~~[m[K
+[5.663s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:[m[K In member function ‘[01m[Kvoid rplidar_ros::rplidar_node::stop_motor({anonymous}::EmptyRequest, {anonymous}::EmptyResponse)[m[K’:
+[5.668s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:245:50:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kreq[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+[5.669s]  void rplidar_node::stop_motor(const EmptyRequest [01;35m[Kreq[m[K, EmptyResponse res)
+[5.670s]                                                   [01;35m[K^~~[m[K
+[5.671s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:245:69:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kres[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+[5.671s]  void rplidar_node::stop_motor(const EmptyRequest req, EmptyResponse [01;35m[Kres[m[K)
+[5.676s]                                                                      [01;35m[K^~~[m[K
+[5.677s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:[m[K In member function ‘[01m[Kvoid rplidar_ros::rplidar_node::start_motor({anonymous}::EmptyRequest, {anonymous}::EmptyResponse)[m[K’:
+[5.681s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:256:51:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kreq[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+[5.683s]  void rplidar_node::start_motor(const EmptyRequest [01;35m[Kreq[m[K, EmptyResponse res)
+[5.684s]                                                    [01;35m[K^~~[m[K
+[5.685s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:256:70:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kres[m[K’ [[01;35m[K-Wunused-parameter[m[K]
+[5.691s]  void rplidar_node::start_motor(const EmptyRequest req, EmptyResponse [01;35m[Kres[m[K)
+[5.693s]                                                                       [01;35m[K^~~[m[K
+[5.695s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:[m[K In member function ‘[01m[Kvoid rplidar_ros::rplidar_node::publish_loop()[m[K’:
+[5.696s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:343:97:[m[K [01;35m[Kwarning: [m[KISO C++ forbids variable length array ‘[01m[Kangle_compensate_nodes[m[K’ [[01;35m[K-Wvla[m[K]
+[5.699s]        rplidar_response_measurement_node_hq_t angle_compensate_nodes[angle_compensate_nodes_count[01;35m[K][m[K;
+[5.700s]                                                                                                  [01;35m[K^[m[K
+[5.701s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:353:25:[m[K [01;35m[Kwarning: [m[Kcomparison between signed and unsigned integer expressions [[01;35m[K-Wsign-compare[m[K]
+[5.702s]            for (j = 0; [01;35m[Kj < m_angle_compensate_multiple[m[K; j++) {
+[5.702s]                        [01;35m[K~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[5.703s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:374:44:[m[K [01;35m[Kwarning: [m[Kcomparison between signed and unsigned integer expressions [[01;35m[K-Wsign-compare[m[K]
+[5.704s]        for (size_t x = start_node, y = 0; [01;35m[Kx < end_node[m[K; ++x, ++y) {
+[5.722s]                                           [01;35m[K~~^~~~~~~~~~[m[K
+[5.724s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:381:11:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kangle_min[m[K’ [[01;35m[K-Wunused-variable[m[K]
+[5.724s]      float [01;35m[Kangle_min[m[K = deg_2_rad(0.0f);
+[5.725s]            [01;35m[K^~~~~~~~~[m[K
+[5.726s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/rplidar_node.cpp:382:11:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kangle_max[m[K’ [[01;35m[K-Wunused-variable[m[K]
+[5.726s]      float [01;35m[Kangle_max[m[K = deg_2_rad(359.0f);
+[5.727s]            [01;35m[K^~~~~~~~~[m[K
+[12.728s] [ 27%] [32m[1mLinking CXX executable rplidarNode[0m
+[13.050s] [ 33%] [32m[1mLinking CXX shared library librplidar_composition_node.so[0m
+[13.975s] [ 61%] Built target rplidar_composition_node
+[14.034s] [35m[1mScanning dependencies of target rplidar_composition[0m
+[14.069s] [ 88%] Built target rplidarNode
+[14.149s] [ 94%] [32mBuilding CXX object CMakeFiles/rplidar_composition.dir/src/standalone_rplidar.cpp.o[0m
+[18.178s] In file included from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:39:0[m[K,
+[18.179s]                  from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/include/rplidar_node.hpp:41[m[K,
+[18.180s]                  from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/standalone_rplidar.cpp:16[m[K:
+[18.180s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_protocol.h:59:15:[m[K [01;35m[Kwarning: [m[KISO C++ forbids zero-size array ‘[01m[Kdata[m[K’ [[01;35m[K-Wpedantic[m[K]
+[18.181s]      _u8 data[0[01;35m[K][m[K;
+[18.181s]                [01;35m[K^[m[K
+[18.182s] In file included from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar.h:40:0[m[K,
+[18.182s]                  from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/include/rplidar_node.hpp:41[m[K,
+[18.183s]                  from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/standalone_rplidar.cpp:16[m[K:
+[18.184s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/./sdk/include/rplidar_cmd.h:260:19:[m[K [01;35m[Kwarning: [m[KISO C++ forbids zero-size array ‘[01m[Kpayload[m[K’ [[01;35m[K-Wpedantic[m[K]
+[18.184s]      _u8  payload[0[01;35m[K][m[K;
+[18.185s]                    [01;35m[K^[m[K
+[18.869s] In file included from [01m[K/home/soda/Documents/nkcong/rplidar_ros2/src/standalone_rplidar.cpp:16:0[m[K:
+[18.870s] [01m[K/home/soda/Documents/nkcong/rplidar_ros2/include/rplidar_node.hpp:76:14:[m[K [01;35m[Kwarning: [m[K‘[01m[Kfloat rplidar_ros::getAngle(const rplidar_response_measurement_node_hq_t&)[m[K’ defined but not used [[01;35m[K-Wunused-function[m[K]
+[18.870s]  static float [01;35m[KgetAngle[m[K(const rplidar_response_measurement_node_hq_t& node)
+[18.871s]               [01;35m[K^~~~~~~~[m[K
+[19.290s] [100%] [32m[1mLinking CXX executable rplidar_composition[0m
+[20.027s] [100%] Built target rplidar_composition
+[20.070s] Invoked command in '/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/eloquent /usr/bin/cmake --build /home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros -- -j4 -l4
+[20.277s] Invoking command in '/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/eloquent /usr/bin/cmake --build /home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros --target install -- -j4 -l4
+[20.527s] [ 11%] Built target rplidarNodeClient
+[20.533s] [ 50%] Built target rplidarNode
+[20.536s] [ 88%] Built target rplidar_composition_node
+[20.665s] [100%] Built target rplidar_composition
+[20.736s] [36mInstall the project...[0m
+[20.772s] -- Install configuration: ""
+[20.775s] -- Execute custom install script
+[20.777s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNode
+[20.778s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNodeClient
+[20.779s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidar_composition
+[20.781s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar.launch.py
+[20.782s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar_a3.launch.py
+[20.783s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar_s1.launch.py
+[20.784s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/rplidar_s1_tcp.launch.py
+[20.784s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/test_rplidar.launch.py
+[20.785s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/test_rplidar_a3.launch.py
+[20.786s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar.launch.py
+[20.787s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_a3.launch.py
+[20.787s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_s1.launch.py
+[20.788s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_s1_tcp.launch.py
+[20.789s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/rviz/rplidar.rviz
+[20.792s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/librplidar_composition_node.so
+[20.794s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/include/rplidar_node.hpp
+[20.794s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/include/visibility.h
+[20.798s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNode
+[20.799s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidarNodeClient
+[20.800s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/lib/rplidar_ros/rplidar_composition
+[20.801s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/ament_index/resource_index/package_run_dependencies/rplidar_ros
+[20.802s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/ament_index/resource_index/parent_prefix_path/rplidar_ros
+[20.804s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/ament_prefix_path.sh
+[20.805s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/ament_prefix_path.dsv
+[20.806s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/path.sh
+[20.808s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/environment/path.dsv
+[20.809s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.bash
+[20.810s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.sh
+[20.811s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.zsh
+[20.812s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/local_setup.dsv
+[20.813s] -- Symlinking: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/package.dsv
+[20.850s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/ament_index/resource_index/packages/rplidar_ros
+[20.851s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/ament_cmake_export_dependencies-extras.cmake
+[20.853s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/ament_cmake_export_include_directories-extras.cmake
+[20.854s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/rplidar_rosConfig.cmake
+[20.855s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/cmake/rplidar_rosConfig-version.cmake
+[20.856s] -- Up-to-date symlink: /home/soda/Documents/nkcong/rplidar_ros2/install/rplidar_ros/share/rplidar_ros/package.xml
+[20.868s] Invoked command in '/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/eloquent /usr/bin/cmake --build /home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros --target install -- -j4 -l4

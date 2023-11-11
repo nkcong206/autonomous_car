@@ -1,0 +1,22 @@
+INFO:Thread-2
+	Server is ready to accept
+INFO:Thread-3
+	Created a socket
+INFO:Thread-3
+	Created a socket
+INFO:Thread-3
+	Created a socket
+INFO:Thread-3
+	Created a socket
+INFO:Thread-4
+	Server is ready to accept
+INFO:MainThread
+	Created a socket
+INFO:MainThread
+	Created a socket
+INFO:MainThread
+	Created a socket
+INFO:MainThread
+	Created a socket
+INFO:Thread-5
+	Server is ready to accept

@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<robot name="auto_car">
+    <link name="base_link">
+        <visual name="test1">
+            <geometry>
+                <box size="0.2 0.1 0.05"/>
+            </geometry>
+            <origin xyz="0.06 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <material name="yellow">
+                <color rgba="1.0 1.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.2 0.1 0.05"/>
+            </geometry>
+            <origin xyz="0.06 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
+        <inertial>
+          <origin xyz="0.06 0.0 0.0" rpy="0.0 0.0 0.0"/>
+          <mass value="1.5"/>
+          <inertia ixx="0.0015625" ixy="0.0" ixz="0.0"
+                   iyy="0.0053125" iyz="0.0"
+                   izz="0.0062500" />
+        </inertial>
+    </link>
+    <joint name="steering_joint1" type="revolute">
+        <parent link="base_link"/>
+        <child link="steering_link1"/>
+        <origin xyz="0.12 -0.057 -0.007" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0.0 0.0 1.0"/>
+        <limit effort='4' lower='-0.8' upper='0.8' velocity='3.14'/>
+    </joint>
+    <link name="steering_link1">
+        <inertial>
+          <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+          <mass value="0.1"/>
+          <inertia ixx="1.75e-07" ixy="0.0" ixz="0.0"
+                   iyy="1.75e-07" iyz="0.0"
+                   izz="2.00e-07" />
+        </inertial>
+    </link>
+    <joint name="wheel_joint1" type="continuous">
+        <parent link="steering_link1"/>
+        <child link="wheel1_link"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+    <link name="wheel1_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.025" length="0.015"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+            <material name="wheel">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.025" length="0.015"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+        </collision>
+        <inertial>
+          <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+          <mass value="0.1"/>
+          <inertia ixx="1.750e-05" ixy="0.0" ixz="0.0"
+                   iyy="3.125e-05" iyz="0.0"
+                   izz="1.750e-05" />
+        </inertial>
+    </link>
+    <joint name="steering_joint2" type="revolute">
+        <parent link="base_link"/>
+        <child link="steering_link2"/>
+        <origin xyz="0.12 0.057 -0.007" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0.0 0.0 1.0"/>
+        <limit effort='4' lower='-0.8' upper='0.8' velocity='3.14'/>
+        <mimic joint="steering_joint1" multiplier='1.0'/>
+    </joint>
+    <link name="steering_link2">
+        <inertial>
+          <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+          <mass value="0.1"/>
+          <inertia ixx="1.75e-07" ixy="0.0" ixz="0.0"
+                   iyy="1.75e-07" iyz="0.0"
+                   izz="2.00e-07" />
+        </inertial>
+    </link>
+    <joint name="wheel_joint2" type="continuous">
+        <parent link="steering_link2"/>
+        <child link="wheel2_link"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+    <link name="wheel2_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.025" length="0.015"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+            <material name="wheel">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.025" length="0.015"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+        </collision>
+        <inertial>
+          <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+          <mass value="0.1"/>
+          <inertia ixx="1.750e-05" ixy="0.0" ixz="0.0"
+                   iyy="3.125e-05" iyz="0.0"
+                   izz="1.750e-05" />
+        </inertial>
+    </link>
+    <joint name="wheel_joint3" type="continuous">
+        <parent link="base_link"/>
+        <child link="wheel3_link"/>
+        <origin xyz="0.0 -0.057 -0.007" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+    <link name="wheel3_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.025" length="0.015"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+            <material name="wheel">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.025" length="0.015"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+        </collision>
+        <inertial>
+          <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+          <mass value="0.1"/>
+          <inertia ixx="1.750e-05" ixy="0.0" ixz="0.0"
+                   iyy="3.125e-05" iyz="0.0"
+                   izz="1.750e-05" />
+        </inertial>
+    </link>
+    <joint name="wheel_joint4" type="continuous">
+        <parent link="base_link"/>
+        <child link="wheel4_link"/>
+        <origin xyz="0.0 0.057 -0.007" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0.0 1.0 0.0"/>
+    </joint>
+    <link name="wheel4_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.025" length="0.015"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+            <material name="wheel">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.025" length="0.015"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+        </collision>
+        <inertial>
+          <origin xyz="0.0 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+          <mass value="0.1"/>
+          <inertia ixx="1.750e-05" ixy="0.0" ixz="0.0"
+                   iyy="3.125e-05" iyz="0.0"
+                   izz="1.750e-05" />
+        </inertial>
+    </link>
+     <joint name="pan" type="revolute">
+        <parent link="base_link"/>
+        <child link="cam_pan_link"/>
+        <origin xyz="0.14 0.0 0.025" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0.0 0.0 1.0"/>
+        <limit effort='4' lower='-1.57' upper='1.57' velocity='3.14'/>
+    </joint>
+    <link name="cam_pan_link">
+        <visual>
+            <geometry>
+                <box size="0.02 0.05 0.01"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.02" rpy="1.5700 0.0 0.0"/>
+            <material name="yellow">
+                <color rgba="1.0 1.0 0.0 1.0"/>
+            </material>
+        </visual>
+        <inertial>
+          <origin xyz="0.0 0.0 0.02" rpy="1.5700 0.0 0.0"/>
+          <mass value="0.1"/>
+          <inertia ixx="2.167e-05" ixy="0.0" ixz="0.0"
+                   iyy="2.417e-05" iyz="0.0"
+                   izz="4.167e-06" />
+        </inertial>
+    </link>
+    <joint name="tilt" type="revolute">
+        <parent link="cam_pan_link"/>
+        <child link="cam_tilt_link"/>
+        <origin xyz="0.0 0.0 0.04" rpy="0.0 0.0 0.0"/>
+        <axis xyz="0.0 1.0 0.0"/>
+        <limit effort='4' lower='-0.8' upper='0.8' velocity='3.14'/>
+    </joint>
+    <link name="cam_tilt_link">
+        <visual>
+            <geometry>
+                <box size="0.02 0.025 0.03"/>
+            </geometry>
+            <origin xyz="0.009 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+            <material name="camera">
+                <color rgba="1.0 0.5 0.0 1.0"/>
+            </material>
+        </visual>
+        <inertial>
+          <origin xyz="0.009 0.0 0.0" rpy="1.5700 0.0 0.0"/>
+          <mass value="0.1"/>
+          <inertia ixx="1.271e-05" ixy="0.0" ixz="0.0"
+                   iyy="8.542e-06" iyz="0.0"
+                   izz="1.083e-05" />
+        </inertial>
+    </link>
+    <joint name="laser" type="fixed">
+        <parent link="base_link"/>
+        <child link="laser_frame"/>
+        <origin xyz="0 0 0.08" rpy="0 0 0"/>
+        <axis xyz="1.0 0.0 0.0"/>
+    </joint>
+    <link name="laser_frame">
+        <visual>
+            <geometry>
+                <cylinder radius="0.025" length="0.02"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <axis xyz="0 0 1"/>
+            <material name="laser">
+                <color rgba="1.0 0.5 1.0 1.0"/>
+            </material>
+        </visual>
+    </link>
+</robot>
