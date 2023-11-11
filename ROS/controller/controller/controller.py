@@ -47,7 +47,7 @@ class DriveController(Node):
         places = pl.tolist()
         
     def gps_callback(sefl, data_msg = Float32MultiArray):
-        global gps_data, gps_statuss
+        global gps_data, gps_status
         gps_data = data_msg.data[0:2]
         gps_status = data_msg.data[2]
         
@@ -208,7 +208,7 @@ def speed_streering_cal(Car, lidar, lat_end, lon_end, lat_start, lon_start):
     return steering, speed
 
 def distance_cal( lat_end, lon_end, lat_start, lon_start):
-    d_lat = lat_end - lat_end
+    d_lat = lat_end - lat_start
     d_lon = lon_end - lon_start
     angle = math.sin(d_lat / 2) ** 2 + math.cos(lat_end) * math.cos(lat_end) * math.sin(d_lon / 2) ** 2
     c = 2 * math.atan2(math.sqrt(angle), math.sqrt(1 - angle))
