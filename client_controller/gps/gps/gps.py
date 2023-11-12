@@ -13,6 +13,7 @@ def read_gps_thread():
         with serial.Serial('/dev/ttyUSB1', 9600, timeout=10) as ser:
             data = ""
             x = ser.readline()
+            print(x)
             line = x.decode('utf-8', errors='ignore')
             if line.find("localtion") != -1:
                 line = line.replace("\t", "").replace("\n", "")
