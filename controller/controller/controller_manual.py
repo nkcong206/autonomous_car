@@ -13,6 +13,7 @@ import numpy as np
 signal = -1
 manual = ""
 places = []
+place_id = 0
 gps_data = [0.0,0.0]
 gps_status = 0.0
 automatic = False
@@ -277,16 +278,16 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
             time.sleep(0.1) 
 
 def travel_journey(Car, lidar, places):
-    global threshold, automatic
-    
-    for place in places:
-        go_to_lat_lon(Car, lidar, place[0], place[1], threshold)  
-        print(f"place: [{place[0]}, {place[1]}]")
+    global threshold, automatic, place_id
+
+    for place_id in range( place_id, len(places)):
+        go_to_lat_lon(Car, lidar, places[place_id][0],  places[place_id][1], threshold)  
+        print(f"place: [{ places[place_id][0]}, { places[place_id][1]}]")
         if automatic == 0:
             break
 
 def controller_thread():
-    global places, automatic, max_speed, manual, signal, speed, steering
+    global places, place_id, automatic, max_speed, manual, signal, speed, steering
     print("Startup car!")
     Car = Pilot.AutoCar()
     Car.setObstacleDistance(distance=0)
@@ -301,6 +302,8 @@ def controller_thread():
                 time.sleep(1)
             else:    
                 travel_journey(Car, lidar,places)
+                places = []
+                place_id = 0
                 signal = 0
                 Car.steering = 0
                 Car.stop()
@@ -311,6 +314,7 @@ def controller_thread():
             Car.steering = steering
             time.sleep(0.1)
     
+
     signal = -speed
     Car.steering = 0
     Car.stop()
