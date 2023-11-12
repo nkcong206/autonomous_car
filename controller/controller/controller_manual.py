@@ -11,13 +11,12 @@ import time
 import numpy as np
 import queue
 
-
 signal = -1
 manual = ""
 places = []
+place_id = 0
 gps_data = [0.0,0.0]
 gps_status = 0.0
-automatic = False
 go_stop = False
 max_speed = 70
 speed = 0.0
@@ -243,8 +242,10 @@ def distance_cal( lat_end, lon_end, lat_start, lon_start):
     return distance
 
 def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
-    global gps_status, gps_data, signal, automatic, go_stop
-
+    global gps_status, gps_data, signal, go_stop
+    a = automatic_queue.get()
+    if a:
+        return
     lat_end = math.radians(lat)
     lon_end = math.radians(lon)
     lat_start = math.radians(gps_data[0])
@@ -286,17 +287,20 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
             Car.stop() 
                 
 def travel_journey(Car, lidar, places):
-    global threshold, automatic, signal
+    global threshold, signal, place_id
     if len(places) == 0:
         signal = 5
         print("places is empty!")
         return
-    for place in places:
-        go_to_lat_lon(Car, lidar, place[0],  place[1], threshold)  
-        print(f"place: [{ place[0]}, { place[1]}]")
+    for place_id in range(place_id, len(places)):
+        go_to_lat_lon(Car, lidar, places[place_id][0],  places[place_id][1], threshold)  
+        print(f"place: [{ places[place_id][0]}, { places[place_id][1]}]")
+        a = automatic_queue.get()
+        if a:
+            return
 
 def controller_thread():
-    global places, place_id, automatic, max_speed, manual, signal, speed, steering
+    global places, place_id, max_speed, manual, signal, speed, steering
     print("Startup car!")
     Car = Pilot.AutoCar()
     Car.setObstacleDistance(distance=0)
@@ -305,15 +309,18 @@ def controller_thread():
     lidar.connect()
     lidar.startMotor()
     while not event.is_set():
-        if not  automatic1.is_set():
+        a = automatic_queue.get()
+        if a:
             travel_journey(Car, lidar, places)
+            if place_id == len(places) - 1:
+                place_id = 0
+                print("den dich!")
             signal = 0
             Car.steering = 0
             Car.stop()
             time.sleep(1)
         else:
             signal = 4
-            print(automatic)
             Car.steering = steering
             if speed > 0:
                 Car.forward(speed)
@@ -329,7 +336,6 @@ def controller_thread():
     lidar.stopMotor()
     
 def main(args=None):
-    automatic_queue = queue.Queue()
     controller = threading.Thread(target=controller_thread)
     controller.start()
     rclpy.init(args=args)
