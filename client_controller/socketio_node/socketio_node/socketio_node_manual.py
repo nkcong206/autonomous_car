@@ -4,22 +4,26 @@ from std_msgs.msg import Bool
 import socketio
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Int32
-import time
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 gps_data = [0.0,0.0]
 gps_status = 0.0
 places = []
 class SocketIOListener(Node):
     def __init__(self):
         super().__init__('socketio_listener')
-        self.SERVER_SOCKETIO = "http://10.10.10.28:5001"
-        self.ID = "robot1"
-        self.NAME = "123"
+        self.SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
+        self.ID = os.getenv("ID")
+        self.NAME = os.getenv("NAME")
+
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
         self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
         self.cmd_vel_pub = self.create_publisher(Int32, "/cmd_vel_speed", 10)  
-        self.cmd_vel_pub = self.create_publisher(Int32, "/cmd_vel_steering", 10)         
+        self.cmd_vel_pub = self.create_publisher(Int32, "/cmd_vel_steering", 10)  
+               
         self.sio = socketio.Client()
 
         @self.sio.event
@@ -34,7 +38,28 @@ class SocketIOListener(Node):
         def on_connect():
             print("Connected to server ...")
             self.sio.emit("register_controller", {"robot_id" : self.ID, "robot_name" : self.NAME})
+            self.sio.emit("register_robot", {"robot_id" : self.ID, "robot_name" : self.NAME})
 
+        @self.sio.on('register_robot')
+        def on_message(data):
+            print("Message received:", data)
+
+        @self.sio.on("open_stream")
+        def open_stream(data):
+            status = data["status"]
+            if status == 1:
+                cmd = "pm2 start stream_gst"
+                print("cmd : ", cmd)
+                os.system(cmd)
+
+        @self.sio.on("end_stream")
+        def end_stream(data):
+            status = data["status"]
+            if status == 1:
+                cmd = "pm2 stop stream_gst"
+                print("cmd : ", cmd)
+                os.system(cmd)
+        
         @self.sio.on('register_controller')
         def on_message(data):
             print("Message received:", data)
