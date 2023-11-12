@@ -21,8 +21,8 @@ class SocketIOListener(Node):
         self.go_stop_publisher = self.create_publisher(Bool, '/go_stop', 10)
         self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
-        self.cmd_vel_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)  
-        self.cmd_vel_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)  
+        self.cmd_vel_speed_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)  
+        self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)  
                
         self.sio = socketio.Client()
 
@@ -98,7 +98,7 @@ class SocketIOListener(Node):
             else:
                 auto_msg.data = False
             self.auto_publisher.publish(auto_msg)
-            print("auto_msg: ",auto_msg)
+            print("automatic",auto_msg.data )
 
         @self.sio.on("go_stop")
         def on_run_automatic(data):
@@ -108,8 +108,8 @@ class SocketIOListener(Node):
             else:
                 g_msg.data = False
             self.go_stop_publisher.publish(g_msg)
-            print("go_stop: ",g_msg)
-                 
+            print("go_stop",g_msg.data )
+    
         @self.sio.on('disconnect')
         def on_disconnect():
             print("Disconnected from server")
@@ -117,18 +117,18 @@ class SocketIOListener(Node):
         #manual controller
         @self.sio.on("move")
         def move(data):
-            print(data)
+            print("111111")
             type = data["type"]
             value = data["value"]
             my_msg = Float32()
             if type == "speed":
                 my_msg.data = value
-                self.cmd_vel_pub.publish(my_msg)
-                print("speed : ", value)
+                self.cmd_vel_speed_pub.publish(my_msg)
+                print("speed: ", value)
             else:
                 my_msg.data = value
-                self.cmd_vel_pub.publish(my_msg)
                 print("steering: ", value)
+                self.cmd_vel_steering_pub.publish(my_msg)
                 
     def gps_callback(self, data_msg: Float32MultiArray):
         global gps_data, gps_status
