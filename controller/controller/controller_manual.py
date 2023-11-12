@@ -60,11 +60,9 @@ class DriveController(Node):
         
     def automatic_callback(self, data_msg: Bool):
         global automatic1
-        if not data_msg.data:
-        #     automatic = True
+        if data_msg.data:
             automatic_queue.put(1)
         else:
-        #     automatic = False
             automatic_queue.put(0)
         print("automatic", data_msg.data)
 
@@ -244,6 +242,7 @@ def distance_cal( lat_end, lon_end, lat_start, lon_start):
 def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
     global gps_status, gps_data, signal, go_stop
     a = automatic_queue.get()
+    print("a in go_to_lat_lon", a)
     if a:
         return
     lat_end = math.radians(lat)
@@ -296,6 +295,7 @@ def travel_journey(Car, lidar, places):
         go_to_lat_lon(Car, lidar, places[place_id][0],  places[place_id][1], threshold)  
         print(f"place: [{ places[place_id][0]}, { places[place_id][1]}]")
         a = automatic_queue.get()
+        print("a in travel_journey", a)
         if a:
             return
 
@@ -310,6 +310,7 @@ def controller_thread():
     lidar.startMotor()
     while not event.is_set():
         a = automatic_queue.get()
+        print("a in controller_thread", a)
         if a:
             travel_journey(Car, lidar, places)
             if place_id == len(places) - 1:
@@ -318,9 +319,10 @@ def controller_thread():
             signal = 0
             Car.steering = 0
             Car.stop()
-            time.sleep(1)
+            time.sleep(0.5)
         else:
             signal = 4
+            print("manual")
             Car.steering = steering
             if speed > 0:
                 Car.forward(speed)
