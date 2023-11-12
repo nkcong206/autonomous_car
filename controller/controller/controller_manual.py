@@ -3,6 +3,7 @@ import math
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Int32
+from std_msgs.msg import Float32
 from std_msgs.msg import Bool
 from pop import Pilot, LiDAR
 import threading
@@ -12,10 +13,10 @@ import numpy as np
 signal = -1
 manual = ""
 places = []
-place_id = 0
 gps_data = [0.0,0.0]
 gps_status = 0.0
-automatic = True
+automatic = False
+go_stop = False
 max_speed = 66
 speed = 0.0
 steering = 0.0
@@ -35,9 +36,10 @@ class DriveController(Node):
 
         self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_callback, 10)
         self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_callback, 10)
+        self.go_stop_sub = self.create_subscription(Bool, "/go_stop", self.automatic_callback, 10)
         self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
-        self.cmd_vel_sub = self.create_subscription(Int32, "/cmd_vel_speed", self.cmd_vel_speed_callback, 10)
-        self.cmd_vel_sub = self.create_subscription(Int32, "/cmd_vel_steering", self.cmd_vel_steering_callback, 10)
+        self.cmd_vel_sub = self.create_subscription(Float32, "/cmd_vel_speed", self.cmd_vel_speed_callback, 10)
+        self.cmd_vel_sub = self.create_subscription(Float32, "/cmd_vel_steering", self.cmd_vel_steering_callback, 10)
         self.led_pub = self.create_publisher(Int32, "/led", 10)    
         timer_period = 0.1
         self.timer = self.create_timer(timer_period, self.led_callback)
@@ -60,12 +62,19 @@ class DriveController(Node):
         else:
             automatic = False
             
-    def cmd_vel_speed_callback(self, cmd_vel_speed_msg: Int32):
+    def go_stop_callback(self, data_msg: Bool):
+        global go_stop
+        if data_msg.data:
+            go_stop = True
+        else:
+            go_stop = False
+
+    def cmd_vel_speed_callback(self, cmd_vel_speed_msg: Float32):
         global speed, automatic
         if not automatic:
             speed = max_speed*cmd_vel_speed_msg.data
     
-    def cmd_vel_steering_callback(self, cmd_vel_steering_msg: Int32):
+    def cmd_vel_steering_callback(self, cmd_vel_steering_msg: Float32):
         global steering, automatic
         if not automatic:
             steering = cmd_vel_steering_msg.data
@@ -223,7 +232,7 @@ def distance_cal( lat_end, lon_end, lat_start, lon_start):
     return distance
 
 def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
-    global gps_status, gps_data, signal, automatic
+    global gps_status, gps_data, signal, automatic, go_stop
     lat_end = math.radians(lat)
     lon_end = math.radians(lon)
     lat_start = math.radians(gps_data[0])
@@ -234,10 +243,13 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
     while (distance >= threshold):
         if automatic == 0:
             break
-        if gps_status == 0:
+        if gps_status == 0 or go_stop == 0:
             if(gps_status == 0):
                 print("Error gps!")
                 signal = 5
+            if(go_stop == 0):
+                print("Stop car!")
+                signal = 4
             Car.steering = 0
             Car.stop() 
             time.sleep(1) 
@@ -257,7 +269,7 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
                 else:
                     signal = 1     
             else:
-                signal = 5
+                signal = 4
                 Car.stop() 
                 
             print(f"distance {distance}")   
@@ -265,10 +277,11 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
             time.sleep(0.1) 
 
 def travel_journey(Car, lidar, places):
-    global threshold, place_id, automatic
-    for place_id in range(place_id, len(places)):
-        go_to_lat_lon(Car, lidar, places[place_id][0], places[place_id][1], threshold)  
-        print(f"place: [{places[place_id][0]}, {places[place_id][1]}]")
+    global threshold, automatic
+    
+    for place in places:
+        go_to_lat_lon(Car, lidar, place[0], place[1], threshold)  
+        print(f"place: [{place[0]}, {place[1]}]")
         if automatic == 0:
             break
 

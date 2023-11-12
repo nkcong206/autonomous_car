@@ -4,7 +4,7 @@ import os
 from rclpy.node import Node
 from std_msgs.msg import Bool
 from std_msgs.msg import Float32MultiArray
-from std_msgs.msg import Int32
+from std_msgs.msg import Float32
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -18,10 +18,11 @@ class SocketIOListener(Node):
         self.NAME = os.getenv("NAME")
 
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
+        self.go_stop_publisher = self.create_publisher(Bool, '/go_stop', 10)
         self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
-        self.cmd_vel_pub = self.create_publisher(Int32, "/cmd_vel_speed", 10)  
-        self.cmd_vel_pub = self.create_publisher(Int32, "/cmd_vel_steering", 10)  
+        self.cmd_vel_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)  
+        self.cmd_vel_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)  
                
         self.sio = socketio.Client()
 
@@ -36,7 +37,7 @@ class SocketIOListener(Node):
         @self.sio.on('connect')
         def on_connect():
             print("Connected to server ...")
-            self.sio.emit("register_controller", {"robot_id" : self.ID, "robot_name" : self.NAME})
+            # self.sio.emit("register_controller", {"robot_id" : self.ID, "robot_name" : self.NAME})
             self.sio.emit("register_robot", {"robot_id" : self.ID, "robot_name" : self.NAME})
 
         @self.sio.on('register_robot')
@@ -67,6 +68,7 @@ class SocketIOListener(Node):
         def locations_direction(data):
             place_msg = Float32MultiArray()
             places = data['locations']
+            print("place_msg",places)
             places = places[1:]
             places = places[0]
             new_places = []
@@ -89,15 +91,24 @@ class SocketIOListener(Node):
                     pass
            
         @self.sio.on("automatic")
-        def on_run_automatic(data):
-            print(data['type'])
-            msg = Bool()
-            if data['type'] == 'Go':
-                msg.data = True
+        def automatic(data):
+            auto_msg = Bool()
+            if data['type'] == 'Automatic':
+                auto_msg.data = True
             else:
-                msg.data = False
-            self.auto_publisher.publish(msg)
-            print(msg)
+                auto_msg.data = False
+            self.auto_publisher.publish(auto_msg)
+            print("auto_msg: ",auto_msg)
+
+        @self.sio.on("go_stop")
+        def on_run_automatic(data):
+            g_msg = Bool()
+            if data['type'] == 'Go':
+                g_msg.data = True
+            else:
+                g_msg.data = False
+            self.go_stop_publisher.publish(g_msg)
+            print("go_stop: ",g_msg)
                  
         @self.sio.on('disconnect')
         def on_disconnect():
@@ -106,9 +117,10 @@ class SocketIOListener(Node):
         #manual controller
         @self.sio.on("move")
         def move(data):
+            print(data)
             type = data["type"]
             value = data["value"]
-            my_msg = Int32()
+            my_msg = Float32()
             if type == "speed":
                 my_msg.data = value
                 self.cmd_vel_pub.publish(my_msg)
