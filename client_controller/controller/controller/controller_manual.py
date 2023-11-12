@@ -31,15 +31,16 @@ class DriveController(Node):
         super().__init__('drive_controller')
         self.get_logger().info("Node Started")
         self.car = Pilot.AutoCar()
-        self.car.setObstacleDistance(0)
-        
-        self.led_pub = self.create_publisher(Int32, "/led", 10)    
-        timer_period = 0.1
-        self.timer = self.create_timer(timer_period, self.led_callback)
+        self.car.setObstacleDistance(0)   
+
         self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_callback, 10)
         self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_callback, 10)
         self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
-        self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/cmd_vel", self.cmd_vel_callback, 10)
+        self.cmd_vel_sub = self.create_subscription(Int32, "/cmd_vel_speed", self.cmd_vel_speed_callback, 10)
+        self.cmd_vel_sub = self.create_subscription(Int32, "/cmd_vel_steering", self.cmd_vel_steering_callback, 10)
+        self.led_pub = self.create_publisher(Int32, "/led", 10)    
+        timer_period = 0.1
+        self.timer = self.create_timer(timer_period, self.led_callback)
 
     def places_callback(self, places_msg = Float32MultiArray):
         global places
@@ -59,11 +60,15 @@ class DriveController(Node):
         else:
             automatic = False
             
-    def cmd_vel_callback(self, cmd_vel_msg: Float32MultiArray):
-        global speed, steering, automatic
+    def cmd_vel_speed_callback(self, cmd_vel_speed_msg: Int32):
+        global speed, automatic
         if not automatic:
-            steering = cmd_vel_msg.data[0]
-            speed = max_speed*cmd_vel_msg.data[1]
+            speed = max_speed*cmd_vel_speed_msg.data
+    
+    def cmd_vel_steering_callback(self, cmd_vel_steering_msg: Int32):
+        global steering, automatic
+        if not automatic:
+            steering = cmd_vel_steering_msg.data
            
     def led_callback(self):
         global signal
