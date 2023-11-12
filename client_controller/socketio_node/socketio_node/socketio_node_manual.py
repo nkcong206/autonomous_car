@@ -4,7 +4,7 @@ from std_msgs.msg import Bool
 import socketio
 from std_msgs.msg import Float32MultiArray
 import time
-import numpy as np
+from pop import Pilot, LiDAR
 
 gps_data = [0.0,0.0]
 gps_status = 0.0
@@ -18,6 +18,7 @@ class SocketIOListener(Node):
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
         self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
+        self.cmd_vel_pub = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)         
         self.sio = socketio.Client()
 
         @self.sio.event
@@ -36,7 +37,6 @@ class SocketIOListener(Node):
         @self.sio.on('register_controller')
         def on_message(data):
             print("Message received:", data)
-        
         
         @self.sio.on("locations_direction_robot")
         def locations_direction(data):
@@ -79,6 +79,16 @@ class SocketIOListener(Node):
             print("Disconnected from server")
     
     
+        #manual controller
+        @self.sio.on("move")
+        def move(data):
+            data_cmd = data["movement_type"]
+            print("command : ", data_cmd)
+            data = [ data_cmd[0], data_cmd[1]]
+            my_msg = Float32MultiArray()
+            my_msg.data = data
+            self.cmd_vel_pub.publish(my_msg)
+                
     def gps_callback(self, data_msg: Float32MultiArray):
         global gps_data, gps_status
         gps_data = data_msg.data[0:2]

@@ -2,7 +2,6 @@ import rclpy
 import math
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
-from std_msgs.msg import String
 from std_msgs.msg import Int32
 from std_msgs.msg import Bool
 from pop import Pilot, LiDAR
@@ -40,7 +39,7 @@ class DriveController(Node):
         self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_callback, 10)
         self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_callback, 10)
         self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
-        self.cmd_vel_sub = self.create_subscription(String, "/cmd_vel", self.cmd_vel_callback, 10)
+        self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/cmd_vel", self.cmd_vel_callback, 10)
 
     def places_callback(self, places_msg = Float32MultiArray):
         global places
@@ -60,9 +59,11 @@ class DriveController(Node):
         else:
             automatic = False
             
-    def cmd_vel_callback(self, cmd_vel_msg: String):
-        global manual
-        manual = cmd_vel_msg
+    def cmd_vel_callback(self, cmd_vel_msg: Float32MultiArray):
+        global speed, steering, automatic
+        if not automatic:
+            steering = cmd_vel_msg.data[0]
+            speed = max_speed*cmd_vel_msg.data[1]
            
     def led_callback(self):
         global signal
@@ -267,7 +268,7 @@ def travel_journey(Car, lidar, places):
             break
 
 def controller_thread():
-    global places, automatic, max_speed, manual, signal
+    global places, automatic, max_speed, manual, signal, speed, steering
     print("Startup car!")
     Car = Pilot.AutoCar()
     Car.setObstacleDistance(distance=0)
@@ -288,24 +289,11 @@ def controller_thread():
                 print(f"reach destination!!!")
         else:
             signal = 4
-            if manual == "UP" or manual=="TOP":
-                Car.forward(max_speed)
-                Car.steering = 0
-                time.sleep(1)
-            elif manual == "DOWN":
-                Car.backward(max_speed)    
-                Car.steering = 0
-                time.sleep(1)
-            elif manual == "LEFT":
-                Car.forward(max_speed*5/6)
-                Car.steering = -1
-                time.sleep(1)
-            elif manual == "RIGHT":
-                Car.forward(max_speed*5/6)
-                Car.steering = 1
-                time.sleep(1)    
+            Car.forward(speed)
+            Car.steering = steering
+            time.sleep(0.1)
     
-    signal = -1
+    signal = -speed
     Car.steering = 0
     Car.stop()
     lidar.stopMotor()
