@@ -37,7 +37,6 @@ class DriveController(Node):
         self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_callback, 10)
         self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_callback, 10)
         self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
-       # self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/cmd_vel", self.cmd_vel_callback, 10)
 
     def places_callback(self, places_msg = Float32MultiArray):
         global places
@@ -56,12 +55,6 @@ class DriveController(Node):
             automatic = True
         else:
             automatic = False
-            
-    # def cmd_vel_callback(self, cmd_vel_msg: Float32MultiArray):
-    #     global speed, steering, automatic
-    #     if not automatic:
-    #         steering = cmd_vel_msg.data[0]
-    #         speed = max_speed*cmd_vel_msg.data[1]
             
     def led_callback(self):
         global signal

@@ -1,16 +1,15 @@
 import rclpy
+import socketio
+import os
 from rclpy.node import Node
 from std_msgs.msg import Bool
-import socketio
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Int32
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 gps_data = [0.0,0.0]
 gps_status = 0.0
-places = []
 class SocketIOListener(Node):
     def __init__(self):
         super().__init__('socketio_listener')
