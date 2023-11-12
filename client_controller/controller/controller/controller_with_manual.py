@@ -217,7 +217,7 @@ def distance_cal( lat_end, lon_end, lat_start, lon_start):
     return distance
 
 def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
-    global gps_status, gps_data, signal, automatic, places
+    global gps_status, gps_data, signal, automatic
     lat_end = math.radians(lat)
     lon_end = math.radians(lon)
     lat_start = math.radians(gps_data[0])
@@ -226,12 +226,11 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
     distance = distance_cal( lat_end, lon_end, lat_start, lon_start)
     
     while (distance >= threshold):
-        if gps_status == 0 or automatic == 0:
+        if automatic == 0:
+            break
+        if gps_status == 0:
             if(gps_status == 0):
                 print("Error gps!")
-                signal = 4
-            if(automatic == 0):
-                print("Stop car!")
                 signal = 5
             Car.steering = 0
             Car.stop() 
@@ -259,19 +258,16 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
             print(f"steering: {steering}, speed: {speed}")    
             time.sleep(0.1) 
 
-    signal = 0
-    Car.steering = 0
-    Car.stop()
-    print(f"reach destination {lat}, {lon}")   
-
 def travel_journey(Car, lidar, places):
-    global threshold, place_id
-    for place_id in range(len(places)):
+    global threshold, place_id, automatic
+    for place_id in range(place_id, len(places)):
         go_to_lat_lon(Car, lidar, places[place_id][0], places[place_id][1], threshold)  
         print(f"place: [{places[place_id][0]}, {places[place_id][1]}]")
+        if automatic == 0:
+            break
 
 def controller_thread():
-    global places, automatic, max_speed, manual
+    global places, automatic, max_speed, manual, signal
     print("Startup car!")
     Car = Pilot.AutoCar()
     Car.setObstacleDistance(distance=0)
@@ -286,7 +282,12 @@ def controller_thread():
                 time.sleep(1)
             else:    
                 travel_journey(Car, lidar,places)
+                signal = 0
+                Car.steering = 0
+                Car.stop()
+                print(f"reach destination!!!")
         else:
+            signal = 4
             if manual == "UP" or manual=="TOP":
                 Car.forward(max_speed)
                 Car.steering = 0
