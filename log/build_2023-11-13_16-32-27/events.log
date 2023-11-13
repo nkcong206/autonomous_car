@@ -1,0 +1,112 @@
+[0.000000] (-) TimerEvent: {}
+[0.000490] (-) JobUnselected: {'identifier': 'auto_car'}
+[0.000665] (-) JobUnselected: {'identifier': 'rplidar_ros'}
+[0.000841] (controller) JobQueued: {'identifier': 'controller', 'dependencies': OrderedDict()}
+[0.001007] (controller) JobStarted: {'identifier': 'controller'}
+[0.095049] (-) TimerEvent: {}
+[0.195960] (-) TimerEvent: {}
+[0.296634] (-) TimerEvent: {}
+[0.397406] (-) TimerEvent: {}
+[0.498094] (-) TimerEvent: {}
+[0.598816] (-) TimerEvent: {}
+[0.699466] (-) TimerEvent: {}
+[0.800183] (-) TimerEvent: {}
+[0.900895] (-) TimerEvent: {}
+[1.001589] (-) TimerEvent: {}
+[1.102299] (-) TimerEvent: {}
+[1.203004] (-) TimerEvent: {}
+[1.303776] (-) TimerEvent: {}
+[1.405398] (-) TimerEvent: {}
+[1.506838] (-) TimerEvent: {}
+[1.607963] (-) TimerEvent: {}
+[1.708744] (-) TimerEvent: {}
+[1.809579] (-) TimerEvent: {}
+[1.910270] (-) TimerEvent: {}
+[2.011492] (-) TimerEvent: {}
+[2.020742] (controller) Command: {'cmd': ['/usr/bin/python3', 'setup.py', 'egg_info', '--egg-base', '../build/controller', 'build', '--build-base', '/home/soda/Documents/autonomous_car/build/controller/build', 'install', '--prefix', '/home/soda/Documents/autonomous_car/install/controller', '--record', '/home/soda/Documents/autonomous_car/build/controller/install.log', '--single-version-externally-managed'], 'cwd': '/home/soda/Documents/autonomous_car/controller', 'env': {'OPENBLAS_CORETYPE': 'ARMV8', 'MAIL': '/var/mail/soda', 'USER': 'soda', 'SSH_CLIENT': '10.10.10.28 60588 22', 'LC_TIME': 'ko_KR.UTF-8', 'GIT_ASKPASS': '/home/soda/.vscode-server/bin/1a5daa3a0231a0fbba4f14db7ec463cf99d7768e/extensions/git/dist/askpass.sh', 'SHLVL': '3', 'LD_LIBRARY_PATH': '/usr/local/cuda/lib64:/opt/ros/eloquent/opt/yaml_cpp_vendor/lib:/opt/ros/eloquent/opt/rviz_ogre_vendor/lib:/opt/ros/eloquent/lib/aarch64-linux-gnu:/opt/ros/eloquent/lib:/usr/local/cuda/lib64', 'BROWSER': '/home/soda/.vscode-server/bin/1a5daa3a0231a0fbba4f14db7ec463cf99d7768e/bin/helpers/browser.sh', 'OLDPWD': '/home/soda/Documents/autonomous_car', 'HOME': '/home/soda', 'LESS': '-R', 'TERMINFO': '/home/soda/.terminfo', 'TERM_PROGRAM_VERSION': '1.84.2', 'VSCODE_IPC_HOOK_CLI': '/run/user/1000/vscode-ipc-52478aa2-25dd-41f4-8897-6dd112ffecb2.sock', 'ZSH': '/home/soda/.oh-my-zsh', 'LSCOLORS': 'Gxfxcxdxbxegedabagacad', 'PAGER': 'less', 'ROS_PYTHON_VERSION': '3', 'VSCODE_GIT_ASKPASS_MAIN': '/home/soda/.vscode-server/bin/1a5daa3a0231a0fbba4f14db7ec463cf99d7768e/extensions/git/dist/askpass-main.js', 'LC_MONETARY': 'ko_KR.UTF-8', 'VSCODE_GIT_ASKPASS_NODE': '/home/soda/.vscode-server/bin/1a5daa3a0231a0fbba4f14db7ec463cf99d7768e/node', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'P9K_TTY': 'old', 'COLORTERM': 'truecolor', 'ROS_DISTRO': 'eloquent', 'LOGNAME': 'soda', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'USER_ZDOTDIR': '/home/soda', 'XDG_SESSION_ID': '4', 'TERM': 'xterm-256color', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/eloquent/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'LC_ADDRESS': 'ko_KR.UTF-8', 'XDG_RUNTIME_DIR': '/run/user/1000', 'LC_TELEPHONE': 'ko_KR.UTF-8', 'VSCODE_INJECTION': '1', 'LANG': 'ko_KR.UTF-8', 'LS_COLORS': 'no=00;38;5;244:rs=0:di=00;38;5;33:ln=01;38;5;37:mh=00:pi=48;5;230;38;5;136;01:so=48;5;230;38;5;136;01:do=48;5;230;38;5;136;01:bd=48;5;230;38;5;244;01:cd=48;5;230;38;5;244;01:or=48;5;235;38;5;160:su=48;5;160;38;5;230:sg=48;5;136;38;5;230:ca=30;41:tw=48;5;64;38;5;230:ow=48;5;235;38;5;33:st=48;5;33;38;5;230:ex=01;38;5;64:*.tar=00;38;5;61:*.tgz=01;38;5;61:*.arj=01;38;5;61:*.taz=01;38;5;61:*.lzh=01;38;5;61:*.lzma=01;38;5;61:*.tlz=01;38;5;61:*.txz=01;38;5;61:*.zip=01;38;5;61:*.zst=01;38;5;61:*.z=01;38;5;61:*.Z=01;38;5;61:*.dz=01;38;5;61:*.gz=01;38;5;61:*.lz=01;38;5;61:*.xz=01;38;5;61:*.bz2=01;38;5;61:*.bz=01;38;5;61:*.tbz=01;38;5;61:*.tbz2=01;38;5;61:*.tz=01;38;5;61:*.deb=01;38;5;61:*.rpm=01;38;5;61:*.jar=01;38;5;61:*.rar=01;38;5;61:*.ace=01;38;5;61:*.zoo=01;38;5;61:*.cpio=01;38;5;61:*.7z=01;38;5;61:*.rz=01;38;5;61:*.apk=01;38;5;61:*.gem=01;38;5;61:*.jpg=00;38;5;136:*.JPG=00;38;5;136:*.jpeg=00;38;5;136:*.gif=00;38;5;136:*.bmp=00;38;5;136:*.pbm=00;38;5;136:*.pgm=00;38;5;136:*.ppm=00;38;5;136:*.tga=00;38;5;136:*.xbm=00;38;5;136:*.xpm=00;38;5;136:*.tif=00;38;5;136:*.tiff=00;38;5;136:*.png=00;38;5;136:*.PNG=00;38;5;136:*.svg=00;38;5;136:*.svgz=00;38;5;136:*.mng=00;38;5;136:*.pcx=00;38;5;136:*.dl=00;38;5;136:*.xcf=00;38;5;136:*.xwd=00;38;5;136:*.yuv=00;38;5;136:*.cgm=00;38;5;136:*.emf=00;38;5;136:*.eps=00;38;5;136:*.CR2=00;38;5;136:*.ico=00;38;5;136:*.nef=00;38;5;136:*.NEF=00;38;5;136:*.webp=00;38;5;136:*.tex=01;38;5;245:*.rdf=01;38;5;245:*.owl=01;38;5;245:*.n3=01;38;5;245:*.ttl=01;38;5;245:*.nt=01;38;5;245:*.torrent=01;38;5;245:*.xml=01;38;5;245:*Makefile=01;38;5;245:*Rakefile=01;38;5;245:*Dockerfile=01;38;5;245:*build.xml=01;38;5;245:*rc=01;38;5;245:*1=01;38;5;245:*.nfo=01;38;5;245:*README=01;38;5;245:*README.txt=01;38;5;245:*readme.txt=01;38;5;245:*.md=01;38;5;245:*README.markdown=01;38;5;245:*.ini=01;38;5;245:*.yml=01;38;5;245:*.cfg=01;38;5;245:*.conf=01;38;5;245:*.h=01;38;5;245:*.hpp=01;38;5;245:*.c=01;38;5;245:*.cpp=01;38;5;245:*.cxx=01;38;5;245:*.cc=01;38;5;245:*.objc=01;38;5;245:*.sqlite=01;38;5;245:*.go=01;38;5;245:*.sql=01;38;5;245:*.csv=01;38;5;245:*.log=00;38;5;240:*.bak=00;38;5;240:*.aux=00;38;5;240:*.lof=00;38;5;240:*.lol=00;38;5;240:*.lot=00;38;5;240:*.out=00;38;5;240:*.toc=00;38;5;240:*.bbl=00;38;5;240:*.blg=00;38;5;240:*~=00;38;5;240:*#=00;38;5;240:*.part=00;38;5;240:*.incomplete=00;38;5;240:*.swp=00;38;5;240:*.tmp=00;38;5;240:*.temp=00;38;5;240:*.o=00;38;5;240:*.pyc=00;38;5;240:*.class=00;38;5;240:*.cache=00;38;5;240:*.aac=00;38;5;166:*.au=00;38;5;166:*.flac=00;38;5;166:*.mid=00;38;5;166:*.midi=00;38;5;166:*.mka=00;38;5;166:*.mp3=00;38;5;166:*.mpc=00;38;5;166:*.ogg=00;38;5;166:*.opus=00;38;5;166:*.ra=00;38;5;166:*.wav=00;38;5;166:*.m4a=00;38;5;166:*.axa=00;38;5;166:*.oga=00;38;5;166:*.spx=00;38;5;166:*.xspf=00;38;5;166:*.mov=01;38;5;166:*.MOV=01;38;5;166:*.mpg=01;38;5;166:*.mpeg=01;38;5;166:*.m2v=01;38;5;166:*.mkv=01;38;5;166:*.ogm=01;38;5;166:*.mp4=01;38;5;166:*.m4v=01;38;5;166:*.mp4v=01;38;5;166:*.vob=01;38;5;166:*.qt=01;38;5;166:*.nuv=01;38;5;166:*.wmv=01;38;5;166:*.asf=01;38;5;166:*.rm=01;38;5;166:*.rmvb=01;38;5;166:*.flc=01;38;5;166:*.avi=01;38;5;166:*.fli=01;38;5;166:*.flv=01;38;5;166:*.gl=01;38;5;166:*.m2ts=01;38;5;166:*.divx=01;38;5;166:*.webm=01;38;5;166:*.axv=01;38;5;166:*.anx=01;38;5;166:*.ogv=01;38;5;166:*.ogx=01;38;5;166:', 'TERM_PROGRAM': 'vscode', 'VSCODE_GIT_IPC_HANDLE': '/run/user/1000/vscode-git-b40918b7de.sock', 'LC_MESSAGES': 'POSIX', 'AMENT_PREFIX_PATH': '/opt/ros/eloquent', 'LC_NAME': 'ko_KR.UTF-8', 'SHELL': '/bin/zsh', 'LC_MEASUREMENT': 'ko_KR.UTF-8', 'LC_IDENTIFICATION': 'ko_KR.UTF-8', 'P9K_SSH': '1', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'PWD': '/home/soda/Documents/autonomous_car/build/controller', 'SSH_CONNECTION': '10.10.10.28 60588 10.10.10.98 22', 'ZDOTDIR': '/home/soda', '_P9K_TTY': '/dev/pts/0', 'LC_NUMERIC': 'ko_KR.UTF-8', 'PYTHONPATH': '/home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages:/opt/ros/eloquent/lib/python3.6/site-packages', 'LC_PAPER': 'ko_KR.UTF-8', 'COLCON': '1'}, 'shell': False}
+[2.111737] (-) TimerEvent: {}
+[2.212664] (-) TimerEvent: {}
+[2.313387] (-) TimerEvent: {}
+[2.414134] (-) TimerEvent: {}
+[2.514847] (-) TimerEvent: {}
+[2.615562] (-) TimerEvent: {}
+[2.716284] (-) TimerEvent: {}
+[2.817013] (-) TimerEvent: {}
+[2.917712] (-) TimerEvent: {}
+[3.018416] (-) TimerEvent: {}
+[3.119109] (-) TimerEvent: {}
+[3.219797] (-) TimerEvent: {}
+[3.320531] (-) TimerEvent: {}
+[3.421879] (-) TimerEvent: {}
+[3.522528] (-) TimerEvent: {}
+[3.623232] (-) TimerEvent: {}
+[3.723923] (-) TimerEvent: {}
+[3.824637] (-) TimerEvent: {}
+[3.844487] (controller) StdoutLine: {'line': b'running egg_info\n'}
+[3.847156] (controller) StdoutLine: {'line': b'creating ../build/controller/controller.egg-info\n'}
+[3.848037] (controller) StdoutLine: {'line': b'writing ../build/controller/controller.egg-info/PKG-INFO\n'}
+[3.848742] (controller) StdoutLine: {'line': b'writing dependency_links to ../build/controller/controller.egg-info/dependency_links.txt\n'}
+[3.849637] (controller) StdoutLine: {'line': b'writing entry points to ../build/controller/controller.egg-info/entry_points.txt\n'}
+[3.850415] (controller) StdoutLine: {'line': b'writing requirements to ../build/controller/controller.egg-info/requires.txt\n'}
+[3.850941] (controller) StdoutLine: {'line': b'writing top-level names to ../build/controller/controller.egg-info/top_level.txt\n'}
+[3.862341] (controller) StdoutLine: {'line': b"writing manifest file '../build/controller/controller.egg-info/SOURCES.txt'\n"}
+[3.871950] (controller) StdoutLine: {'line': b"reading manifest file '../build/controller/controller.egg-info/SOURCES.txt'\n"}
+[3.878367] (controller) StdoutLine: {'line': b"writing manifest file '../build/controller/controller.egg-info/SOURCES.txt'\n"}
+[3.879267] (controller) StdoutLine: {'line': b'running build\n'}
+[3.879757] (controller) StdoutLine: {'line': b'running build_py\n'}
+[3.880525] (controller) StdoutLine: {'line': b'creating /home/soda/Documents/autonomous_car/build/controller/build\n'}
+[3.881231] (controller) StdoutLine: {'line': b'creating /home/soda/Documents/autonomous_car/build/controller/build/lib\n'}
+[3.881889] (controller) StdoutLine: {'line': b'creating /home/soda/Documents/autonomous_car/build/controller/build/lib/controller\n'}
+[3.882346] (controller) StdoutLine: {'line': b'copying controller/controller_o.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller\n'}
+[3.883092] (controller) StdoutLine: {'line': b'copying controller/ledSignal.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller\n'}
+[3.883731] (controller) StdoutLine: {'line': b'copying controller/led_display.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller\n'}
+[3.884297] (controller) StdoutLine: {'line': b'copying controller/__init__.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller\n'}
+[3.884894] (controller) StdoutLine: {'line': b'copying controller/controller.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller\n'}
+[3.885524] (controller) StdoutLine: {'line': b'copying controller/socketio_node.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller\n'}
+[3.886085] (controller) StdoutLine: {'line': b'copying controller/gps.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller\n'}
+[3.886618] (controller) StdoutLine: {'line': b'copying controller/socketio_node_o.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller\n'}
+[3.887076] (controller) StdoutLine: {'line': b'copying controller/ps4.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller\n'}
+[3.887953] (controller) StdoutLine: {'line': b'running install\n'}
+[3.889015] (controller) StderrLine: {'line': b'/home/soda/.local/lib/python3.6/site-packages/setuptools/command/install.py:37: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.\n'}
+[3.889638] (controller) StderrLine: {'line': b'  setuptools.SetuptoolsDeprecationWarning,\n'}
+[3.890914] (controller) StdoutLine: {'line': b'running install_lib\n'}
+[3.894794] (controller) StdoutLine: {'line': b'creating /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller\n'}
+[3.895481] (controller) StdoutLine: {'line': b'copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/controller_o.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller\n'}
+[3.896024] (controller) StdoutLine: {'line': b'copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/ledSignal.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller\n'}
+[3.896526] (controller) StdoutLine: {'line': b'copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/led_display.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller\n'}
+[3.897089] (controller) StdoutLine: {'line': b'copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/__init__.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller\n'}
+[3.897698] (controller) StdoutLine: {'line': b'copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/controller.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller\n'}
+[3.898208] (controller) StdoutLine: {'line': b'copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/socketio_node.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller\n'}
+[3.898724] (controller) StdoutLine: {'line': b'copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/gps.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller\n'}
+[3.899227] (controller) StdoutLine: {'line': b'copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/socketio_node_o.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller\n'}
+[3.899678] (controller) StdoutLine: {'line': b'copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/ps4.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller\n'}
+[3.900539] (controller) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/controller_o.py to controller_o.cpython-36.pyc\n'}
+[3.909239] (controller) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/ledSignal.py to ledSignal.cpython-36.pyc\n'}
+[3.910283] (controller) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/led_display.py to led_display.cpython-36.pyc\n'}
+[3.912892] (controller) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/__init__.py to __init__.cpython-36.pyc\n'}
+[3.913667] (controller) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/controller.py to controller.cpython-36.pyc\n'}
+[3.922394] (controller) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/socketio_node.py to socketio_node.cpython-36.pyc\n'}
+[3.924782] (-) TimerEvent: {}
+[3.926962] (controller) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/gps.py to gps.cpython-36.pyc\n'}
+[3.928900] (controller) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/socketio_node_o.py to socketio_node_o.cpython-36.pyc\n'}
+[3.932061] (controller) StdoutLine: {'line': b'byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/ps4.py to ps4.cpython-36.pyc\n'}
+[3.934567] (controller) StdoutLine: {'line': b'running install_data\n'}
+[3.939288] (controller) StdoutLine: {'line': b'creating /home/soda/Documents/autonomous_car/install/controller/share/ament_index\n'}
+[3.940098] (controller) StdoutLine: {'line': b'creating /home/soda/Documents/autonomous_car/install/controller/share/ament_index/resource_index\n'}
+[3.940738] (controller) StdoutLine: {'line': b'creating /home/soda/Documents/autonomous_car/install/controller/share/ament_index/resource_index/packages\n'}
+[3.941287] (controller) StdoutLine: {'line': b'copying resource/controller -> /home/soda/Documents/autonomous_car/install/controller/share/ament_index/resource_index/packages\n'}
+[3.941956] (controller) StdoutLine: {'line': b'copying package.xml -> /home/soda/Documents/autonomous_car/install/controller/share/controller\n'}
+[3.942458] (controller) StdoutLine: {'line': b'running install_egg_info\n'}
+[3.948842] (controller) StdoutLine: {'line': b'Copying ../build/controller/controller.egg-info to /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller-0.0.0-py3.6.egg-info\n'}
+[3.952597] (controller) StdoutLine: {'line': b'running install_scripts\n'}
+[4.024988] (-) TimerEvent: {}
+[4.042793] (controller) StdoutLine: {'line': b'Installing controller script to /home/soda/Documents/autonomous_car/install/controller/lib/controller\n'}
+[4.043740] (controller) StdoutLine: {'line': b'Installing gps script to /home/soda/Documents/autonomous_car/install/controller/lib/controller\n'}
+[4.044440] (controller) StdoutLine: {'line': b'Installing led script to /home/soda/Documents/autonomous_car/install/controller/lib/controller\n'}
+[4.044994] (controller) StdoutLine: {'line': b'Installing socketio script to /home/soda/Documents/autonomous_car/install/controller/lib/controller\n'}
+[4.046275] (controller) StdoutLine: {'line': b"writing list of installed files to '/home/soda/Documents/autonomous_car/build/controller/install.log'\n"}
+[4.125305] (-) TimerEvent: {}
+[4.159912] (controller) CommandEnded: {'returncode': 0}
+[4.227088] (-) TimerEvent: {}
+[4.240942] (controller) JobEnded: {'identifier': 'controller', 'rc': 0}
+[4.244449] (-) EventReactorShutdown: {}

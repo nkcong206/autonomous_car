@@ -1,0 +1,63 @@
+[2.024s] Invoking command in '/home/soda/Documents/autonomous_car/controller': PYTHONPATH=/home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/controller build --build-base /home/soda/Documents/autonomous_car/build/controller/build install --prefix /home/soda/Documents/autonomous_car/install/controller --record /home/soda/Documents/autonomous_car/build/controller/install.log --single-version-externally-managed
+[3.844s] running egg_info
+[3.847s] creating ../build/controller/controller.egg-info
+[3.847s] writing ../build/controller/controller.egg-info/PKG-INFO
+[3.848s] writing dependency_links to ../build/controller/controller.egg-info/dependency_links.txt
+[3.849s] writing entry points to ../build/controller/controller.egg-info/entry_points.txt
+[3.850s] writing requirements to ../build/controller/controller.egg-info/requires.txt
+[3.850s] writing top-level names to ../build/controller/controller.egg-info/top_level.txt
+[3.862s] writing manifest file '../build/controller/controller.egg-info/SOURCES.txt'
+[3.871s] reading manifest file '../build/controller/controller.egg-info/SOURCES.txt'
+[3.878s] writing manifest file '../build/controller/controller.egg-info/SOURCES.txt'
+[3.879s] running build
+[3.879s] running build_py
+[3.880s] creating /home/soda/Documents/autonomous_car/build/controller/build
+[3.881s] creating /home/soda/Documents/autonomous_car/build/controller/build/lib
+[3.881s] creating /home/soda/Documents/autonomous_car/build/controller/build/lib/controller
+[3.882s] copying controller/controller_o.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller
+[3.882s] copying controller/ledSignal.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller
+[3.883s] copying controller/led_display.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller
+[3.884s] copying controller/__init__.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller
+[3.884s] copying controller/controller.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller
+[3.885s] copying controller/socketio_node.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller
+[3.885s] copying controller/gps.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller
+[3.886s] copying controller/socketio_node_o.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller
+[3.886s] copying controller/ps4.py -> /home/soda/Documents/autonomous_car/build/controller/build/lib/controller
+[3.887s] running install
+[3.888s] /home/soda/.local/lib/python3.6/site-packages/setuptools/command/install.py:37: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[3.889s]   setuptools.SetuptoolsDeprecationWarning,
+[3.890s] running install_lib
+[3.894s] creating /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller
+[3.895s] copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/controller_o.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller
+[3.895s] copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/ledSignal.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller
+[3.896s] copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/led_display.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller
+[3.896s] copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/__init__.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller
+[3.897s] copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/controller.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller
+[3.897s] copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/socketio_node.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller
+[3.898s] copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/gps.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller
+[3.898s] copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/socketio_node_o.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller
+[3.899s] copying /home/soda/Documents/autonomous_car/build/controller/build/lib/controller/ps4.py -> /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller
+[3.900s] byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/controller_o.py to controller_o.cpython-36.pyc
+[3.909s] byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/ledSignal.py to ledSignal.cpython-36.pyc
+[3.910s] byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/led_display.py to led_display.cpython-36.pyc
+[3.912s] byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/__init__.py to __init__.cpython-36.pyc
+[3.913s] byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/controller.py to controller.cpython-36.pyc
+[3.922s] byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/socketio_node.py to socketio_node.cpython-36.pyc
+[3.926s] byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/gps.py to gps.cpython-36.pyc
+[3.928s] byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/socketio_node_o.py to socketio_node_o.cpython-36.pyc
+[3.931s] byte-compiling /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller/ps4.py to ps4.cpython-36.pyc
+[3.934s] running install_data
+[3.939s] creating /home/soda/Documents/autonomous_car/install/controller/share/ament_index
+[3.940s] creating /home/soda/Documents/autonomous_car/install/controller/share/ament_index/resource_index
+[3.940s] creating /home/soda/Documents/autonomous_car/install/controller/share/ament_index/resource_index/packages
+[3.941s] copying resource/controller -> /home/soda/Documents/autonomous_car/install/controller/share/ament_index/resource_index/packages
+[3.941s] copying package.xml -> /home/soda/Documents/autonomous_car/install/controller/share/controller
+[3.942s] running install_egg_info
+[3.948s] Copying ../build/controller/controller.egg-info to /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller-0.0.0-py3.6.egg-info
+[3.952s] running install_scripts
+[4.042s] Installing controller script to /home/soda/Documents/autonomous_car/install/controller/lib/controller
+[4.043s] Installing gps script to /home/soda/Documents/autonomous_car/install/controller/lib/controller
+[4.044s] Installing led script to /home/soda/Documents/autonomous_car/install/controller/lib/controller
+[4.044s] Installing socketio script to /home/soda/Documents/autonomous_car/install/controller/lib/controller
+[4.046s] writing list of installed files to '/home/soda/Documents/autonomous_car/build/controller/install.log'
+[4.160s] Invoked command in '/home/soda/Documents/autonomous_car/controller' returned '0': PYTHONPATH=/home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/controller build --build-base /home/soda/Documents/autonomous_car/build/controller/build install --prefix /home/soda/Documents/autonomous_car/install/controller --record /home/soda/Documents/autonomous_car/build/controller/install.log --single-version-externally-managed
