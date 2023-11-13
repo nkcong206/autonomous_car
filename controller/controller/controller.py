@@ -248,13 +248,15 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
     distance = distance_cal( lat_end, lon_end, lat_start, lon_start)
     
     while (distance >= threshold):
-        if automatic:
+        print(f"go to: {lat_end}, {lon_end}")
+        if not automatic:
             return False
         if gps_status == 0 or go_stop == 0:
             if(gps_status == 0):
                 print("Error gps!")
                 signal = 5
             if(go_stop == 0):
+                signal = 1
                 print("Stop car!")
             steering = 0
             speed = 0
@@ -276,7 +278,7 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
             elif steering < 0:
                 signal = 3
             else:
-                signal = 1     
+                signal = -1     
         else:
             signal = 0
             Car.stop() 
@@ -285,7 +287,7 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
 def travel_journey(Car, lidar, places):
     global threshold, signal, place_id
     if len(places) == 0:
-        signal = 5
+        signal = 4
         print("places is empty!")
     else:
         for place_id in range(place_id, len(places)):
@@ -301,15 +303,9 @@ def travel_journey(Car, lidar, places):
     time.sleep(1)
 
 def manual_control(Car):
-    global signal, place_id, places, threshold
+    global signal
     signal = -1
-    print("manual")
-    lat_end = math.radians(places[place_id][0])
-    lon_end = math.radians(places[place_id][1])
-    lat_start = math.radians(gps_data[0])
-    lon_start = math.radians(gps_data[1])    
-    if(distance_cal( lat_end, lon_end, lat_start, lon_start) <= threshold):
-        place_id += 1
+
     Car.steering = steering
     if speed > 0:
         Car.forward(speed)
@@ -331,8 +327,10 @@ def controller_thread():
     lidar.startMotor()
     while not event.is_set():
         if automatic:
+            print("automatic")
             travel_journey(Car, lidar, places)
         else:
+            print("manual")
             manual_control(Car)
     
     signal = -1

@@ -1,0 +1,26 @@
+[2.013s] Invoking command in '/home/soda/Documents/autonomous_car/controller': PYTHONPATH=/home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/controller build --build-base /home/soda/Documents/autonomous_car/build/controller/build install --prefix /home/soda/Documents/autonomous_car/install/controller --record /home/soda/Documents/autonomous_car/build/controller/install.log --single-version-externally-managed
+[3.913s] running egg_info
+[3.915s] writing ../build/controller/controller.egg-info/PKG-INFO
+[3.916s] writing dependency_links to ../build/controller/controller.egg-info/dependency_links.txt
+[3.917s] writing entry points to ../build/controller/controller.egg-info/entry_points.txt
+[3.918s] writing requirements to ../build/controller/controller.egg-info/requires.txt
+[3.919s] writing top-level names to ../build/controller/controller.egg-info/top_level.txt
+[3.934s] reading manifest file '../build/controller/controller.egg-info/SOURCES.txt'
+[3.941s] writing manifest file '../build/controller/controller.egg-info/SOURCES.txt'
+[3.942s] running build
+[3.942s] running build_py
+[3.945s] running install
+[3.946s] /home/soda/.local/lib/python3.6/site-packages/setuptools/command/install.py:37: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[3.947s]   setuptools.SetuptoolsDeprecationWarning,
+[3.947s] running install_lib
+[3.954s] running install_data
+[3.957s] running install_egg_info
+[3.964s] removing '/home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller-0.0.0-py3.6.egg-info' (and everything under it)
+[3.965s] Copying ../build/controller/controller.egg-info to /home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller-0.0.0-py3.6.egg-info
+[3.969s] running install_scripts
+[4.052s] Installing controller script to /home/soda/Documents/autonomous_car/install/controller/lib/controller
+[4.053s] Installing gps script to /home/soda/Documents/autonomous_car/install/controller/lib/controller
+[4.054s] Installing led script to /home/soda/Documents/autonomous_car/install/controller/lib/controller
+[4.055s] Installing socketio script to /home/soda/Documents/autonomous_car/install/controller/lib/controller
+[4.056s] writing list of installed files to '/home/soda/Documents/autonomous_car/build/controller/install.log'
+[4.169s] Invoked command in '/home/soda/Documents/autonomous_car/controller' returned '0': PYTHONPATH=/home/soda/Documents/autonomous_car/install/controller/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../build/controller build --build-base /home/soda/Documents/autonomous_car/build/controller/build install --prefix /home/soda/Documents/autonomous_car/install/controller --record /home/soda/Documents/autonomous_car/build/controller/install.log --single-version-externally-managed
