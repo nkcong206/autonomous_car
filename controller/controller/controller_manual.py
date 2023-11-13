@@ -9,15 +9,14 @@ from pop import Pilot, LiDAR
 import threading
 import time
 import numpy as np
-import queue
 
 signal = -1
-manual = ""
 places = []
 place_id = 0
 gps_data = [0.0,0.0]
 gps_status = 0.0
 go_stop = False
+automatic = False
 max_speed = 70
 speed = 0.0
 steering = 0.0
@@ -27,7 +26,6 @@ safe_distance = 1000
 width_of_bin_0 = 500
 threshold = 3.0
 event = threading.Event()
-automatic_queue = queue.Queue()
 
 class DriveController(Node):
     def __init__(self):
@@ -59,11 +57,11 @@ class DriveController(Node):
         gps_status = data_msg.data[2]
         
     def automatic_callback(self, data_msg: Bool):
-        global automatic1
+        global automatic
         if data_msg.data:
-            automatic_queue.put(1)
+            automatic = True
         else:
-            automatic_queue.put(0)
+            automatic = False
         print("automatic", data_msg.data)
 
             
@@ -240,11 +238,8 @@ def distance_cal( lat_end, lon_end, lat_start, lon_start):
     return distance
 
 def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
-    global gps_status, gps_data, signal, go_stop
-    a = automatic_queue.get()
-    print("a in go_to_lat_lon", a)
-    if a:
-        return
+    global gps_status, gps_data, signal, go_stop, automatic
+ 
     lat_end = math.radians(lat)
     lon_end = math.radians(lon)
     lat_start = math.radians(gps_data[0])
@@ -253,13 +248,14 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
     distance = distance_cal( lat_end, lon_end, lat_start, lon_start)
     
     while (distance >= threshold):
+        if automatic:
+            return False
         if gps_status == 0 or go_stop == 0:
             if(gps_status == 0):
                 print("Error gps!")
                 signal = 5
             if(go_stop == 0):
                 print("Stop car!")
-                signal = 4
             steering = 0
             speed = 0
             time.sleep(1) 
@@ -284,23 +280,48 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
         else:
             signal = 0
             Car.stop() 
+    return True
                 
 def travel_journey(Car, lidar, places):
     global threshold, signal, place_id
     if len(places) == 0:
         signal = 5
         print("places is empty!")
-        return
-    for place_id in range(place_id, len(places)):
-        go_to_lat_lon(Car, lidar, places[place_id][0],  places[place_id][1], threshold)  
-        print(f"place: [{ places[place_id][0]}, { places[place_id][1]}]")
-        a = automatic_queue.get()
-        print("a in travel_journey", a)
-        if a:
-            return
+    else:
+        for place_id in range(place_id, len(places)):
+            if go_to_lat_lon(Car, lidar, places[place_id][0],  places[place_id][1], threshold):          
+                print(f"place: [{ places[place_id][0]}, { places[place_id][1]}]")
+            else:
+                return
+        signal = 0
+        print("den dich!")
+
+    Car.steering = 0
+    Car.stop()
+    time.sleep(1)
+
+def manual_control(Car):
+    global signal, place_id, places, threshold
+    signal = -1
+    print("manual")
+    lat_end = math.radians(places[place_id][0])
+    lon_end = math.radians(places[place_id][1])
+    lat_start = math.radians(gps_data[0])
+    lon_start = math.radians(gps_data[1])    
+    if(distance_cal( lat_end, lon_end, lat_start, lon_start) <= threshold):
+        place_id += 1
+    Car.steering = steering
+    if speed > 0:
+        Car.forward(speed)
+    if speed < 0:
+        Car.backward(speed)
+    else:
+        Car.stop()
+
+    time.sleep(0.1)
 
 def controller_thread():
-    global places, place_id, max_speed, manual, signal, speed, steering
+    global places, max_speed, signal, speed, steering
     print("Startup car!")
     Car = Pilot.AutoCar()
     Car.setObstacleDistance(distance=0)
@@ -309,28 +330,10 @@ def controller_thread():
     lidar.connect()
     lidar.startMotor()
     while not event.is_set():
-        a = automatic_queue.get()
-        print("a in controller_thread", a)
-        if a:
+        if automatic:
             travel_journey(Car, lidar, places)
-            if place_id == len(places) - 1:
-                place_id = 0
-                print("den dich!")
-            signal = 0
-            Car.steering = 0
-            Car.stop()
-            time.sleep(0.5)
         else:
-            signal = 4
-            print("manual")
-            Car.steering = steering
-            if speed > 0:
-                Car.forward(speed)
-            if speed < 0:
-                Car.backward(speed)
-            else:
-                Car.stop()
-            time.sleep(0.1)
+            manual_control(Car)
     
     signal = -1
     Car.steering = 0
