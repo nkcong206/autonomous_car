@@ -306,8 +306,6 @@ def travel_journey(Car, lidar, places):
 def manual_control(Car):
     global signal, steering, speed
     signal = -1
-    print(speed)
-    print(steering)
     Car.setSpeed(abs(speed))
     Car.steering = steering
     if speed > 0:
@@ -316,7 +314,7 @@ def manual_control(Car):
         Car.backward()
     else:
         Car.stop()
-    time.sleep(0.1)
+    time.sleep(0.5)
 
 def controller_thread():
     global places, max_speed, signal, speed, steering
