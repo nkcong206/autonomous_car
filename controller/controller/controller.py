@@ -3,6 +3,7 @@ import math
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Int32
+from std_msgs.msg import Float32
 from std_msgs.msg import Bool
 from pop import Pilot, LiDAR
 import threading
@@ -11,10 +12,12 @@ import numpy as np
 
 signal = -1
 places = []
+place_id = 0
 gps_data = [0.0,0.0]
 gps_status = 0.0
-automatic = True
-max_speed = 66
+go_stop = False
+automatic = False
+max_speed = 70
 speed = 0.0
 steering = 0.0
 n_bins = int(12) # 4, 8, 12, 16
@@ -29,20 +32,24 @@ class DriveController(Node):
         super().__init__('drive_controller')
         self.get_logger().info("Node Started")
         self.car = Pilot.AutoCar()
-        self.car.setObstacleDistance(0)
-        
+        self.car.setObstacleDistance(0)   
+
+        self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_callback, 10)
+        self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_callback, 10)
+        self.go_stop_sub = self.create_subscription(Bool, "/go_stop", self.go_stop_callback, 10)
+        self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
+        self.cmd_vel_speed_sub = self.create_subscription(Float32, "/cmd_vel_speed", self.cmd_vel_speed_callback, 10)
+        self.cmd_vel_steering_sub = self.create_subscription(Float32, "/cmd_vel_steering", self.cmd_vel_steering_callback, 10)
         self.led_pub = self.create_publisher(Int32, "/led", 10)    
         timer_period = 0.1
         self.timer = self.create_timer(timer_period, self.led_callback)
-        self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_callback, 10)
-        self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_callback, 10)
-        self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
 
     def places_callback(self, places_msg = Float32MultiArray):
         global places
         list_point = places_msg.data
         pl = np.reshape(list_point, (len(list_point) // 2, 2))
         places = pl.tolist()
+
         
     def gps_callback(sefl, data_msg = Float32MultiArray):
         global gps_data, gps_status
@@ -55,7 +62,29 @@ class DriveController(Node):
             automatic = True
         else:
             automatic = False
+        print("automatic", data_msg.data)
+
             
+    def go_stop_callback(self, data_msg: Bool):
+        global go_stop
+        if data_msg.data:
+            go_stop = True
+        else:
+            go_stop = False
+        print("go_stop", go_stop)
+
+
+    def cmd_vel_speed_callback(self, cmd_vel_speed_msg: Float32):
+        global speed, max_speed
+        speed = max_speed*cmd_vel_speed_msg.data
+        print(speed)
+
+    def cmd_vel_steering_callback(self, cmd_vel_steering_msg: Float32):
+        global steering
+        steering = cmd_vel_steering_msg.data
+        print(steering)
+
+           
     def led_callback(self):
         global signal
         led_msg = Int32()
@@ -209,7 +238,8 @@ def distance_cal( lat_end, lon_end, lat_start, lon_start):
     return distance
 
 def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
-    global gps_status, gps_data, signal, automatic, places
+    global gps_status, gps_data, signal, go_stop, automatic
+ 
     lat_end = math.radians(lat)
     lon_end = math.radians(lon)
     lat_start = math.radians(gps_data[0])
@@ -218,54 +248,80 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
     distance = distance_cal( lat_end, lon_end, lat_start, lon_start)
     
     while (distance >= threshold):
-        print("gps status: ", gps_status)
-        print("automatic: ", automatic)
-        if gps_status == 0 or automatic == 0:
+        if automatic:
+            return False
+        if gps_status == 0 or go_stop == 0:
             if(gps_status == 0):
                 print("Error gps!")
-                signal = 4
-            if(automatic == 0):
-                print("Stop car!")
                 signal = 5
-            Car.steering = 0
-            Car.stop() 
+            if(go_stop == 0):
+                print("Stop car!")
+            steering = 0
+            speed = 0
             time.sleep(1) 
         else:
             lat_start = math.radians(gps_data[0])
             lon_start = math.radians(gps_data[1])    
             distance = distance_cal( lat_end, lon_end, lat_start, lon_start)
             steering, speed = speed_streering_cal( Car, lidar, lat_end, lon_end, lat_start, lon_start)
-            Car.steering = steering          
-            #Car.forward(speed)
-            if speed != 0:
-                Car.forward(speed)
-                if steering > 0:
-                    signal = 2
-                elif steering < 0:
-                    signal = 3
-                else:
-                    signal = 1     
-            else:
-                signal = 5
-                Car.stop() 
-                
             print(f"distance {distance}")   
             print(f"steering: {steering}, speed: {speed}")    
             time.sleep(0.1) 
 
-    signal = 0
+        Car.steering = steering          
+        if speed != 0:
+            Car.forward(speed)
+            if steering > 0:
+                signal = 2
+            elif steering < 0:
+                signal = 3
+            else:
+                signal = 1     
+        else:
+            signal = 0
+            Car.stop() 
+    return True
+                
+def travel_journey(Car, lidar, places):
+    global threshold, signal, place_id
+    if len(places) == 0:
+        signal = 5
+        print("places is empty!")
+    else:
+        for place_id in range(place_id, len(places)):
+            if go_to_lat_lon(Car, lidar, places[place_id][0],  places[place_id][1], threshold):          
+                print(f"place: [{ places[place_id][0]}, { places[place_id][1]}]")
+            else:
+                return
+        signal = 0
+        print("den dich!")
+
     Car.steering = 0
     Car.stop()
-    print(f"reach destination {lat}, {lon}")   
+    time.sleep(1)
 
-def travel_journey(Car, lidar, places):
-    global threshold
-    for place in places:
-        go_to_lat_lon(Car, lidar, place[0], place[1], threshold)  
-        print(f"place: [{place[0]}, {place[1]}]")
+def manual_control(Car):
+    global signal, place_id, places, threshold
+    signal = -1
+    print("manual")
+    lat_end = math.radians(places[place_id][0])
+    lon_end = math.radians(places[place_id][1])
+    lat_start = math.radians(gps_data[0])
+    lon_start = math.radians(gps_data[1])    
+    if(distance_cal( lat_end, lon_end, lat_start, lon_start) <= threshold):
+        place_id += 1
+    Car.steering = steering
+    if speed > 0:
+        Car.forward(speed)
+    if speed < 0:
+        Car.backward(speed)
+    else:
+        Car.stop()
+
+    time.sleep(0.1)
 
 def controller_thread():
-    global places, automatic, speed, steering, signal
+    global places, max_speed, signal, speed, steering
     print("Startup car!")
     Car = Pilot.AutoCar()
     Car.setObstacleDistance(distance=0)
@@ -274,11 +330,10 @@ def controller_thread():
     lidar.connect()
     lidar.startMotor()
     while not event.is_set():
-        if not places:
-            print("places is empty!")
-            time.sleep(1)
-        else:    
-            travel_journey(Car, lidar,places)
+        if automatic:
+            travel_journey(Car, lidar, places)
+        else:
+            manual_control(Car)
     
     signal = -1
     Car.steering = 0
