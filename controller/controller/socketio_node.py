@@ -12,7 +12,7 @@ gps_data = [0.0,0.0]
 gps_status = 0.0
 class SocketIOListener(Node):
     def __init__(self):
-        super().__init__('socketio_listener')
+        super().__init__('socketio')
         self.SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
         self.ID = os.getenv("ID")
         self.NAME = os.getenv("NAME")

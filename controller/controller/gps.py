@@ -29,7 +29,7 @@ def read_gps_thread():
 
 class gps_pubisher(Node):
     def __init__(self, **kwargs):
-        super().__init__('gps_node')
+        super().__init__('gps')
         self.get_logger().info("gps Started")
         self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
         timer_period = 0.5

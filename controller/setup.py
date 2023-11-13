@@ -15,11 +15,15 @@ setup(
     zip_safe=True,
     maintainer='nkcong206',
     maintainer_email='nkcong206@gmail.com',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='ROS2 controller',
+    license='License',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'controller = controller.controller:main',
+            'socketio = controller.socketio_node:main',
+            'gps = controller.gps:main',
+            'led = controller.led_display:main',
         ],
     },
 )
