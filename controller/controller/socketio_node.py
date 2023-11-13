@@ -79,16 +79,16 @@ class SocketIOListener(Node):
             self.places_publisher.publish(place_msg)
             print("place_msg",place_msg)
 
-        @self.sio.on("robot_location") 
-        def thread_location():
-            global gps_data
-            while True:    
-                try:
-                    self.sio.emit("robot_location",{"robot_id" : self.ID, "location": gps_data})
-                    self.time.sleep(0.1)
-                    print("send to server")
-                except:
-                    pass
+        # @self.sio.on("robot_location") 
+        # def thread_location():
+        #     global gps_data
+        #     while True:    
+        #         try:
+        #             self.sio.emit("robot_location",{"robot_id" : self.ID, "location": gps_data})
+        #             self.time.sleep(0.1)
+        #             print("send to server")
+        #         except:
+        #             pass
            
         @self.sio.on("automatic")
         def automatic(data):
@@ -134,6 +134,8 @@ class SocketIOListener(Node):
         global gps_data, gps_status
         gps_data = data_msg.data[0:2]
         gps_status = data_msg.data[2]
+        # self.sio.emit("robot_location",{"robot_id" : self.ID, "location": gps_data})
+
         
     def start(self):
         self.sio.connect(self.SERVER_SOCKETIO)
