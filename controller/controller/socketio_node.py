@@ -132,11 +132,11 @@ class SocketIOListener(Node):
                 
     def gps_callback(self, data_msg: Float32MultiArray):
         global gps_data, gps_status
+        print(data_msg)
         gps_data = data_msg.data[0:2]
         gps_status = data_msg.data[2]
-        # self.sio.emit("robot_location",{"robot_id" : self.ID, "location": gps_data})
+        self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(gps_data)})
 
-        
     def start(self):
         self.sio.connect(self.SERVER_SOCKETIO)
         rclpy.spin(self)
