@@ -77,7 +77,6 @@ class DriveController(Node):
                     signal = 1
         else:
             signal = notice 
-        print(signal)
 
     def cmd_vel_speed_callback(self, cmd_vel_speed_msg: Float32):
         global speed, max_speed
@@ -94,7 +93,7 @@ class DriveController(Node):
         self.yaw_pub.publish(cmd_yaw) 
 
 def controller_thread():
-    global steering, speed, yaw
+    global steering, speed, yaw, signal
     while not event.is_set():
         yaw = car.getEuler('yaw') 
 
@@ -106,14 +105,8 @@ def controller_thread():
         elif speed < 0:
             car.backward()
         else:
-            car.stop()  
+            car.stop() 
 
-        time.sleep(0.2)
-
-def led_control_thread():
-    global signal
-    while not event.is_set():
-        car.setPixelDisplay(all_positions, stop_colors)
         if signal == LedSignal.REACH_DESTINATION.value:
             car.setPixelDisplay(all_positions, reach_destination_colors)
         elif signal == LedSignal.GO_STRAIGHT.value:
@@ -126,11 +119,15 @@ def led_control_thread():
             car.setPixelDisplay(all_positions, go_back_colors)
         elif signal == LedSignal.ALL_BLOCK.value:
             car.setPixelDisplay(all_positions, all_block_colors)   
+        else:
+            car.setPixelDisplay(all_positions, stop_colors)
+
         time.sleep(0.2)
 
+    car.stop()
+    car.steering = 0
+
 def main(args=None):
-    led_thread = threading.Thread(target=led_control_thread)
-    led_thread.start()
     control_thread = threading.Thread(target=controller_thread)
     control_thread.start()
     rclpy.init(args=args)
