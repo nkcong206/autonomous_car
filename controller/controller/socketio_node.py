@@ -117,22 +117,18 @@ class SocketIOListener(Node):
         #manual controller
         @self.sio.on("move")
         def move(data):
-            print("111111")
             type = data["type"]
             value = data["value"]
             my_msg = Float32()
             if type == "speed":
                 my_msg.data = value
                 self.cmd_vel_speed_pub.publish(my_msg)
-                print("speed: ", value)
             else:
                 my_msg.data = value
-                print("steering: ", value)
                 self.cmd_vel_steering_pub.publish(my_msg)
                 
     def gps_callback(self, data_msg: Float32MultiArray):
         global gps_data, gps_status
-        print(data_msg)
         gps_data = data_msg.data[0:2]
         gps_status = data_msg.data[2]
         self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(gps_data)})

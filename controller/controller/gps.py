@@ -25,6 +25,7 @@ def read_gps_thread():
                 else:
                      gps_data[2] = 1.0 
                 ser.close()
+                time.sleep(0.5)
 
 class gps_pubisher(Node):
     def __init__(self, **kwargs):
