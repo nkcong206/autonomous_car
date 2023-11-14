@@ -5,22 +5,12 @@ from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Int32
 from std_msgs.msg import Float32
 from std_msgs.msg import Bool
-from pop import Pilot, LiDAR
 import threading
 import time
 import numpy as np
-import queue
+from pop import LiDAR
 
-signal = -1
-places = []
-place_id = 0
-gps_data = [0.0,0.0]
-gps_status = 0.0
-go_stop = False
-automatic = False
-max_speed = 70
-speed = 0.0
-steering = 0.0
+
 n_bins = int(12) # 4, 8, 12, 16
 distance = 1500
 safe_distance = 1000
@@ -28,69 +18,83 @@ width_of_bin_0 = 500
 threshold = 3.0
 event = threading.Event()
 
-# speed_queue = queue.Queue()
-# steering_lock = threading.Lock()
+notice = -1
+places = []
+place_id = 0
+gps_data = [0.0,0.0]
+gps_status = 0.0
+go_stop = False
+automatic = False
+speed = 0.0
+steering = 0.0
+yaw = 0.0
+
+lidar = LiDAR.Rplidar()
+lidar.connect()
+lidar.startMotor()
 
 class DriveController(Node):
     def __init__(self):
         super().__init__('drive_controller')
         self.get_logger().info("Node Started")
+        # sub
         self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_callback, 10)
         self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_callback, 10)
         self.go_stop_sub = self.create_subscription(Bool, "/go_stop", self.go_stop_callback, 10)
         self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
-        self.cmd_vel_speed_sub = self.create_subscription(Float32, "/cmd_vel_speed", self.cmd_vel_speed_callback, 10)
-        self.cmd_vel_steering_sub = self.create_subscription(Float32, "/cmd_vel_steering", self.cmd_vel_steering_callback, 10)
-        self.led_pub = self.create_publisher(Int32, "/led", 10)    
+        self.yaw_sub = self.create_subscription(Float32, "/yaw", self.yaw_callback, 10)
+        # pub
         timer_period = 0.1
-        self.timer = self.create_timer(timer_period, self.led_callback)
+        self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
+        self.cmd_vel_speed_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)    
+        self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)    
+        self.timer1 = self.create_timer(timer_period, self.notice_callback)
+        self.timer2 = self.create_timer(timer_period, self.cmd_vel_speed_callback)
+        self.timer3 = self.create_timer(timer_period, self.cmd_vel_steering_callback)
 
     def places_callback(self, places_msg = Float32MultiArray):
         global places
         list_point = places_msg.data
         pl = np.reshape(list_point, (len(list_point) // 2, 2))
         places = pl.tolist()
-
-        
-    def gps_callback(sefl, data_msg = Float32MultiArray):
-        global gps_data, gps_status
-        gps_data = data_msg.data[0:2]
-        gps_status = data_msg.data[2]
         
     def automatic_callback(self, data_msg: Bool):
         global automatic
-        if data_msg.data:
-            automatic = True
-        else:
-            automatic = False
-        print("automatic", data_msg.data)
-
+        automatic = data_msg.data
             
     def go_stop_callback(self, data_msg: Bool):
         global go_stop
-        if data_msg.data:
-            go_stop = True
-        else:
-            go_stop = False
-        print("go_stop", go_stop)
-
-
-    def cmd_vel_speed_callback(self, cmd_vel_speed_msg: Float32):
-        global speed, max_speed
-        speed = max_speed*cmd_vel_speed_msg.data
-
-    def cmd_vel_steering_callback(self, cmd_vel_steering_msg: Float32):
-        global steering
-        steering = cmd_vel_steering_msg.data
-           
-    def led_callback(self):
-        global signal
-        led_msg = Int32()
-        led_msg.data = signal
-        self.led_pub.publish(led_msg)
+        go_stop = data_msg.data
         
+    def gps_callback(sefl, gps_msg = Float32MultiArray):
+        global gps_data, gps_status
+        gps_data = gps_msg.data[0:2]
+        gps_status = gps_msg.data[2]
+
+    def yaw_callback(self, yaw_msg = Float32):
+        global yaw
+        yaw = yaw_msg.data
+
+    def notice_callback(self):
+        global notice
+        notice_msg = Int32()
+        notice_msg.data = notice
+        self.notice_pub.publish(notice_msg)
+
+    def cmd_vel_speed_callback(self):
+        global speed
+        cmd_speed = Float32()
+        cmd_speed.data = speed
+        self.cmd_vel_speed_pub.publish(cmd_speed)
+
+    def cmd_vel_steering_callback(self):
+        global steering
+        cmd_steering = Float32()
+        cmd_steering.data = steering
+        self.cmd_vel_steering_pub.publish(cmd_steering)
+           
 # Scan bins        
-def get_bins(lidar, n_bins, angle_of_b):
+def get_bins( lidar, n_bins, angle_of_b):
     global distance, safe_distance, width_of_bin_0
     bins = [] 
     safe_bins = []
@@ -162,8 +166,8 @@ def compute_desired_bins( beta, n_bins, angle_of_b, bins, safe_bins):
                 return bin_id, False
         return bin_id, True
     
-def speed_streering_cal(Car, lidar, lat_end, lon_end, lat_start, lon_start):
-    global max_speed, n_bins
+def speed_streering_cal( lidar, lat_end, lon_end, lat_start, lon_start):
+    global n_bins, yaw
     angle_of_b = 360/n_bins
     
     d_lon = lon_end - lon_start
@@ -174,14 +178,11 @@ def speed_streering_cal(Car, lidar, lat_end, lon_end, lat_start, lon_start):
 
     # Convert the bearing from radians to degrees
     initial_bearing = math.degrees(initial_bearing)
-
     destination_angle = (initial_bearing + 360) % 360 #angle a
-    #destination_angle = 0
-    current_angle = Car.getEuler('yaw') 
     
     # obstacle avoidance 
     bins, safe_bins = get_bins(lidar, n_bins, angle_of_b)
-    beta = destination_angle - current_angle
+    beta = destination_angle - yaw
     bin_id, success = compute_desired_bins( beta, n_bins, angle_of_b, bins, safe_bins)
     angle = bin_id * angle_of_b
     safety = 3
@@ -213,16 +214,16 @@ def speed_streering_cal(Car, lidar, lat_end, lon_end, lat_start, lon_start):
                     break
     else:
         steering = 0.0
-        safety = 0.0  
+        safety = 0  
 
     if safety == 3:
-        speed = max_speed
+        speed = 1
     elif safety == 2:   
-        speed = max_speed*5/6
+        speed = 5/6
     elif safety == 1:   
-        speed = max_speed*4/6    
+        speed = 4/6    
     else:
-        speed = 0.0  
+        speed = 0.0
         
     return steering, speed
 
@@ -235,8 +236,8 @@ def distance_cal( lat_end, lon_end, lat_start, lon_start):
     distance = R * c  
     return distance
 
-def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
-    global gps_status, gps_data, signal, go_stop, automatic
+def go_to_lat_lon( lidar, lat, lon, threshold = 4):
+    global gps_status, gps_data, notice, go_stop, automatic
  
     lat_end = math.radians(lat)
     lon_end = math.radians(lon)
@@ -252,92 +253,49 @@ def go_to_lat_lon( Car, lidar, lat, lon, threshold = 4):
         if gps_status == 0 or go_stop == 0:
             if(gps_status == 0):
                 print("Error gps!")
-                signal = 4
+                notice = 4
             if(go_stop == 0):
-                signal = 0
+                notice = 5
                 print("Stop car!")
             steering = 0
             speed = 0
-            time.sleep(1) 
         else:
+            notice = -1
             lat_start = math.radians(gps_data[0])
             lon_start = math.radians(gps_data[1])    
             distance = distance_cal( lat_end, lon_end, lat_start, lon_start)
-            steering, speed = speed_streering_cal( Car, lidar, lat_end, lon_end, lat_start, lon_start)
+            steering, speed = speed_streering_cal( lidar, lat_end, lon_end, lat_start, lon_start)
             print(f"distance {distance}")   
             print(f"steering: {steering}, speed: {speed}")    
-            time.sleep(0.1) 
-
-        Car.steering = steering          
-        if speed != 0:
-            Car.forward(speed)
-            if steering > 0:
-                signal = 2
-            elif steering < 0:
-                signal = 3
-            else:
-                signal = -1     
-        else:
-            signal = 5
-            Car.stop() 
     return True
                 
-def travel_journey(Car, lidar, places):
-    global threshold, signal, place_id
+def travel_journey( lidar, places):
+    global threshold, notice, place_id
     if len(places) == 0:
-        signal = 1
+        notice = 1
         print("places is empty!")
     else:
         for place_id in range(place_id, len(places)):
-            if go_to_lat_lon(Car, lidar, places[place_id][0],  places[place_id][1], threshold):          
+            if go_to_lat_lon(lidar, places[place_id][0],  places[place_id][1], threshold):          
                 print(f"place: [{ places[place_id][0]}, { places[place_id][1]}]")
             else:
                 return
-        signal = 0
+        notice = 0
         print("den dich!")
 
-    Car.steering = 0
-    Car.stop()
-    time.sleep(1)
-
-def manual_control(Car):
-    global signal, steering, speed
-    signal = -1
-    print(f"steering: {steering}, speed: {speed}") 
-    Car.setSpeed(abs(speed))
-    Car.steering = steering
-    if speed > 0:
-        Car.forward()
-    if speed < 0:
-        Car.backward()
-    else:
-        Car.stop()
-    time.sleep(0.2)
-
-def controller_thread():
-    global places, max_speed, signal, speed, steering
+def planning_thread():
+    global places, notice
     print("Startup car!")
-    Car = Pilot.AutoCar()
-    Car.setObstacleDistance(distance=0)
-    Car.setSensorStatus(euler=1)
-    lidar = LiDAR.Rplidar()
-    lidar.connect()
-    lidar.startMotor()
     while not event.is_set():
         if automatic:
             print("automatic")
-            travel_journey(Car, lidar, places)
+            travel_journey( lidar, places)
         else:
-            manual_control(Car)
-    
-    signal = -1
-    Car.steering = 0
-    Car.stop()
-    lidar.stopMotor()
-    
+            notice = -1
+
 def main(args=None):
-    controller = threading.Thread(target=controller_thread)
-    controller.start()
+    planning = threading.Thread(target=planning_thread)
+    planning.start()
     rclpy.init(args=args)
     node = DriveController()
     try:
