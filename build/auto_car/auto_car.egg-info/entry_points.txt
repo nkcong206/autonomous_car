@@ -1,4 +1,0 @@
-[console_scripts]
-drive_controller = auto_car.drive_controller:main
-ps4 = auto_car.ps4:main
-
