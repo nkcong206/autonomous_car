@@ -21,7 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'planning = controller.planning:main',
-            'socketio = controller.test_socketio:main',
+            'socketio = controller.socketio_node:main',
             'gps = controller.gps:main',
             'controller = controller.controller_final:main',
         ],

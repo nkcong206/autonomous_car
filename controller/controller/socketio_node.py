@@ -6,10 +6,29 @@ from std_msgs.msg import Bool
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Float32
 from dotenv import load_dotenv
+import subprocess
 
 load_dotenv()
 gps_data = [0.0,0.0]
 gps_status = 0.0
+script_path = "./runsteam.sh" 
+
+def start_shell_script(script_path):
+    try:
+        process = subprocess.Popen(["bash", script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return process
+    except Exception as e:
+        print("Error starting shell script:", e)
+        return None
+
+def stop_shell_script(process):
+    try:
+        process.terminate()
+        process.wait()
+    except Exception as e:
+        print("Error stopping shell script:", e)
+
+
 class SocketIOListener(Node):
     def __init__(self):
         super().__init__('socketio_node')
@@ -37,7 +56,6 @@ class SocketIOListener(Node):
         @self.sio.on('connect')
         def on_connect():
             print("Connected to server ...")
-            # self.sio.emit("register_controller", {"robot_id" : self.ID, "robot_name" : self.NAME})
             self.sio.emit("register_robot", {"robot_id" : self.ID, "robot_name" : self.NAME})
 
         @self.sio.on('register_robot')
@@ -48,17 +66,19 @@ class SocketIOListener(Node):
         def open_stream(data):
             status = data["status"]
             if status == 1:
-                cmd = "pm2 start stream_gst"
-                print("cmd : ", cmd)
-                os.system(cmd)
+                self.process = start_shell_script(script_path)
+                # cmd = "pm2 start stream_gst"
+                # print("cmd : ", cmd)
+                # os.system(cmd)
 
         @self.sio.on("end_stream")
         def end_stream(data):
             status = data["status"]
             if status == 1:
-                cmd = "pm2 stop stream_gst"
-                print("cmd : ", cmd)
-                os.system(cmd)
+                stop_shell_script(self.process)
+                # cmd = "pm2 stop stream_gst"
+                # print("cmd : ", cmd)
+                # os.system(cmd)
         
         @self.sio.on('register_controller')
         def on_message(data):
