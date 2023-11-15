@@ -1,1 +1,0 @@
-/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros/ament_cmake_export_include_directories/ament_cmake_export_include_directories-extras.cmake

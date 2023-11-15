@@ -1,1 +1,0 @@
-/home/soda/Documents/nkcong/rplidar_ros2/build/rplidar_ros/ament_cmake_environment_hooks/local_setup.sh
