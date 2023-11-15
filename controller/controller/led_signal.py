@@ -1,5 +1,5 @@
 from enum import Enum
-class LedSignal(Enum):
+class led_signal(Enum):
     REACH_DESTINATION = 0
     GO_STRAIGHT = 1
     TURN_RIGHT = 2

@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Int32
-from ledSignal import *
+from led_signal import *
 import time
 from pop import Pilot
 import threading
@@ -55,34 +55,34 @@ def led_control():
     global signal
     car = Pilot.AutoCar()
     while True:
-        if signal == LedSignal.REACH_DESTINATION.value:
+        if signal == led_signal.REACH_DESTINATION.value:
             car.setPixelDisplay(all_positions, reach_destination_colors)
             time.sleep(0.01)
             car.setPixelDisplay(all_positions, stop_colors)
 
-        elif signal == LedSignal.GO_STRAIGHT.value:
+        elif signal == led_signal.GO_STRAIGHT.value:
             car.setPixelDisplay(all_positions, go_straight_colors)
             car.setPixelDisplay(all_positions, stop_colors)
 
-        elif signal == LedSignal.TURN_RIGHT.value:
+        elif signal == led_signal.TURN_RIGHT.value:
             car.setPixelDisplay(right_positions, turn_right_colors)
             time.sleep(0.01)
             car.setPixelDisplay(all_positions, stop_colors)
             time.sleep(0.01)
 
-        elif signal == LedSignal.TURN_LEFT.value:
+        elif signal == led_signal.TURN_LEFT.value:
             car.setPixelDisplay(left_positions, turn_left_colors)
             time.sleep(0.01)
             car.setPixelDisplay(all_positions, stop_colors)
             time.sleep(0.01)
 
-        elif signal == LedSignal.GO_BACK.value:  
+        elif signal == led_signal.GO_BACK.value:  
             car.setPixelDisplay(all_positions, go_back_colors)
             time.sleep(0.01)
             car.setPixelDisplay(all_positions, stop_colors)
             time.sleep(0.01)
 
-        elif signal == LedSignal.ALL_BLOCK.value:
+        elif signal == led_signal.ALL_BLOCK.value:
             car.setPixelDisplay(all_positions, all_block_colors)
             time.sleep(0.01)
             car.setPixelDisplay(all_positions, stop_colors)

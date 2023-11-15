@@ -8,7 +8,7 @@ from std_msgs.msg import Bool
 import threading
 import time
 import numpy as np
-from perception import Perception
+from perception import *
 
 threshold = 3.0
 event = threading.Event()
@@ -97,7 +97,7 @@ def go_to_lat_lon( lat, lon, threshold):
     distance = perception.distance_cal( lat_end, lon_end, lat_start, lon_start)
     
     while (distance >= threshold):
-        print(f"go to: {lat}, {lon}")
+        print(f"Go to: {lat}, {lon}")
         if not automatic:
             return False
         elif go_stop == 0:
@@ -116,14 +116,14 @@ def go_to_lat_lon( lat, lon, threshold):
             lon_start = math.radians(gps_data[1])    
             distance = perception.distance_cal( lat_end, lon_end, lat_start, lon_start)
             steering, speed = perception.speed_streering_cal( yaw, lat_end, lon_end, lat_start, lon_start)
-            print(f"distance {distance}")   
-            print(f"steering: {steering}, speed: {speed}")    
+            print(f"Distance {distance}")   
+            print(f"Steering: {steering}, Speed: {speed}")    
     return True
                 
 def travel_journey( places):
     global threshold, notice, place_id
     if len(places) == 0:
-        print("places is empty!")
+        print("Places is empty!")
         notice = 1
     else:
         for place_id in range(place_id, len(places)):
@@ -131,7 +131,7 @@ def travel_journey( places):
                 print(f"place: [{ places[place_id][0]}, { places[place_id][1]}]")
             else:
                 return
-        print("den dich!")
+        print("Arrive at the destination!")
         notice = 0
 
 def planning_thread():
@@ -139,10 +139,12 @@ def planning_thread():
     print("Startup car!")
     while not event.is_set():
         if automatic:
-            print("automatic")
+            print("Automatic!")
             travel_journey( places)
         else:
             notice = -1
+        time.sleep(1)
+    perception.stop_lidar()
 
 def main(args=None):
     planning = threading.Thread(target=planning_thread)

@@ -147,3 +147,6 @@ class Perception():
         R = 6371000 
         distance = R * c  
         return distance
+
+    def stop_lidar(self):
+        self.lidar.stopMotor()
