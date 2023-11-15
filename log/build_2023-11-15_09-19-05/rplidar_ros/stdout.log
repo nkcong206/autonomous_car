@@ -1,0 +1,92 @@
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake_auto: 0.8.3 (/opt/ros/eloquent/share/ament_cmake_auto/cmake)
+-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.6.9", minimum required is "3") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python3
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found ament_cmake_ros: 0.8.0 (/opt/ros/eloquent/share/ament_cmake_ros/cmake)
+-- Found rosidl_adapter: 0.8.3 (/opt/ros/eloquent/share/rosidl_adapter/cmake)
+-- Found rmw_implementation_cmake: 0.8.1 (/opt/ros/eloquent/share/rmw_implementation_cmake/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Found poco_vendor:  (/opt/ros/eloquent/share/poco_vendor/cmake)
+-- Configuring done (8.5s)
+-- Generating done (0.7s)
+-- Build files have been written to: /home/nkcong206/Documents/autonomous_car/build/rplidar_ros
+[ 11%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/sdk/src/arch/linux/net_serial.cpp.o[0m
+[ 11%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/src/node.cpp.o[0m
+[ 16%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/src/rplidar_node.cpp.o[0m
+[ 22%] [32mBuilding CXX object CMakeFiles/rplidarNodeClient.dir/src/client.cpp.o[0m
+[ 27%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/sdk/src/arch/linux/net_serial.cpp.o[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/sdk/src/arch/linux/net_socket.cpp.o[0m
+[ 38%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/sdk/src/arch/linux/timer.cpp.o[0m
+[ 44%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/sdk/src/hal/thread.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/rplidar_composition_node.dir/sdk/src/rplidar_driver.cpp.o[0m
+[ 55%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/sdk/src/arch/linux/net_socket.cpp.o[0m
+[ 61%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/sdk/src/arch/linux/timer.cpp.o[0m
+[ 66%] [32m[1mLinking CXX executable rplidarNodeClient[0m
+[ 72%] [32m[1mLinking CXX shared library librplidar_composition_node.so[0m
+[ 77%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/sdk/src/hal/thread.cpp.o[0m
+[ 83%] [32mBuilding CXX object CMakeFiles/rplidarNode.dir/sdk/src/rplidar_driver.cpp.o[0m
+[ 83%] Built target rplidarNodeClient
+[ 83%] Built target rplidar_composition_node
+[ 88%] [32mBuilding CXX object CMakeFiles/rplidar_composition.dir/src/standalone_rplidar.cpp.o[0m
+[ 94%] [32m[1mLinking CXX executable rplidarNode[0m
+[ 94%] Built target rplidarNode
+[100%] [32m[1mLinking CXX executable rplidar_composition[0m
+[100%] Built target rplidar_composition
+-- Install configuration: ""
+-- Execute custom install script
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/lib/rplidar_ros/rplidarNode
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/lib/rplidar_ros/rplidarNodeClient
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/lib/rplidar_ros/rplidar_composition
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/launch/rplidar.launch.py
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/launch/rplidar_a3.launch.py
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/launch/rplidar_s1.launch.py
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/launch/rplidar_s1_tcp.launch.py
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/launch/test_rplidar.launch.py
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/launch/test_rplidar_a3.launch.py
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar.launch.py
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_a3.launch.py
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_s1.launch.py
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/launch/view_rplidar_s1_tcp.launch.py
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/rviz/rplidar.rviz
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/lib/librplidar_composition_node.so
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/include/rplidar_node.hpp
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/include/visibility.h
+-- Up-to-date symlink: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/lib/rplidar_ros/rplidarNode
+-- Up-to-date symlink: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/lib/rplidar_ros/rplidarNodeClient
+-- Up-to-date symlink: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/lib/rplidar_ros/rplidar_composition
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/ament_index/resource_index/package_run_dependencies/rplidar_ros
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/ament_index/resource_index/parent_prefix_path/rplidar_ros
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/environment/ament_prefix_path.sh
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/environment/ament_prefix_path.dsv
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/environment/path.sh
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/environment/path.dsv
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/local_setup.bash
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/local_setup.sh
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/local_setup.zsh
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/local_setup.dsv
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/package.dsv
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/ament_index/resource_index/packages/rplidar_ros
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/cmake/rplidar_rosConfig.cmake
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/cmake/rplidar_rosConfig-version.cmake
+-- Symlinking: /home/nkcong206/Documents/autonomous_car/install/rplidar_ros/share/rplidar_ros/package.xml

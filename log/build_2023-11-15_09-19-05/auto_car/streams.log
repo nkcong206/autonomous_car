@@ -1,0 +1,37 @@
+[3.682s] Invoking command in '/home/nkcong206/Documents/autonomous_car/build/auto_car': PYTHONPATH=/home/nkcong206/Documents/autonomous_car/build/auto_car/prefix_override:/home/nkcong206/Documents/autonomous_car/install/auto_car/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/nkcong206/Documents/autonomous_car/build/auto_car/build --no-deps install_data
+[4.162s] running develop
+[4.182s] /home/nkcong206/.local/lib/python3.6/site-packages/setuptools/command/easy_install.py:159: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.
+[4.182s]   EasyInstallDeprecationWarning,
+[4.184s] /home/nkcong206/.local/lib/python3.6/site-packages/setuptools/command/install.py:37: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[4.184s]   setuptools.SetuptoolsDeprecationWarning,
+[4.338s] /home/nkcong206/.local/lib/python3.6/site-packages/pkg_resources/__init__.py:119: PkgResourcesDeprecationWarning: 0.18ubuntu0.18.04.1 is an invalid version and will not be supported in a future release
+[4.339s]   PkgResourcesDeprecationWarning,
+[4.503s] running egg_info
+[4.504s] creating auto_car.egg-info
+[4.504s] writing auto_car.egg-info/PKG-INFO
+[4.504s] writing dependency_links to auto_car.egg-info/dependency_links.txt
+[4.504s] writing entry points to auto_car.egg-info/entry_points.txt
+[4.505s] writing requirements to auto_car.egg-info/requires.txt
+[4.505s] writing top-level names to auto_car.egg-info/top_level.txt
+[4.546s] writing manifest file 'auto_car.egg-info/SOURCES.txt'
+[4.555s] reading manifest file 'auto_car.egg-info/SOURCES.txt'
+[4.560s] writing manifest file 'auto_car.egg-info/SOURCES.txt'
+[4.565s] running build_ext
+[4.566s] Creating /home/nkcong206/Documents/autonomous_car/install/auto_car/lib/python3.6/site-packages/auto-car.egg-link (link to .)
+[4.569s] Installing drive_controller script to /home/nkcong206/Documents/autonomous_car/install/auto_car/lib/auto_car
+[4.570s] Installing ps4 script to /home/nkcong206/Documents/autonomous_car/install/auto_car/lib/auto_car
+[4.570s] 
+[4.571s] Installed /home/nkcong206/Documents/autonomous_car/build/auto_car
+[4.571s] running install_data
+[4.572s] creating /home/nkcong206/Documents/autonomous_car/install/auto_car/share/ament_index
+[4.572s] creating /home/nkcong206/Documents/autonomous_car/install/auto_car/share/ament_index/resource_index
+[4.573s] creating /home/nkcong206/Documents/autonomous_car/install/auto_car/share/ament_index/resource_index/packages
+[4.573s] copying resource/auto_car -> /home/nkcong206/Documents/autonomous_car/install/auto_car/share/ament_index/resource_index/packages
+[4.573s] copying package.xml -> /home/nkcong206/Documents/autonomous_car/install/auto_car/share/auto_car
+[4.573s] creating /home/nkcong206/Documents/autonomous_car/install/auto_car/share/auto_car/launch
+[4.574s] copying launch/driver.launch.py -> /home/nkcong206/Documents/autonomous_car/install/auto_car/share/auto_car/launch
+[4.574s] creating /home/nkcong206/Documents/autonomous_car/install/auto_car/share/auto_car/urdf
+[4.574s] copying urdf/auto_car.urdf -> /home/nkcong206/Documents/autonomous_car/install/auto_car/share/auto_car/urdf
+[4.594s] creating /home/nkcong206/Documents/autonomous_car/install/auto_car/share/auto_car/rviz
+[4.594s] copying rviz/driver.rviz -> /home/nkcong206/Documents/autonomous_car/install/auto_car/share/auto_car/rviz
+[4.648s] Invoked command in '/home/nkcong206/Documents/autonomous_car/build/auto_car' returned '0': PYTHONPATH=/home/nkcong206/Documents/autonomous_car/build/auto_car/prefix_override:/home/nkcong206/Documents/autonomous_car/install/auto_car/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/nkcong206/Documents/autonomous_car/build/auto_car/build --no-deps install_data

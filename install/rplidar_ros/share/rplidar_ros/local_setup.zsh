@@ -1,0 +1,1 @@
+/home/nkcong206/Documents/autonomous_car/build/rplidar_ros/ament_cmake_environment_hooks/local_setup.zsh

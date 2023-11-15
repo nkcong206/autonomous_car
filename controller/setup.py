@@ -20,10 +20,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'controller = controller.controller:main',
-            'socketio = controller.socketio_node:main',
+            'planning = controller.planning:main',
+            'socketio = controller.test_socketio:main',
             'gps = controller.gps:main',
-            'led = controller.led_display:main',
+            'controller = controller.controller_final:main',
         ],
     },
 )

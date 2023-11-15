@@ -1,0 +1,26 @@
+[3.593s] Invoking command in '/home/nkcong206/Documents/autonomous_car/build/controller': PYTHONPATH=/home/nkcong206/Documents/autonomous_car/build/controller/prefix_override:/home/nkcong206/Documents/autonomous_car/install/controller/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/nkcong206/Documents/autonomous_car/build/controller/build --no-deps install_data
+[4.142s] running develop
+[4.142s] /home/nkcong206/.local/lib/python3.6/site-packages/setuptools/command/easy_install.py:159: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.
+[4.143s]   EasyInstallDeprecationWarning,
+[4.145s] /home/nkcong206/.local/lib/python3.6/site-packages/setuptools/command/install.py:37: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[4.145s]   setuptools.SetuptoolsDeprecationWarning,
+[4.277s] /home/nkcong206/.local/lib/python3.6/site-packages/pkg_resources/__init__.py:119: PkgResourcesDeprecationWarning: 0.18ubuntu0.18.04.1 is an invalid version and will not be supported in a future release
+[4.277s]   PkgResourcesDeprecationWarning,
+[4.454s] running egg_info
+[4.454s] writing controller.egg-info/PKG-INFO
+[4.454s] writing dependency_links to controller.egg-info/dependency_links.txt
+[4.455s] writing entry points to controller.egg-info/entry_points.txt
+[4.455s] writing requirements to controller.egg-info/requires.txt
+[4.455s] writing top-level names to controller.egg-info/top_level.txt
+[4.495s] reading manifest file 'controller.egg-info/SOURCES.txt'
+[4.525s] writing manifest file 'controller.egg-info/SOURCES.txt'
+[4.529s] running build_ext
+[4.529s] Creating /home/nkcong206/Documents/autonomous_car/install/controller/lib/python3.6/site-packages/controller.egg-link (link to .)
+[4.532s] Installing controller script to /home/nkcong206/Documents/autonomous_car/install/controller/lib/controller
+[4.532s] Installing gps script to /home/nkcong206/Documents/autonomous_car/install/controller/lib/controller
+[4.532s] Installing led script to /home/nkcong206/Documents/autonomous_car/install/controller/lib/controller
+[4.533s] Installing socketio script to /home/nkcong206/Documents/autonomous_car/install/controller/lib/controller
+[4.534s] 
+[4.534s] Installed /home/nkcong206/Documents/autonomous_car/build/controller
+[4.534s] running install_data
+[5.085s] Invoked command in '/home/nkcong206/Documents/autonomous_car/build/controller' returned '0': PYTHONPATH=/home/nkcong206/Documents/autonomous_car/build/controller/prefix_override:/home/nkcong206/Documents/autonomous_car/install/controller/lib/python3.6/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py develop --editable --build-directory /home/nkcong206/Documents/autonomous_car/build/controller/build --no-deps install_data

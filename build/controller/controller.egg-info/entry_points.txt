@@ -1,6 +1,6 @@
 [console_scripts]
-controller = controller.controller:main
+controller = controller.controller_final:main
 gps = controller.gps:main
-led = controller.led_display:main
-socketio = controller.socketio_node:main
+planning = controller.planning:main
+socketio = controller.test_socketio:main
 
