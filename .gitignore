@@ -1,7 +1,7 @@
-**/logs/
-**/build/
-**/lib/
-**/log/
-**/test/
-**/install/
-**/resource/
+logs
+build
+lib
+log
+test
+install
+resource

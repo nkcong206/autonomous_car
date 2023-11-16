@@ -7,6 +7,7 @@ from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Float32
 from dotenv import load_dotenv
 import subprocess
+import time
 
 load_dotenv()
 gps_data = [0.0,0.0]
@@ -42,7 +43,8 @@ class SocketIOListener(Node):
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
         self.cmd_vel_speed_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)  
         self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)  
-               
+        timer_period = 0.5
+        self.timer = self.create_timer(timer_period, self.gps_socketio_callback)               
         self.sio = socketio.Client()
 
         @self.sio.event
@@ -151,6 +153,9 @@ class SocketIOListener(Node):
         global gps_data, gps_status
         gps_data = data_msg.data[0:2]
         gps_status = data_msg.data[2]
+
+    def gps_socketio_callback(self):
+        global gps_data
         self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(gps_data)})
 
     def start(self):

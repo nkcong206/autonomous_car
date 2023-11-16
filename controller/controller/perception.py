@@ -2,11 +2,11 @@ import math
 from pop import LiDAR
 
 n_bins = int(12) # 4, 8, 12, 16
+angle_of_b = 360/n_bins
+
 distance = 1500
 safe_distance = 1000
 width_of_bin_0 = 500
-angle_of_b = 360/n_bins
-
 
 class Perception():   
     def __init__(self):
@@ -47,12 +47,12 @@ class Perception():
         
     def compute_desired_bins( self, beta, bins, safe_bins):
         bin_id = 0
-        count = 0
         if beta < 0: #. beta in range (0,360) 
             beta += 360
         index = int((beta+angle_of_b/2) / angle_of_b)
         if index > n_bins-1:
             index = 0
+            
         for i in range(int(n_bins/2)):
             if(bins[(index+i)%n_bins] == 0):
                 bin_id = (index+i)%n_bins
@@ -62,21 +62,22 @@ class Perception():
                 if bin_id < 0:
                     bin_id = bin_id + n_bins 
                 break
-        if bins == [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]:
+            
+        if all(bin == 1 for bin in bins):
             return bin_id, False
         
-        if bin_id <= n_bins//2 :
+        if bin_id < n_bins//2:
             for beta in range(0, bin_id - 1):
                 if safe_bins[beta] == 1:
                     return bin_id, False
             return bin_id, True
-            
-        elif bin_id > n_bins//2 :
-            count += safe_bins[0]
+        elif bin_id > n_bins//2:
             for beta in range(bin_id + 1, n_bins):
                 if safe_bins[beta] == 1:
                     return bin_id, False
             return bin_id, True
+        else:
+            return bin_id, False
         
     def speed_streering_cal( self, yaw, lat_end, lon_end, lat_start, lon_start):
         
