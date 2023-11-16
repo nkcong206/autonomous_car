@@ -12,6 +12,7 @@ event = threading.Event()
 notice = -1
 signal = -1
 yaw = 0.0
+max_speed = 70
 
 all_positions = 0
 left_positions = 0
@@ -77,7 +78,7 @@ class DriveController(Node):
             signal = notice 
 
     def cmd_vel_speed_callback(self, cmd_vel_speed_msg: Float32):
-        global speed, max_speed
+        global speed
         speed = max_speed*cmd_vel_speed_msg.data
 
     def cmd_vel_steering_callback(self, cmd_vel_steering_msg: Float32):

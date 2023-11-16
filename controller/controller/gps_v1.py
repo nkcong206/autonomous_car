@@ -4,7 +4,7 @@ from std_msgs.msg import Float32MultiArray
 import serial
 import threading
 import time
-gps_data = [0.0, 0.0, 0.0]
+gps_data = [0.0, 0.0]
 # gps_status = 0.0
 #upload location
 def read_gps_thread():
@@ -20,10 +20,6 @@ def read_gps_thread():
                 data = line.split(":")[1]
                 gps_data[0] = float(data.split(",")[0])
                 gps_data[1] = float(data.split(",")[1])
-                if gps_data[0] == 0.0 and gps_data[1] == 0.0:
-                    gps_data[2] = 0.0 
-                else:
-                     gps_data[2] = 1.0 
                 ser.close()
                 time.sleep(0.5)
 

@@ -7,24 +7,22 @@ from std_msgs.msg import Float32
 from std_msgs.msg import Bool
 import threading
 import time
-import numpy as np
-from perception import *
+from controller.src.aware_core import Perception
 
-threshold = 3.0
+thres = 3.0
 event = threading.Event()
 
 notice = -1
-places = []
-place_id = 0
+pls = []
 gps_data = [0.0,0.0]
-gps_status = 0
+gps_status = False
 go_stop = False
 automatic = False
 speed = 0.0
 steering = 0.0
 yaw = 0.0
 
-perception = Perception() 
+per = Perception() 
 
 class DriveController(Node):
     def __init__(self):
@@ -39,17 +37,16 @@ class DriveController(Node):
         # pub
         timer_period = 0.2
         self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
-        self.cmd_vel_speed_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)    
+        self.cmd_vel_speed_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)
         self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)    
         self.timer1 = self.create_timer(timer_period, self.notice_callback)
         self.timer2 = self.create_timer(timer_period, self.cmd_vel_speed_callback)
         self.timer3 = self.create_timer(timer_period, self.cmd_vel_steering_callback)
 
     def places_callback(self, places_msg = Float32MultiArray):
-        global places
+        global pls
         list_point = places_msg.data
-        pl = np.reshape(list_point, (len(list_point) // 2, 2))
-        places = pl.tolist()
+        pls = [list_point[i:i+2] for i in range(0, len(list_point), 2)]
         
     def automatic_callback(self, data_msg: Bool):
         global automatic
@@ -66,7 +63,10 @@ class DriveController(Node):
     def gps_callback(sefl, gps_msg = Float32MultiArray):
         global gps_data, gps_status
         gps_data = gps_msg.data[0:2]
-        gps_status = gps_msg.data[2]
+        if gps_data[0] == 0.0 and gps_data[1] == 0.0:
+            gps_status = False 
+        else:
+            gps_status = True
 
     def notice_callback(self):
         global notice
@@ -94,18 +94,18 @@ def go_to_lat_lon( lat, lon, threshold):
     lat_start = math.radians(gps_data[0])
     lon_start = math.radians(gps_data[1])
     
-    distance = perception.distance_cal( lat_end, lon_end, lat_start, lon_start)
+    distance = aware_core.distance_cal( lat_end, lon_end, lat_start, lon_start)
     
     while (distance >= threshold):
         print(f"Go to: {lat}, {lon}")
         if not automatic:
             return False
-        elif go_stop == 0:
+        elif not go_stop:
             print("Stop car!")
             notice = 5
             steering = 0
             speed = 0
-        elif gps_status == 0:
+        elif not gps_status:
             print("Error gps!")
             notice = 2
             steering = 0
@@ -114,37 +114,37 @@ def go_to_lat_lon( lat, lon, threshold):
             notice = -1
             lat_start = math.radians(gps_data[0])
             lon_start = math.radians(gps_data[1])    
-            distance = perception.distance_cal( lat_end, lon_end, lat_start, lon_start)
-            steering, speed = perception.speed_streering_cal( yaw, lat_end, lon_end, lat_start, lon_start)
+            distance = aware_core.distance_cal( lat_end, lon_end, lat_start, lon_start)
+            steering, speed = aware_core.speed_streering_cal( yaw, lat_end, lon_end, lat_start, lon_start)
             print(f"Distance {distance}")   
             print(f"Steering: {steering}, Speed: {speed}")    
     return True
                 
-def travel_journey( places):
-    global threshold, notice, place_id
+def travel_journey( places, threshold):
+    global notice
     if len(places) == 0:
         print("Places is empty!")
         notice = 1
     else:
-        for place_id in range(place_id, len(places)):
-            if go_to_lat_lon( places[place_id][0],  places[place_id][1], threshold):          
-                print(f"place: [{ places[place_id][0]}, { places[place_id][1]}]")
+        for place in places:
+            if go_to_lat_lon( place[0],  place[1], threshold):          
+                print(f"place: [{ place[0]}, { place[1]}]")
             else:
                 return
         print("Arrive at the destination!")
         notice = 0
 
 def planning_thread():
-    global places, notice
+    global pls, notice
     print("Startup car!")
     while not event.is_set():
         if automatic:
             print("Automatic!")
-            travel_journey( places)
+            travel_journey( pls, thres)
         else:
             notice = -1
         time.sleep(1)
-    perception.stop_lidar()
+    aware_core.stop_lidar()
 
 def main(args=None):
     planning = threading.Thread(target=planning_thread)

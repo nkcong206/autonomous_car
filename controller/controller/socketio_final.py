@@ -7,12 +7,10 @@ from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Float32
 from dotenv import load_dotenv
 import subprocess
-import time
 
-load_dotenv()
+load_dotenv(dotenv_path="../config/.env")
 gps_data = [0.0,0.0]
-gps_status = 0.0
-script_path = "./runsteam.sh" 
+script_path = "../scripts/runstream.sh" 
 
 class SocketIOListener(Node):
     def __init__(self):
@@ -20,6 +18,7 @@ class SocketIOListener(Node):
         self.SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
         self.ID = os.getenv("ID")
         self.NAME = os.getenv("NAME")
+        self.sio = socketio.Client()
 
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
         self.go_stop_publisher = self.create_publisher(Bool, '/go_stop', 10)
@@ -29,7 +28,6 @@ class SocketIOListener(Node):
         self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)  
         timer_period = 0.5
         self.timer = self.create_timer(timer_period, self.gps_socketio_callback)               
-        self.sio = socketio.Client()
 
         @self.sio.event
         def connect():
@@ -122,17 +120,16 @@ class SocketIOListener(Node):
                 self.cmd_vel_steering_pub.publish(my_msg)
                 
     def gps_callback(self, data_msg: Float32MultiArray):
-        global gps_data, gps_status
+        global gps_data
         gps_data = data_msg.data[0:2]
-        gps_status = data_msg.data[2]
 
     def gps_socketio_callback(self):
         global gps_data
-        self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(gps_data)})
+        if gps_data[0] != 0.0 and gps_data[1] != 0.0:
+            self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(gps_data)})
 
     def start(self):
         self.sio.connect(self.SERVER_SOCKETIO)
-        rclpy.spin(self)
 
     def stop(self):
         self.sio.disconnect()
@@ -152,12 +149,12 @@ class SocketIOListener(Node):
         except Exception as e:
             print("Error stopping stream:", e)
 
-
 def main(args=None):
     rclpy.init(args=args)
     socketio_listener = SocketIOListener()
     try:
         socketio_listener.start()
+        rclpy.spin(socketio_listener)
     except KeyboardInterrupt:
         pass
     socketio_listener.stop()

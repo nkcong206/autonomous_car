@@ -1,5 +1,9 @@
-# autonomous_car
-self driving car project
+### autonomous_car
+ros2 run controller planning
+ros2 run controller gps
+ros2 run controller socketio
+ros2 run controller controller
+
 
 ### Client controller will run on jeson nano 
 
