@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>controller</name>
+  <name>controller_v1</name>
   <version>0.0.0</version>
-  <description>ROS2 controller</description>
+  <description>ROS2 controller_v1</description>
   <maintainer email="nkcong206@gmail.com">nkcong206</maintainer>
   <license>License</license>
 

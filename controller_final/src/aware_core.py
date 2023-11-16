@@ -6,7 +6,6 @@ distance = 1500
 safe_distance = 1000
 width_of_bin_0 = 500
 
-
 class Perception():   
     def __init__(self):
         self.lidar = LiDAR.Rplidar()

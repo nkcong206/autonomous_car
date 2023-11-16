@@ -4,7 +4,6 @@ ros2 run controller gps
 ros2 run controller socketio
 ros2 run controller controller
 
-
 ### Client controller will run on jeson nano 
 
 ### 1 Install pm2 on jetson nano 

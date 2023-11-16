@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'controller'
+package_name = 'controller_v1'
 
 setup(
     name=package_name,
@@ -15,15 +15,15 @@ setup(
     zip_safe=True,
     maintainer='nkcong206',
     maintainer_email='nkcong206@gmail.com',
-    description='ROS2 controller',
+    description='ROS2 controller_v1',
     license='License',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'planning = controller.planning_final:main',
-            'socketio = controller.socketio_final:main',
-            'gps = controller.gps_final:main',
-            'controller = controller.controller_final:main',
+            'led = controller_v1.led_v1:main',
+            'socketio = controller_v1.socketio_v1:main',
+            'gps = controller_v1.gps_v1:main',
+            'controller = controller_v1.controller_v1:main',
         ],
     },
 )
