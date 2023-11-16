@@ -1,23 +1,30 @@
-### autonomous_car
-ros2 run controller planning
-ros2 run controller gps
-ros2 run controller socketio
-ros2 run controller controller
 
-### Client controller will run on jeson nano 
+### Fix I2C
+    chmod +x ./fix_i2c.sh 
+    sh ./fix_i2c.sh
+### Config connect to server
+    /auto_car/auto_car/.env
+The field SERVER_SOCKETIO and SERVER_RTMP in .env file: you must change the IP address to the server’s IP address.
 
-### 1 Install pm2 on jetson nano 
-sudo apt update
-sudo apt install nodejs
-node -v
-sudo apt install npm
-npm install pm2 -g
+The field ID in .env file: you must change the ID of robot. It is unique for each robot
 
-### 2 Run client controller 
+### install environment
 
-the field SERVER_SOCKETIO and SERVER_RTMP in .env file . You must change the IP address to the server’s IP address. 
-the field ID in .env file . You must change the ID of robot. It is unique for each robot 
-After that, you run this command 
+    pip install -r requirements.txt
 
-pm2 start ecosystem.config.js
-pm2 save
+## ROS2 Eloquent
+
+### Build ROS2 node
+    colcon build --packages-select auto_car
+### Start each node
+    source ./install/setup.zsh
+Start node:
+
+    ros2 run auto_car planning
+    ros2 run auto_car gps
+    ros2 run auto_car socketio
+    ros2 run auto_car controller
+
+### all-in-one
+    source ./install/setup.zsh
+    ros2 launch auto_car auto_car.launch.py

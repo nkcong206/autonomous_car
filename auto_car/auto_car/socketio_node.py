@@ -18,10 +18,10 @@ class SocketIOListener(Node):
     # process = None
     def __init__(self):
         super().__init__('socketio_node')
+        print("SocketIO Started!!!")
         self.SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
         self.ID = os.getenv("ID")
         self.NAME = os.getenv("NAME")
-        print(self.SERVER_SOCKETIO)
         self.sio = socketio.Client()
         self.process = None
         #pub
@@ -37,11 +37,11 @@ class SocketIOListener(Node):
 
         @self.sio.event
         def connect():
-            self.get_logger().info('Socket.IO connected')
+            print('Socket.IO connected')
 
         @self.sio.event
         def disconnect():
-            self.get_logger().info('Socket.IO disconnected')
+            print('Socket.IO disconnected')
             
         @self.sio.on('connect')
         def on_connect():
@@ -57,18 +57,12 @@ class SocketIOListener(Node):
             status = data["status"]
             if status == 1:
                 self.start_stream_gst(script_path)
-                # cmd = "pm2 start stream_gst"
-                # print("cmd : ", cmd)
-                # os.system(cmd)
 
         @self.sio.on("end_stream")
         def end_stream(data):
             status = data["status"]
             if status == 1:
                 self.stop_stream_gst()
-                # cmd = "pm2 stop stream_gst"
-                # print("cmd : ", cmd)
-                # os.system(cmd)
         
         @self.sio.on('register_controller')
         def on_message(data):
@@ -78,7 +72,6 @@ class SocketIOListener(Node):
         def locations_direction(data):
             place_msg = Float32MultiArray()
             places = data['locations']
-            print("place_msg",places)
             places = places[1:]
             places = places[0]
             new_places = []
@@ -87,7 +80,6 @@ class SocketIOListener(Node):
                 new_places.append(float(point[1]))
             place_msg.data = new_places
             self.places_publisher.publish(place_msg)
-            print("place_msg",place_msg)
 
         @self.sio.on("automatic")
         def automatic(data):
@@ -97,7 +89,6 @@ class SocketIOListener(Node):
             else:
                 auto_msg.data = False
             self.auto_publisher.publish(auto_msg)
-            print("automatic",auto_msg.data )
 
         @self.sio.on("go_stop")
         def on_run_automatic(data):
@@ -107,11 +98,10 @@ class SocketIOListener(Node):
             else:
                 g_msg.data = False
             self.go_stop_publisher.publish(g_msg)
-            print("go_stop",g_msg.data )
     
         @self.sio.on('disconnect')
         def on_disconnect():
-            print("Disconnected from server")
+            print("Disconnected from server...")
     
         @self.sio.on("move")
         def move(data):
@@ -120,11 +110,9 @@ class SocketIOListener(Node):
             my_msg = Float32()
             if type == "speed":
                 my_msg.data = value
-                print("speed", value)
                 self.cmd_vel_speed_pub.publish(my_msg)
             else:
                 my_msg.data = value
-                print("steering", value)
                 self.cmd_vel_steering_pub.publish(my_msg)
                 
     def gps_callback(self, data_msg: Float32MultiArray):
@@ -149,11 +137,8 @@ class SocketIOListener(Node):
     def start_stream_gst(self,script_path):
         try:
             self.process = subprocess.Popen(["bash", script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            print(self.process.pid)
-            # return process
         except Exception as e:
             print("Error starting stream:", e)
-            # return None
 
     def stop_stream_gst(self):
         try:

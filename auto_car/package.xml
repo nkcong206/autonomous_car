@@ -3,7 +3,7 @@
 <package format="3">
   <name>auto_car</name>
   <version>0.0.0</version>
-  <description>auto_car</description>
+  <description>autonomous car</description>
   <maintainer email="nkcong206@gmail.com">nkcong206</maintainer>
   <license>License</license>
 
@@ -11,8 +11,13 @@
   <depend>std_msgs</depend>
   <depend>pop</depend>
   <depend>socketio</depend>
-  <depend>threading</depend>
   <depend>serial</depend>
+
+  <exec_depend>ros2launch</exec_depend>
+  <exec_depend>tf2_ros</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

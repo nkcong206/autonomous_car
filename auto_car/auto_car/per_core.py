@@ -12,6 +12,7 @@ class Perception():
         self.lidar.connect()
         self.lidar.startMotor()  
         self.angle_of_b = 360/n_bins
+        print("Turn on lidar!")
 
     def get_bins(self):
         bins = [] 

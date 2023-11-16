@@ -6,8 +6,8 @@ import time
 
 class gps_pubisher(Node):
     def __init__(self, **kwargs):
-        super().__init__('gps')
-        self.get_logger().info("gps Started")
+        super().__init__('gps_node')
+        print("GPS Started!!!")
         self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
         self.gps_data =[ 0.0, 0.0, 0.0]
         self.my_gps = Float32MultiArray()
@@ -16,13 +16,11 @@ class gps_pubisher(Node):
             while True:
                 data = ""
                 x = ser.readline()
-                print(x)
                 line = x.decode('utf-8', errors='ignore')
                 if line.find("localtion") != -1:
                     line = line.replace("\t", "").replace("\n", "")
                     line = line.replace('"', '')
                     data = line.split(":")[1]
-
                     self.gps_data[1] = float(data.split(",")[0])
                     self.gps_data[2] = float(data.split(",")[1])
                     if self.gps_data[1] == 0.0 and self.gps_data[2] == 0.0:
@@ -31,10 +29,8 @@ class gps_pubisher(Node):
                         self.gps_data[0] == 1
                     self.my_gps.data = self.gps_data
                     self.gps_pub.publish(self.my_gps)
-                    print("GPS Data:", self.gps_pub)
                 time.sleep(0.5) 
         except KeyboardInterrupt:
-            print("KeyboardInterrupt: Stopping the GPS reading...")
             ser.close()
 
 def main(args=None):

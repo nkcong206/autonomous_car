@@ -20,8 +20,8 @@ steering = 0.0
 
 class DriveController(Node):
     def __init__(self):
-        super().__init__('drive_controller')
-        self.get_logger().info("Node Started")
+        super().__init__('controller_node')
+        print("Controller Started!!!")
         #sub
         self.notice_sub = self.create_subscription(Int32, "/notice", self.notice_callback, 10)
         self.cmd_vel_speed_sub = self.create_subscription(Float32, "/cmd_vel_speed", self.cmd_vel_speed_callback, 10)
@@ -46,14 +46,11 @@ class DriveController(Node):
                     signal = -1
         else:
             signal = notice
-        print("signal", signal)
- 
 
     def cmd_vel_speed_callback(self, cmd_vel_speed_msg: Float32):
         global speed
         speed = max_speed*cmd_vel_speed_msg.data
         print("speed", speed)
-
 
     def cmd_vel_steering_callback(self, cmd_vel_steering_msg: Float32):
         global steering
@@ -71,6 +68,7 @@ def controller_thread():
     car = Pilot.AutoCar()
     car.setObstacleDistance(distance=0)
     car.setSensorStatus(euler=1)
+    print("Turn on motor!")
     led = led_signal()
     while True:
         yaw = car.getEuler('yaw') 
