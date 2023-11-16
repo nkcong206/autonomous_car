@@ -47,14 +47,18 @@ class DriveController(Node):
         global pls
         list_point = places_msg.data
         pls = [list_point[i:i+2] for i in range(0, len(list_point), 2)]
+        print("places", pls)
+
         
     def automatic_callback(self, data_msg: Bool):
         global automatic
         automatic = data_msg.data
+        print("automatic", automatic)
             
     def go_stop_callback(self, data_msg: Bool):
         global go_stop
         go_stop = data_msg.data
+        print("go stop", go_stop)
 
     def yaw_callback(self, yaw_msg = Float32):
         global yaw
@@ -119,6 +123,7 @@ def go_to_lat_lon( lat, lon, threshold):
             steering, speed = per.speed_streering_cal( yaw, lat_end, lon_end, lat_start, lon_start)
             print(f"Distance {distance}")   
             print(f"Steering: {steering}, Speed: {speed}")    
+        time.sleep(1)
     return True
                 
 def travel_journey( places, threshold):

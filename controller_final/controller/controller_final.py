@@ -42,15 +42,20 @@ class DriveController(Node):
                 else:
                     signal = -1
         else:
-            signal = notice 
+            signal = notice
+        print("signal", signal)
+ 
 
     def cmd_vel_speed_callback(self, cmd_vel_speed_msg: Float32):
         global speed
         speed = max_speed*cmd_vel_speed_msg.data
+        print("speed", speed)
+
 
     def cmd_vel_steering_callback(self, cmd_vel_steering_msg: Float32):
         global steering
         steering = cmd_vel_steering_msg.data
+        print("steering", steering)
            
     def yaw_callback(self):
         global yaw
@@ -58,31 +63,33 @@ class DriveController(Node):
         cmd_yaw.data = yaw
         self.yaw_pub.publish(cmd_yaw) 
 
-def controller_thread(self):
+def controller_thread():
     global steering, speed, yaw, signal
-    self.car = Pilot.AutoCar()
-    self.car.setObstacleDistance(distance=0)
-    self.car.setSensorStatus(euler=1)
+    car = Pilot.AutoCar()
+    car.setObstacleDistance(distance=0)
+    car.setSensorStatus(euler=1)
     led = led_signal()
-    while not event.is_set():
-        yaw = self.car.getEuler('yaw') 
-
-        self.car.setSpeed(abs(speed))
-        self.car.steering = steering
-        
+    while True:
+        yaw = car.getEuler('yaw') 
+        car.setSpeed(abs(speed))
+        print("1111")
+        car.steering = steering
+        print("2222")
         if speed > 0:
-            self.car.forward()
+            car.forward()
         elif speed < 0:
-            self.car.backward()
+            car.backward()
         else:
-            self.car.stop() 
+            car.stop() 
 
-        led.display(self.car, signal)
+        led.display(car, signal)
         
         time.sleep(0.2)
+        if event.is_set():
+            break
 
-    self.car.stop()
-    self.car.steering = 0
+    car.stop()
+    car.steering = 0
 
 def main(args=None):
     control_thread = threading.Thread(target=controller_thread)

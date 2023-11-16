@@ -16,6 +16,7 @@ class gps_pubisher(Node):
             while True:
                 data = ""
                 x = ser.readline()
+                print(x)
                 line = x.decode('utf-8', errors='ignore')
                 if line.find("localtion") != -1:
                     line = line.replace("\t", "").replace("\n", "")

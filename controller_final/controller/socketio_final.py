@@ -120,9 +120,11 @@ class SocketIOListener(Node):
             my_msg = Float32()
             if type == "speed":
                 my_msg.data = value
+                print("speed", value)
                 self.cmd_vel_speed_pub.publish(my_msg)
             else:
                 my_msg.data = value
+                print("steering", value)
                 self.cmd_vel_steering_pub.publish(my_msg)
                 
     def gps_callback(self, data_msg: Float32MultiArray):
