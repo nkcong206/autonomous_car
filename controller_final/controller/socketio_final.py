@@ -8,10 +8,10 @@ from std_msgs.msg import Float32
 from dotenv import load_dotenv
 import subprocess
 
-load_dotenv(dotenv_path="../config/.env")
+load_dotenv(dotenv_path="./config/.env")
 gps_data = [0.0,0.0]
 gps_status = False
-script_path = "../scripts/runstream.sh" 
+script_path = "./scripts/runstream.sh" 
 
 class SocketIOListener(Node):
     def __init__(self):
