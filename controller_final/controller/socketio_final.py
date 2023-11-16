@@ -32,7 +32,7 @@ class SocketIOListener(Node):
         self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)  
         #sub
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
-        timer_period = 0.5
+        timer_period = 20
         self.timer = self.create_timer(timer_period, self.gps_socketio_callback)               
 
         @self.sio.event
