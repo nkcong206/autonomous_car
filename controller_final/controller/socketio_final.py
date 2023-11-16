@@ -8,10 +8,11 @@ from std_msgs.msg import Float32
 from dotenv import load_dotenv
 import subprocess
 
-load_dotenv(dotenv_path="./config/.env")
+load_dotenv()
+
 gps_data = [0.0,0.0]
 gps_status = False
-script_path = "./scripts/runstream.sh" 
+script_path = "./runstream.sh" 
 
 class SocketIOListener(Node):
     def __init__(self):
@@ -19,6 +20,7 @@ class SocketIOListener(Node):
         self.SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
         self.ID = os.getenv("ID")
         self.NAME = os.getenv("NAME")
+        print(self.SERVER_SOCKETIO)
         self.sio = socketio.Client()
         #pub
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)

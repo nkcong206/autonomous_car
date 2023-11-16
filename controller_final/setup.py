@@ -2,12 +2,10 @@ from setuptools import find_packages, setup
 
 package_name = 'controller'
 src = "controller/src"
-config = "controller/config"
-scripts = "controller/scripts"
 setup(
     name=package_name,
     version='0.0.0',
-    packages=[package_name, src, config, scripts],
+    packages=[package_name, src],
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
