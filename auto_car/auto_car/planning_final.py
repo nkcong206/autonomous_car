@@ -7,7 +7,7 @@ from std_msgs.msg import Float32
 from std_msgs.msg import Bool
 import threading
 import time
-from aware_core import Perception
+from .aware_core import Perception
 
 thres = 3.0
 event = threading.Event()

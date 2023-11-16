@@ -3,23 +3,16 @@
 <package format="3">
   <name>auto_car</name>
   <version>0.0.0</version>
-  <description>AIoT AutoCar nodes and launch files and other resources</description>
-  <maintainer email="nkcong206@todo.todo">nkcong206</maintainer>
-  <license>TODO: License declaration</license>
+  <description>auto_car</description>
+  <maintainer email="nkcong206@gmail.com">nkcong206</maintainer>
+  <license>License</license>
 
   <depend>rclpy</depend>
-  <depend>pyPS4Controller</depend>
-  <depend>nav_msgs</depend>
-  <depend>geometry_msgs</depend>
-  <depend>math</depend>
-  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>pop</depend>
+  <depend>socketio</depend>
   <depend>threading</depend>
-  
-  <exec_depend>tf2_ros</exec_depend>
-  <exec_depend>launch</exec_depend>
-  <exec_depend>launch_ros</exec_depend>
-  <exec_depend>robot_state_publisher</exec_depend>
-  <exec_depend>rviz2</exec_depend>
+  <depend>serial</depend>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
