@@ -14,22 +14,6 @@ gps_data = [0.0,0.0]
 gps_status = 0.0
 script_path = "./runsteam.sh" 
 
-def start_shell_script(script_path):
-    try:
-        process = subprocess.Popen(["bash", script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        return process
-    except Exception as e:
-        print("Error starting shell script:", e)
-        return None
-
-def stop_shell_script(process):
-    try:
-        process.terminate()
-        process.wait()
-    except Exception as e:
-        print("Error stopping shell script:", e)
-
-
 class SocketIOListener(Node):
     def __init__(self):
         super().__init__('socketio_node')
@@ -68,7 +52,7 @@ class SocketIOListener(Node):
         def open_stream(data):
             status = data["status"]
             if status == 1:
-                self.process = start_shell_script(script_path)
+                self.process = self.start_stream_gst(script_path)
                 # cmd = "pm2 start stream_gst"
                 # print("cmd : ", cmd)
                 # os.system(cmd)
@@ -77,7 +61,7 @@ class SocketIOListener(Node):
         def end_stream(data):
             status = data["status"]
             if status == 1:
-                stop_shell_script(self.process)
+                self.stop_stream_gst(self.process)
                 # cmd = "pm2 stop stream_gst"
                 # print("cmd : ", cmd)
                 # os.system(cmd)
@@ -101,17 +85,6 @@ class SocketIOListener(Node):
             self.places_publisher.publish(place_msg)
             print("place_msg",place_msg)
 
-        # @self.sio.on("robot_location") 
-        # def thread_location():
-        #     global gps_data
-        #     while True:    
-        #         try:
-        #             self.sio.emit("robot_location",{"robot_id" : self.ID, "location": gps_data})
-        #             self.time.sleep(0.1)
-        #             print("send to server")
-        #         except:
-        #             pass
-           
         @self.sio.on("automatic")
         def automatic(data):
             auto_msg = Bool()
@@ -136,7 +109,6 @@ class SocketIOListener(Node):
         def on_disconnect():
             print("Disconnected from server")
     
-        #manual controller
         @self.sio.on("move")
         def move(data):
             type = data["type"]
@@ -164,9 +136,24 @@ class SocketIOListener(Node):
 
     def stop(self):
         self.sio.disconnect()
+        
+    def start_stream_gst(script_path):
+        try:
+            process = subprocess.Popen(["bash", script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            return process
+        except Exception as e:
+            print("Error starting stream:", e)
+            return None
+
+    def stop_stream_gst(process):
+        try:
+            process.terminate()
+            process.wait()
+        except Exception as e:
+            print("Error stopping stream:", e)
+
 
 def main(args=None):
-    
     rclpy.init(args=args)
     socketio_listener = SocketIOListener()
     try:

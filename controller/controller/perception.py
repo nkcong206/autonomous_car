@@ -124,7 +124,6 @@ class Perception():
                 if safe_bins[bin] == 1:
                     safety = 1
                     break    
-                
         else:
             steering = 0.0
             safety = 0  
