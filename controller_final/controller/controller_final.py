@@ -4,7 +4,7 @@ import threading
 from rclpy.node import Node
 from std_msgs.msg import Int32
 from std_msgs.msg import Float32
-from .src.led_signal import *
+from led_signal import *
 
 from pop import Pilot
 

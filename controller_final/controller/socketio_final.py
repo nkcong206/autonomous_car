@@ -15,6 +15,7 @@ gps_status = False
 script_path = "./runstream.sh" 
 
 class SocketIOListener(Node):
+    # process = None
     def __init__(self):
         super().__init__('socketio_node')
         self.SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
@@ -22,6 +23,7 @@ class SocketIOListener(Node):
         self.NAME = os.getenv("NAME")
         print(self.SERVER_SOCKETIO)
         self.sio = socketio.Client()
+        self.process = None
         #pub
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
         self.go_stop_publisher = self.create_publisher(Bool, '/go_stop', 10)
@@ -54,7 +56,7 @@ class SocketIOListener(Node):
         def open_stream(data):
             status = data["status"]
             if status == 1:
-                self.process = self.start_stream_gst(script_path)
+                self.start_stream_gst(script_path)
                 # cmd = "pm2 start stream_gst"
                 # print("cmd : ", cmd)
                 # os.system(cmd)
@@ -63,7 +65,7 @@ class SocketIOListener(Node):
         def end_stream(data):
             status = data["status"]
             if status == 1:
-                self.stop_stream_gst(self.process)
+                self.stop_stream_gst()
                 # cmd = "pm2 stop stream_gst"
                 # print("cmd : ", cmd)
                 # os.system(cmd)
@@ -142,18 +144,20 @@ class SocketIOListener(Node):
     def stop(self):
         self.sio.disconnect()
         
-    def start_stream_gst(script_path):
+    def start_stream_gst(self,script_path):
         try:
-            process = subprocess.Popen(["bash", script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            return process
+            self.process = subprocess.Popen(["bash", script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            print(self.process.pid)
+            # return process
         except Exception as e:
             print("Error starting stream:", e)
-            return None
+            # return None
 
-    def stop_stream_gst(process):
+    def stop_stream_gst(self):
         try:
-            process.terminate()
-            process.wait()
+            if self.process is not None:
+                self.process.terminate()
+                self.process.wait()
         except Exception as e:
             print("Error stopping stream:", e)
 
