@@ -14,6 +14,7 @@ event = threading.Event()
 
 notice = -1
 pls = []
+place_id = 0
 gps_data = [0.0,0.0]
 gps_status = False
 go_stop = False
@@ -127,14 +128,14 @@ def go_to_lat_lon( lat, lon, threshold):
     return True
                 
 def travel_journey( places, threshold):
-    global notice
+    global notice, place_id
     if len(places) == 0:
         print("Places is empty!")
         notice = 1
     else:
-        for place in places:
-            if go_to_lat_lon( place[0],  place[1], threshold):          
-                print(f"place: [{ place[0]}, { place[1]}]")
+        for place_id in range(place_id, len(places)):
+            if go_to_lat_lon( places[place_id][0],  places[place_id][1], threshold):          
+                print(f"place: [{ places[place_id][0]}, { places[place_id][1]}]")
             else:
                 return
         print("Arrive at the destination!")

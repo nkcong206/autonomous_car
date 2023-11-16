@@ -10,10 +10,13 @@ from pop import Pilot
 
 event = threading.Event()
 
+max_speed = 70
+
 notice = -1
 signal = -1
 yaw = 0.0
-max_speed = 70
+speed = 0.0
+steering = 0.0
 
 class DriveController(Node):
     def __init__(self):
@@ -72,9 +75,7 @@ def controller_thread():
     while True:
         yaw = car.getEuler('yaw') 
         car.setSpeed(abs(speed))
-        print("1111")
         car.steering = steering
-        print("2222")
         if speed > 0:
             car.forward()
         elif speed < 0:
@@ -84,7 +85,7 @@ def controller_thread():
 
         led.display(car, signal)
         
-        time.sleep(0.2)
+        time.sleep(0.05)
         if event.is_set():
             break
 
