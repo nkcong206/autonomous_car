@@ -60,7 +60,7 @@ def led_control():
             time.sleep(0.01)
             car.setPixelDisplay(all_positions, stop_colors)
 
-        elif signal == led_signal.GO_STRAIGHT.value:
+        elif signal == led_signal.PLACES_EMPTY.value:
             car.setPixelDisplay(all_positions, go_straight_colors)
             car.setPixelDisplay(all_positions, stop_colors)
 
@@ -76,7 +76,7 @@ def led_control():
             car.setPixelDisplay(all_positions, stop_colors)
             time.sleep(0.01)
 
-        elif signal == led_signal.GO_BACK.value:  
+        elif signal == led_signal.ERROR_GPS.value:  
             car.setPixelDisplay(all_positions, go_back_colors)
             time.sleep(0.01)
             car.setPixelDisplay(all_positions, stop_colors)

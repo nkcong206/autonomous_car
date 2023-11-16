@@ -10,6 +10,7 @@ import subprocess
 
 load_dotenv(dotenv_path="../config/.env")
 gps_data = [0.0,0.0]
+gps_status = False
 script_path = "../scripts/runstream.sh" 
 
 class SocketIOListener(Node):
@@ -19,13 +20,14 @@ class SocketIOListener(Node):
         self.ID = os.getenv("ID")
         self.NAME = os.getenv("NAME")
         self.sio = socketio.Client()
-
+        #pub
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
         self.go_stop_publisher = self.create_publisher(Bool, '/go_stop', 10)
         self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
-        self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
         self.cmd_vel_speed_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)  
         self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)  
+        #sub
+        self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
         timer_period = 0.5
         self.timer = self.create_timer(timer_period, self.gps_socketio_callback)               
 
@@ -120,12 +122,16 @@ class SocketIOListener(Node):
                 self.cmd_vel_steering_pub.publish(my_msg)
                 
     def gps_callback(self, data_msg: Float32MultiArray):
-        global gps_data
-        gps_data = data_msg.data[0:2]
+        global gps_status, gps_data
+        if gps_data[0] == 0.0:
+            gps_status = False 
+        else:
+            gps_status = True
+        gps_data = data_msg.data[1:3]
 
     def gps_socketio_callback(self):
-        global gps_data
-        if gps_data[0] != 0.0 and gps_data[1] != 0.0:
+        global gps_status, gps_data
+        if gps_status:
             self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(gps_data)})
 
     def start(self):

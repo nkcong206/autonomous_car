@@ -9,7 +9,7 @@ class gps_pubisher(Node):
         super().__init__('gps')
         self.get_logger().info("gps Started")
         self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
-        self.gps_data =[0.0,0.0]
+        self.gps_data =[ 0.0, 0.0, 0.0]
         self.my_gps = Float32MultiArray()
         ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)
         try:
@@ -21,8 +21,13 @@ class gps_pubisher(Node):
                     line = line.replace("\t", "").replace("\n", "")
                     line = line.replace('"', '')
                     data = line.split(":")[1]
-                    self.gps_data[0] = float(data.split(",")[0])
-                    self.gps_data[1] = float(data.split(",")[1])
+
+                    self.gps_data[1] = float(data.split(",")[0])
+                    self.gps_data[2] = float(data.split(",")[1])
+                    if self.gps_data[1] == 0.0 and self.gps_data[2] == 0.0:
+                        self.gps_data[0] == 0
+                    else:
+                        self.gps_data[0] == 1
                     self.my_gps.data = self.gps_data
                     self.gps_pub.publish(self.my_gps)
                     print("GPS Data:", self.gps_pub)

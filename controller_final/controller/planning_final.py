@@ -7,7 +7,7 @@ from std_msgs.msg import Float32
 from std_msgs.msg import Bool
 import threading
 import time
-from controller.src.aware_core import Perception
+from src.aware_core import Perception
 
 thres = 3.0
 event = threading.Event()
@@ -35,13 +35,13 @@ class DriveController(Node):
         self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
         self.yaw_sub = self.create_subscription(Float32, "/yaw", self.yaw_callback, 10)
         # pub
-        timer_period = 0.2
         self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
         self.cmd_vel_speed_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)
-        self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)    
-        self.timer1 = self.create_timer(timer_period, self.notice_callback)
-        self.timer2 = self.create_timer(timer_period, self.cmd_vel_speed_callback)
-        self.timer3 = self.create_timer(timer_period, self.cmd_vel_steering_callback)
+        self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)  
+        timer_period = 0.2
+        self.timer_notice = self.create_timer(timer_period, self.notice_callback)
+        self.timer_speed = self.create_timer(timer_period, self.cmd_vel_speed_callback)
+        self.timer_steering = self.create_timer(timer_period, self.cmd_vel_steering_callback)
 
     def places_callback(self, places_msg = Float32MultiArray):
         global pls
@@ -61,12 +61,13 @@ class DriveController(Node):
         yaw = yaw_msg.data
         
     def gps_callback(sefl, gps_msg = Float32MultiArray):
-        global gps_data, gps_status
-        gps_data = gps_msg.data[0:2]
-        if gps_data[0] == 0.0 and gps_data[1] == 0.0:
+        global gps_status, gps_data 
+        if gps_data[0] == 0.0:
             gps_status = False 
         else:
             gps_status = True
+        gps_data = gps_msg.data[1:3]
+        
 
     def notice_callback(self):
         global notice
@@ -94,7 +95,7 @@ def go_to_lat_lon( lat, lon, threshold):
     lat_start = math.radians(gps_data[0])
     lon_start = math.radians(gps_data[1])
     
-    distance = aware_core.distance_cal( lat_end, lon_end, lat_start, lon_start)
+    distance = per.distance_cal( lat_end, lon_end, lat_start, lon_start)
     
     while (distance >= threshold):
         print(f"Go to: {lat}, {lon}")
@@ -114,8 +115,8 @@ def go_to_lat_lon( lat, lon, threshold):
             notice = -1
             lat_start = math.radians(gps_data[0])
             lon_start = math.radians(gps_data[1])    
-            distance = aware_core.distance_cal( lat_end, lon_end, lat_start, lon_start)
-            steering, speed = aware_core.speed_streering_cal( yaw, lat_end, lon_end, lat_start, lon_start)
+            distance = per.distance_cal( lat_end, lon_end, lat_start, lon_start)
+            steering, speed = per.speed_streering_cal( yaw, lat_end, lon_end, lat_start, lon_start)
             print(f"Distance {distance}")   
             print(f"Steering: {steering}, Speed: {speed}")    
     return True
@@ -144,7 +145,7 @@ def planning_thread():
         else:
             notice = -1
         time.sleep(1)
-    aware_core.stop_lidar()
+    per.stop_lidar()
 
 def main(args=None):
     planning = threading.Thread(target=planning_thread)

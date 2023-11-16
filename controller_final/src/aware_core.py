@@ -2,20 +2,19 @@ import math
 from pop import LiDAR
 
 n_bins = int(12) # 4, 8, 12, 16
-angle_of_b = 360/n_bins
-
 distance = 1500
 safe_distance = 1000
 width_of_bin_0 = 500
+
 
 class Perception():   
     def __init__(self):
         self.lidar = LiDAR.Rplidar()
         self.lidar.connect()
         self.lidar.startMotor()  
+        self.angle_of_b = 360/n_bins
 
-    def get_bins( self):
-        global distance, safe_distance, width_of_bin_0
+    def get_bins(self):
         bins = [] 
         safe_bins = []
         for bin in range(int(n_bins)):
@@ -35,8 +34,8 @@ class Perception():
                 elif vector[1]*math.sin(rad) <= width_of_bin_0/2 and vector[1]*math.cos(rad) <= distance:
                     bins[0] = 1
                     
-            if vector[0] <= 360 - angle_of_b/2 and vector[0] >= angle_of_b/2:
-                bin = int((angle_of_b/2+vector[0])/angle_of_b)
+            if vector[0] <= 360 - self.angle_of_b/2 and vector[0] >= self.angle_of_b/2:
+                bin = int((self.angle_of_b/2+vector[0])/self.angle_of_b)
                 if vector[1] <= safe_distance:
                     safe_bins[bin] = 1
                     bins[bin] = 1
@@ -49,7 +48,7 @@ class Perception():
         bin_id = 0
         if beta < 0: #. beta in range (0,360) 
             beta += 360
-        index = int((beta+angle_of_b/2) / angle_of_b)
+        index = int((beta+self.angle_of_b/2) / self.angle_of_b)
         if index > n_bins-1:
             index = 0
             
@@ -79,8 +78,7 @@ class Perception():
         else:
             return bin_id, False
         
-    def speed_streering_cal( self, yaw, lat_end, lon_end, lat_start, lon_start):
-        
+    def speed_streering_cal( self, yaw, lat_end, lon_end, lat_start, lon_start):      
         d_lon = lon_end - lon_start
         # Calculate the bearing using the haversine formula
         y = math.sin(d_lon) * math.cos(lat_end)
@@ -92,10 +90,10 @@ class Perception():
         destination_angle = (initial_bearing + 360) % 360 #angle a
         
         # obstacle avoidance 
-        bins, safe_bins = self.get_bins( n_bins, angle_of_b)
+        bins, safe_bins = self.get_bins()
         beta = destination_angle - yaw
         bin_id, success = self.compute_desired_bins( beta, bins, safe_bins)
-        angle = bin_id * angle_of_b
+        angle = bin_id * self.angle_of_b
         safety = 3
         if angle > 180:
             angle = angle - 360

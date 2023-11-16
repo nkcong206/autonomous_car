@@ -1,15 +1,15 @@
 import rclpy
 import math
+import threading
+import time
+import numpy as np
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Int32
 from std_msgs.msg import Float32
 from std_msgs.msg import Bool
+
 from pop import Pilot, LiDAR
-import threading
-import time
-import numpy as np
-import queue
 
 signal = -1
 places = []
@@ -28,19 +28,18 @@ width_of_bin_0 = 500
 threshold = 3.0
 event = threading.Event()
 
-# speed_queue = queue.Queue()
-# steering_lock = threading.Lock()
-
 class DriveController(Node):
     def __init__(self):
         super().__init__('drive_controller')
         self.get_logger().info("Node Started")
-        self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_callback, 10)
+        #sub
         self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_callback, 10)
         self.go_stop_sub = self.create_subscription(Bool, "/go_stop", self.go_stop_callback, 10)
+        self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_callback, 10)
         self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
         self.cmd_vel_speed_sub = self.create_subscription(Float32, "/cmd_vel_speed", self.cmd_vel_speed_callback, 10)
         self.cmd_vel_steering_sub = self.create_subscription(Float32, "/cmd_vel_steering", self.cmd_vel_steering_callback, 10)
+        #pub       
         self.led_pub = self.create_publisher(Int32, "/led", 10)    
         timer_period = 0.1
         self.timer = self.create_timer(timer_period, self.led_callback)
@@ -50,12 +49,11 @@ class DriveController(Node):
         list_point = places_msg.data
         pl = np.reshape(list_point, (len(list_point) // 2, 2))
         places = pl.tolist()
-
         
     def gps_callback(sefl, data_msg = Float32MultiArray):
         global gps_data, gps_status
-        gps_data = data_msg.data[0:2]
-        gps_status = data_msg.data[2]
+        gps_data = data_msg.data[1:3]
+        gps_status = data_msg.data[0]
         
     def automatic_callback(self, data_msg: Bool):
         global automatic
@@ -65,7 +63,6 @@ class DriveController(Node):
             automatic = False
         print("automatic", data_msg.data)
 
-            
     def go_stop_callback(self, data_msg: Bool):
         global go_stop
         if data_msg.data:
