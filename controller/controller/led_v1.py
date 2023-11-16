@@ -3,8 +3,8 @@ from rclpy.node import Node
 from std_msgs.msg import Int32
 from led_signal import *
 import time
-from pop import Pilot
 import threading
+from pop import Pilot
 
 signal = -1
 #data for color

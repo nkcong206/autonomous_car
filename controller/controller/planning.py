@@ -37,7 +37,7 @@ class DriveController(Node):
         self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
         self.yaw_sub = self.create_subscription(Float32, "/yaw", self.yaw_callback, 10)
         # pub
-        timer_period = 0.1
+        timer_period = 0.2
         self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
         self.cmd_vel_speed_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)    
         self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)    
@@ -107,7 +107,7 @@ def go_to_lat_lon( lat, lon, threshold):
             speed = 0
         elif gps_status == 0:
             print("Error gps!")
-            notice = 4
+            notice = 2
             steering = 0
             speed = 0
         else:

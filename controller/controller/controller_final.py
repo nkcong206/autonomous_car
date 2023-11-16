@@ -68,11 +68,11 @@ class DriveController(Node):
                 signal = 5
             else:
                 if steering > 0:
-                    signal = 2
-                elif steering < 0:
                     signal = 3
+                elif steering < 0:
+                    signal = 4
                 else:
-                    signal = 1
+                    signal = -1
         else:
             signal = notice 
 
@@ -107,13 +107,13 @@ def controller_thread():
 
         if signal == led_signal.REACH_DESTINATION.value:
             car.setPixelDisplay(all_positions, reach_destination_colors)
-        elif signal == led_signal.GO_STRAIGHT.value:
+        elif signal == led_signal.PLACES_EMPTY.value:
             car.setPixelDisplay(all_positions, go_straight_colors)
         elif signal == led_signal.TURN_RIGHT.value:
             car.setPixelDisplay(right_positions, turn_right_colors)
         elif signal == led_signal.TURN_LEFT.value:
             car.setPixelDisplay(left_positions, turn_left_colors)
-        elif signal == led_signal.GO_BACK.value:  
+        elif signal == led_signal.ERROR_GPS.value:  
             car.setPixelDisplay(all_positions, go_back_colors)
         elif signal == led_signal.ALL_BLOCK.value:
             car.setPixelDisplay(all_positions, all_block_colors)   
