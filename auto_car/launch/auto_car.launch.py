@@ -2,10 +2,19 @@
 from launch import LaunchDescription
 from launch.actions import ExecuteProcess
 from launch_ros.actions import Node
+from ament_index_python.packages import get_package_share_directory
+import os
 
+package_share_directory = get_package_share_directory('auto_car')
+start = os.path.join(package_share_directory, 'scripts', 'start.sh')
 def generate_launch_description():
-    execute_script_action = ExecuteProcess(
-        cmd=['bash', './start.sh'], 
+    chmod_start_file = ExecuteProcess(
+        cmd=['chmod +x', start], 
+        shell=True,  
+        output='screen'  
+    )
+    update_python_can = ExecuteProcess(
+        cmd=['bash', start], 
         shell=True,  
         output='screen'  
     )
@@ -34,7 +43,8 @@ def generate_launch_description():
         output='screen'
     )
     return LaunchDescription([
-        execute_script_action, 
+        chmod_start_file,
+        update_python_can, 
         socketio,
         gps,
         planning,

@@ -4,26 +4,29 @@ import os
 from rclpy.node import Node
 from std_msgs.msg import Bool
 from std_msgs.msg import Float32MultiArray
-from std_msgs.msg import Float32
 from dotenv import load_dotenv
 import subprocess
+from ament_index_python.packages import get_package_share_directory
 
-load_dotenv()
+package_share_directory = get_package_share_directory('auto_car')
+dotenv_path = os.path.join(package_share_directory, 'config', '.env')
+runstream = os.path.join(package_share_directory, 'scripts', 'runstream.sh')
 
-
-script_path = "./runstream.sh" 
+load_dotenv(dotenv_path)
+SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
 
 class SocketIOListener(Node):
     # process = None
     def __init__(self):
         super().__init__('socketio_node')
         self.get_logger().info("SocketIO Started!!!")
-        
         self.SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
+        print(self.SERVER_SOCKETIO)
         self.ID = os.getenv("ID")
+        print(self.ID)
         self.NAME = os.getenv("NAME")
+        print(self.NAME)
         self.sio = socketio.Client()
-        self.sio.connect(self.SERVER_SOCKETIO)
         
         self.gps_data = [ 0.0, 0.0]
         self.gps_status = False
@@ -34,7 +37,7 @@ class SocketIOListener(Node):
         self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
         self.go_stop_publisher = self.create_publisher(Bool, '/go_stop', 10)
-        self.cmd_vel_pub = self.create_publisher(Float32, "/cmd_vel", 10)  
+        self.cmd_vel_publisher = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)  
         #sub
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_sub_callback, 10)
          
@@ -58,11 +61,11 @@ class SocketIOListener(Node):
 
         @self.sio.on('register_robot')
         def on_message(data):
-            self.get_logger().info("Message received:", data)
+            self.get_logger().info(f"Message received: {data}")
             
         @self.sio.on('register_controller')
         def on_message(data):
-            self.get_logger().info("Message received:", data)
+            self.get_logger().info(f"Message received: {data}")
 
         @self.sio.on("open_stream")
         def open_stream(data):
@@ -130,15 +133,15 @@ class SocketIOListener(Node):
             self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(self.gps_data)})
     
     def cmd_vel_callback(self):
-        cmd_vel_pub = Float32MultiArray()
-        cmd_vel_pub.data = [self.speed, self.steering]
-        self.cmd_vel_pub.publish(cmd_vel_pub)
+        cmd_vel_ms = Float32MultiArray()
+        cmd_vel_ms.data = [ self.speed, self.steering]
+        self.cmd_vel_publisher.publish(cmd_vel_ms)
 
     def start_stream_gst(self):
         try:
-            self.process = subprocess.Popen(["bash", script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            self.process = subprocess.Popen(["bash", runstream], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         except Exception as e:
-            self.get_logger().info("Error starting stream:", e)
+            self.get_logger().info("Error starting stream:")
 
     def stop_stream_gst(self):
         try:
@@ -146,16 +149,20 @@ class SocketIOListener(Node):
                 self.process.terminate()
                 self.process.wait()
         except Exception as e:
-            self.get_logger().info("Error stopping stream:", e)
+            self.get_logger().info("Error stopping stream:")
     
     def stop(self):
         self.sio.disconnect()
+
+    def start(self):
+        self.sio.connect(self.SERVER_SOCKETIO)
+        rclpy.spin(self)
         
 def main(args=None):
     rclpy.init(args=args)
     socketio_listener = SocketIOListener()
     try:
-        rclpy.spin(socketio_listener)
+        socketio_listener.start()
     except KeyboardInterrupt:
         socketio_listener.stop()
     socketio_listener.destroy_node()

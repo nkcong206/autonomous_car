@@ -6,7 +6,7 @@ from std_msgs.msg import Float32
 from std_msgs.msg import Bool
 
 import math
-from .per_core import Perception
+from .lib.per_core import Perception
 
 from pop import LiDAR
 

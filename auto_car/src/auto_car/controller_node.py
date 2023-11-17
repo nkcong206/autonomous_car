@@ -3,7 +3,7 @@ from rclpy.node import Node
 from std_msgs.msg import Int32
 from std_msgs.msg import Float32
 from std_msgs.msg import Float32MultiArray
-from .led_signal import *
+from .lib.led_signal import *
 
 from pop import Pilot
 
@@ -62,8 +62,8 @@ class DriveController(Node):
     def cmd_vel_sub_callback(self, cmd_vel_msg: Float32):
         self.speed = max_speed*cmd_vel_msg.data[0]
         self.steering = cmd_vel_msg.data[1]
-        self.get_logger().info("speed", self.speed)
-        self.get_logger().info("steering", self.steering)
+        self.get_logger().info(f"speed  {self.speed}")
+        self.get_logger().info(f"steering {self.steering}")
 
     def yaw_pub_callback(self):
         cmd_yaw = Float32()
