@@ -10,53 +10,65 @@ import subprocess
 
 load_dotenv()
 
-gps_data = [0.0,0.0]
-gps_status = False
+
 script_path = "./runstream.sh" 
 
 class SocketIOListener(Node):
     # process = None
     def __init__(self):
         super().__init__('socketio_node')
-        print("SocketIO Started!!!")
+        self.get_logger().info("SocketIO Started!!!")
+        
         self.SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
         self.ID = os.getenv("ID")
         self.NAME = os.getenv("NAME")
         self.sio = socketio.Client()
+        self.sio.connect(self.SERVER_SOCKETIO)
+        
+        self.gps_data = [ 0.0, 0.0]
+        self.gps_status = False
+        self.speed = 0.0
+        self.steering = 0.0
         self.process = None
         #pub
+        self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
         self.go_stop_publisher = self.create_publisher(Bool, '/go_stop', 10)
-        self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
-        self.cmd_vel_speed_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)  
-        self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)  
+        self.cmd_vel_pub = self.create_publisher(Float32, "/cmd_vel", 10)  
         #sub
-        self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
-        timer_period = 20
-        self.timer = self.create_timer(timer_period, self.gps_socketio_callback)               
+        self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_sub_callback, 10)
+         
+        timer_period_gps = 20
+        self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)               
+        timer_period_cmd_vel = 0.5
+        self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)               
 
         @self.sio.event
         def connect():
-            print('Socket.IO connected')
+            self.get_logger().info('Socket.IO connected')
 
         @self.sio.event
         def disconnect():
-            print('Socket.IO disconnected')
+            self.get_logger().info('Socket.IO disconnected')
             
         @self.sio.on('connect')
         def on_connect():
-            print("Connected to server ...")
             self.sio.emit("register_robot", {"robot_id" : self.ID, "robot_name" : self.NAME})
+            self.get_logger().info("Connected to server ...")
 
         @self.sio.on('register_robot')
         def on_message(data):
-            print("Message received:", data)
+            self.get_logger().info("Message received:", data)
+            
+        @self.sio.on('register_controller')
+        def on_message(data):
+            self.get_logger().info("Message received:", data)
 
         @self.sio.on("open_stream")
         def open_stream(data):
             status = data["status"]
             if status == 1:
-                self.start_stream_gst(script_path)
+                self.start_stream_gst()
 
         @self.sio.on("end_stream")
         def end_stream(data):
@@ -64,21 +76,15 @@ class SocketIOListener(Node):
             if status == 1:
                 self.stop_stream_gst()
         
-        @self.sio.on('register_controller')
-        def on_message(data):
-            print("Message received:", data)
-        
         @self.sio.on("locations_direction_robot")
         def locations_direction(data):
+            pls = data['locations'][1:][0]
+            places = []
+            for point in pls:
+                places.append(float(point[0]))
+                places.append(float(point[1]))
             place_msg = Float32MultiArray()
-            places = data['locations']
-            places = places[1:]
-            places = places[0]
-            new_places = []
-            for point in places:
-                new_places.append(float(point[0]))
-                new_places.append(float(point[1]))
-            place_msg.data = new_places
+            place_msg.data = places
             self.places_publisher.publish(place_msg)
 
         @self.sio.on("automatic")
@@ -101,44 +107,38 @@ class SocketIOListener(Node):
     
         @self.sio.on('disconnect')
         def on_disconnect():
-            print("Disconnected from server...")
+            self.get_logger().info("Disconnected from server...")
     
         @self.sio.on("move")
         def move(data):
             type = data["type"]
             value = data["value"]
-            my_msg = Float32()
             if type == "speed":
-                my_msg.data = value
-                self.cmd_vel_speed_pub.publish(my_msg)
+                self.speed = value
             else:
-                my_msg.data = value
-                self.cmd_vel_steering_pub.publish(my_msg)
+                self.steering = value
                 
-    def gps_callback(self, data_msg: Float32MultiArray):
-        global gps_status, gps_data
-        if gps_data[0] == 0.0:
-            gps_status = False 
+    def gps_sub_callback(self, gps_msg = Float32MultiArray):
+        self.gps_data = gps_msg.data
+        if self.gps_data[0] == 0.0 and self.gps_data[1] == 0.0:
+            self.gps_status = False
         else:
-            gps_status = True
-        gps_data = data_msg.data[1:3]
+            self.gps_status = True
 
-    def gps_socketio_callback(self):
-        global gps_status, gps_data
-        if gps_status:
-            self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(gps_data)})
+    def gps_pub_callback(self):
+        if self.gps_status:
+            self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(self.gps_data)})
+    
+    def cmd_vel_callback(self):
+        cmd_vel_pub = Float32MultiArray()
+        cmd_vel_pub.data = [self.speed, self.steering]
+        self.cmd_vel_pub.publish(cmd_vel_pub)
 
-    def start(self):
-        self.sio.connect(self.SERVER_SOCKETIO)
-
-    def stop(self):
-        self.sio.disconnect()
-        
-    def start_stream_gst(self,script_path):
+    def start_stream_gst(self):
         try:
             self.process = subprocess.Popen(["bash", script_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         except Exception as e:
-            print("Error starting stream:", e)
+            self.get_logger().info("Error starting stream:", e)
 
     def stop_stream_gst(self):
         try:
@@ -146,17 +146,18 @@ class SocketIOListener(Node):
                 self.process.terminate()
                 self.process.wait()
         except Exception as e:
-            print("Error stopping stream:", e)
-
+            self.get_logger().info("Error stopping stream:", e)
+    
+    def stop(self):
+        self.sio.disconnect()
+        
 def main(args=None):
     rclpy.init(args=args)
     socketio_listener = SocketIOListener()
     try:
-        socketio_listener.start()
         rclpy.spin(socketio_listener)
     except KeyboardInterrupt:
-        pass
-    socketio_listener.stop()
+        socketio_listener.stop()
     socketio_listener.destroy_node()
     rclpy.shutdown()
 

@@ -1,163 +1,139 @@
 import rclpy
-import math
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Int32
 from std_msgs.msg import Float32
 from std_msgs.msg import Bool
-import threading
-import time
+
+import math
 from .per_core import Perception
 
-thres = 3.0
-event = threading.Event()
+from pop import LiDAR
 
-notice = -1
-pls = []
-place_id = 0
-gps_data = [0.0,0.0]
-gps_status = False
-go_stop = False
-automatic = False
-speed = 0.0
-steering = 0.0
-yaw = 0.0
+threshold = 3.0
+n_bins = int(12) # 4, 8, 12, 16
+distance = 1500
+safe_distance = 1000
+width_of_bin_0 = 500
 
-per = Perception() 
-
-class DriveController(Node):
+class PlanningNode(Node):
     def __init__(self):
         super().__init__('planning_node')
-        print("Planning started!!!")
         # sub
-        self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_callback, 10)
-        self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_callback, 10)
-        self.go_stop_sub = self.create_subscription(Bool, "/go_stop", self.go_stop_callback, 10)
-        self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_callback, 10)
-        self.yaw_sub = self.create_subscription(Float32, "/yaw", self.yaw_callback, 10)
+        self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_sub_callback, 10)
+        self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_sub_callback, 10)
+        self.go_stop_sub = self.create_subscription(Bool, "/go_stop", self.go_stop_sub_callback, 10)
+        self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_sub_callback, 10)
+        self.yaw_sub = self.create_subscription(Float32, "/yaw", self.yaw_sub_callback, 10)
         # pub
         self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
-        self.cmd_vel_speed_pub = self.create_publisher(Float32, "/cmd_vel_speed", 10)
-        self.cmd_vel_steering_pub = self.create_publisher(Float32, "/cmd_vel_steering", 10)  
-        timer_period = 0.2
-        self.timer_notice = self.create_timer(timer_period, self.notice_callback)
-        self.timer_speed = self.create_timer(timer_period, self.cmd_vel_speed_callback)
-        self.timer_steering = self.create_timer(timer_period, self.cmd_vel_steering_callback)
+        self.cmd_vel_pub = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)
+        timer_period_notice = 0.2
+        self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)
+        timer_period_cmd_vel = 0.1
+        self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
+        
+        self.notice = -1
+        self.pls = []
+        self.pl_id = 0
+        self.gps_data = [ 0.0, 0.0]
+        self.gps_status = False
+        self.go_stop = False
+        self.automatic = False
+        self.speed = 0.0
+        self.steering = 0.0
+        self.yaw = 0.0
+        
+        self.lidar = LiDAR.Rplidar()
+        self.lidar.connect()
+        self.lidar.startMotor()  
+        self.per = Perception( self.lidar, n_bins, distance, safe_distance, width_of_bin_0) 
 
-    def places_callback(self, places_msg = Float32MultiArray):
-        global pls
+        self.get_logger().info("Planning Started!!!")
+        
+        while True:
+            if self.automatic:
+                self.get_logger().info("Automatic!")
+                if not self.gps_status:
+                    self.notice = 2
+                    self.get_logger().info("Error GPS!")
+                elif not self.go_stop:
+                    self.notice = 5
+                    self.get_logger().info("Stop car!")
+                elif len(self.pls) == 0:
+                    self.notice = 1
+                    self.get_logger().info("Route planning is currently empty!")
+                elif self.pl_id == len(self.pls):
+                    self.notice = 0
+                    self.get_logger().info("Arrived at the destination!")
+                else:
+                    self.notice = -1
+                    self.speed, self.steering = self.auto_go_to(self.pls[self.pl_id][0],  self.pls[self.pl_id][1], self.gps_data[0], self.gps_data[1])
+            else:
+                self.notice = -1
+                self.get_logger().info("Mantual!")
+            rclpy.spin_once(self)
+                
+    def places_sub_callback(self, places_msg = Float32MultiArray):
         list_point = places_msg.data
-        pls = [list_point[i:i+2] for i in range(0, len(list_point), 2)]
-        
-    def automatic_callback(self, data_msg: Bool):
-        global automatic
-        automatic = data_msg.data
+        pls_data = [list_point[i:i+2] for i in range(0, len(list_point), 2)]
+        if self.pls != pls_data:
+            self.pl_id = 0
+        self.pls = pls_data
             
-    def go_stop_callback(self, data_msg: Bool):
-        global go_stop
-        go_stop = data_msg.data
+    def automatic_sub_callback(self, data_msg: Bool):
+        self.automatic = data_msg.data
+            
+    def go_stop_sub_callback(self, data_msg: Bool):
+        self.go_stop = data_msg.data
 
-    def yaw_callback(self, yaw_msg = Float32):
-        global yaw
-        yaw = yaw_msg.data
+    def yaw_sub_callback(self, yaw_msg = Float32):
+        self.yaw = yaw_msg.data
         
-    def gps_callback(sefl, gps_msg = Float32MultiArray):
-        global gps_status, gps_data 
-        if gps_data[0] == 0.0:
-            gps_status = False 
+    def gps_sub_callback(self, gps_msg = Float32MultiArray):
+        self.gps_data = gps_msg.data
+        if self.gps_data[0] == 0.0 and self.gps_data[1] == 0:
+            self.gps_status = False
         else:
-            gps_status = True
-        gps_data = gps_msg.data[1:3]
+            self.gps_status = True
 
-    def notice_callback(self):
-        global notice
+    def notice_pub_callback(self):
         notice_msg = Int32()
-        notice_msg.data = notice
+        notice_msg.data = self.notice
         self.notice_pub.publish(notice_msg)
 
-    def cmd_vel_speed_callback(self):
-        global speed
-        cmd_speed = Float32()
-        cmd_speed.data = speed
-        self.cmd_vel_speed_pub.publish(cmd_speed)
+    def cmd_vel_pub_callback(self):
+        cmd_vel_pub = Float32MultiArray()
+        cmd_vel_pub.data = [self.speed, self.steering]
+        self.cmd_vel_pub.publish(cmd_vel_pub)
 
-    def cmd_vel_steering_callback(self):
-        global steering
-        cmd_steering = Float32()
-        cmd_steering.data = steering
-        self.cmd_vel_steering_pub.publish(cmd_steering)
-     
-def planning_thread():
-    global pls, notice
-    while not event.is_set():
-        if automatic:
-            print("Automatic!")
-            travel_journey( pls, thres)
-        else:
-            print("Mantual!")
-            notice = -1
-        time.sleep(1)
-    per.stop_lidar()
+    def stop(self):
+        self.lidar.stopMotor()
 
-def travel_journey( places, threshold):
-    global notice, place_id
-    if len(places) == 0:
-        print("Route planning is currently empty!")
-        notice = 1
-    else:
-        print("Route planning: ", pls)
-        for place_id in range(place_id, len(places)):
-            if go_to_lat_lon( places[place_id][0],  places[place_id][1], threshold):          
-                print(f"Has reached at point [{ places[place_id][0]}, { places[place_id][1]}]")
-            else:
-                return
-        print("Arrive at the destination!")
-        notice = 0
-               
-def go_to_lat_lon( lat, lon, threshold):
-    global gps_status, gps_data, notice, go_stop, automatic, speed, steering
- 
-    lat_end = math.radians(lat)
-    lon_end = math.radians(lon)
-    lat_start = math.radians(gps_data[0])
-    lon_start = math.radians(gps_data[1])
-    
-    distance = per.distance_cal( lat_end, lon_end, lat_start, lon_start)
-    
-    while (distance >= threshold):
-        if not automatic:
-            return False
-        elif not go_stop:
-            print("Stop car!")
-            notice = 5
-            steering = 0
-            speed = 0
-        elif not gps_status:
-            print("Error gps!")
-            notice = 2
-            steering = 0
-            speed = 0
+    def auto_go_to(self, lat_end, lon_end, lat_start, lon_start):
+        rad_lat_end = math.radians(lat_end)
+        rad_lon_end = math.radians(lon_end)
+        rad_lat_start = math.radians(lat_start)
+        rad_lon_start = math.radians(lon_start)
+        distance = self.per.distance_cal( rad_lat_end, rad_lon_end, rad_lat_start, rad_lon_start)                
+        if distance >= threshold:
+            speed, steering = self.per.speed_streering_cal( rad_lat_end, rad_lon_end, rad_lat_start, rad_lon_start)    
+            self.get_logger().info(f"Distance to the next point {distance}!") 
         else:
-            notice = -1
-            lat_start = math.radians(gps_data[0])
-            lon_start = math.radians(gps_data[1])    
-            distance = per.distance_cal( lat_end, lon_end, lat_start, lon_start)
-            steering, speed = per.speed_streering_cal( yaw, lat_end, lon_end, lat_start, lon_start)
-            print(f"Distance to the next point: {distance}!")   
-        time.sleep(1)
-    return True
-                
+            self.pl_id += 1 
+            speed = 0.0
+            steering = 0.0
+            self.get_logger().info(f"Has reached at [{lat_end}, {lon_end}]")
+        return speed, steering
+
 def main(args=None):
-    planning = threading.Thread(target=planning_thread)
-    planning.start()
     rclpy.init(args=args)
-    node = DriveController()
+    planning = PlanningNode()
     try:
-        rclpy.spin(node)
+        rclpy.spin(planning)
     except KeyboardInterrupt:
-        event.set()
-        pass
-    node.destroy_node()
+        planning.stop()
+    planning.destroy_node()
     rclpy.shutdown()
    
 if __name__ == '__main__':

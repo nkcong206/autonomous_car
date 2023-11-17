@@ -1,23 +1,18 @@
 import math
-from pop import LiDAR
-
-n_bins = int(12) # 4, 8, 12, 16
-distance = 1500
-safe_distance = 1000
-width_of_bin_0 = 500
 
 class Perception():   
-    def __init__(self):
-        self.lidar = LiDAR.Rplidar()
-        self.lidar.connect()
-        self.lidar.startMotor()  
+    def __init__(self, lidar, n_bins, distance, safe_distance, width_of_bin_0):
+        self.lidar = lidar
+        self.n_bins =  n_bins
+        self.distance = distance
+        self.safe_distance = safe_distance
+        self.width_of_bin_0 = width_of_bin_0
         self.angle_of_b = 360/n_bins
-        print("Turn on lidar!")
 
     def get_bins(self):
         bins = [] 
         safe_bins = []
-        for bin in range(int(n_bins)):
+        for bin in range(int(self.n_bins)):
             bins.append(0)
             safe_bins.append(0)
         vectors = self.lidar.getVectors()
@@ -28,50 +23,50 @@ class Perception():
                 else:
                     angle_ = vector[0]
                 rad = math.radians(angle_)
-                if vector[1]*math.sin(rad) <= width_of_bin_0/2 and vector[1]*math.cos(rad) <= safe_distance:    
+                if vector[1]*math.sin(rad) <= self.width_of_bin_0/2 and vector[1]*math.cos(rad) <= self.safe_distance:    
                     safe_bins[0] = 1
                     bins[0] = 1
-                elif vector[1]*math.sin(rad) <= width_of_bin_0/2 and vector[1]*math.cos(rad) <= distance:
+                elif vector[1]*math.sin(rad) <= self.width_of_bin_0/2 and vector[1]*math.cos(rad) <= self.distance:
                     bins[0] = 1
                     
             if vector[0] <= 360 - self.angle_of_b/2 and vector[0] >= self.angle_of_b/2:
                 bin = int((self.angle_of_b/2+vector[0])/self.angle_of_b)
-                if vector[1] <= safe_distance:
+                if vector[1] <= self.safe_distance:
                     safe_bins[bin] = 1
                     bins[bin] = 1
-                elif vector[1] <= distance: 
+                elif vector[1] <= self.distance: 
                     bins[bin] = 1
                     
         return bins, safe_bins
         
     def compute_desired_bins( self, beta, bins, safe_bins):
         bin_id = 0
-        if beta < 0: #. beta in range (0,360) 
+        if beta < 0: #. beta in range (0,360)
             beta += 360
         index = int((beta+self.angle_of_b/2) / self.angle_of_b)
-        if index > n_bins-1:
+        if index > self.n_bins-1:
             index = 0
             
-        for i in range(int(n_bins/2)):
-            if(bins[(index+i)%n_bins] == 0):
-                bin_id = (index+i)%n_bins
+        for i in range(int(self.n_bins/2)):
+            if(bins[(index+i)%self.n_bins] == 0):
+                bin_id = (index+i)%self.n_bins
                 break
             if(bins[index-i] == 0):
                 bin_id = index-i
                 if bin_id < 0:
-                    bin_id = bin_id + n_bins 
+                    bin_id = bin_id + self.n_bins 
                 break
             
         if all(bin == 1 for bin in bins):
             return bin_id, False
         
-        if bin_id < n_bins//2:
+        if bin_id < self.n_bins//2:
             for beta in range(0, bin_id - 1):
                 if safe_bins[beta] == 1:
                     return bin_id, False
             return bin_id, True
-        elif bin_id > n_bins//2:
-            for beta in range(bin_id + 1, n_bins):
+        elif bin_id > self.n_bins//2:
+            for beta in range(bin_id + 1, self.n_bins):
                 if safe_bins[beta] == 1:
                     return bin_id, False
             return bin_id, True
@@ -113,12 +108,12 @@ class Perception():
                 steering = -steering
 
             # safety 3 -> 2 -> 1 -> 0
-            for bin in range(-n_bins//4 + 1, n_bins//4):
+            for bin in range(-self.n_bins//4 + 1, self.n_bins//4):
                 if bins[bin] == 1:
                     safety = 2
                     break   
             
-            for bin in range(-n_bins//4 + 1, n_bins//4):
+            for bin in range(-self.n_bins//4 + 1, self.n_bins//4):
                 if safe_bins[bin] == 1:
                     safety = 1
                     break    
@@ -135,7 +130,7 @@ class Perception():
         else:
             speed = 0.0
             
-        return steering, speed
+        return speed, steering
 
     def distance_cal( self, lat_end, lon_end, lat_start, lon_start):
         d_lat = lat_end - lat_start
@@ -145,6 +140,3 @@ class Perception():
         R = 6371000 
         distance = R * c  
         return distance
-
-    def stop_lidar(self):
-        self.lidar.stopMotor()
