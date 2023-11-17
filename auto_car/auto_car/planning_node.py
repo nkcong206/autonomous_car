@@ -28,7 +28,7 @@ class PlanningNode(Node):
         # pub
         self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
         self.cmd_vel_pub = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)
-        timer_period_notice = 0.2
+        timer_period_notice = 0.1
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)
         timer_period_cmd_vel = 0.1
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
@@ -48,10 +48,9 @@ class PlanningNode(Node):
         self.lidar.connect()
         self.lidar.startMotor()  
         self.per = Perception( self.lidar, n_bins, distance, safe_distance, width_of_bin_0) 
-
         self.get_logger().info("Planning Started!!!")
         
-        while True:
+        while rclpy.ok():
             if self.automatic:
                 self.get_logger().info("Automatic!")
                 if not self.gps_status:

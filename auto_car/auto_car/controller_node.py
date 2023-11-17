@@ -17,7 +17,7 @@ class DriveController(Node):
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/cmd_vel", self.cmd_vel_sub_callback, 10)
         #pub
         self.yaw_pub = self.create_publisher(Float32, "/yaw", 10)    
-        timer_period_yaw = 0.2
+        timer_period_yaw = 0.1
         self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
 
         self.signal = -1
@@ -31,17 +31,17 @@ class DriveController(Node):
         self.led = led_signal(self.car)
         self.get_logger().info("Controller Started!!!")
         
-        while True:
+        while rclpy.ok():
             self.yaw = self.car.getEuler('yaw') 
             self.led.display(self.signal)
             self.car.setSpeed(abs(self.speed))
-            self.car.steering = self.steering
             if self.speed > 0:
                 self.car.forward()
             elif self.speed < 0:
                 self.car.backward()
             else:
                 self.car.stop() 
+            self.car.steering = self.steering
             rclpy.spin_once(self)
 
     def notice_sub_callback(self, notice_msg:Int32):
