@@ -61,13 +61,26 @@ class PlanningNode(Node):
         if self.automatic:
             if not self.gps_status:
                 self.notice = 2
+                self.sp = 0.0 
+                self.st = 0.0
             elif not self.go_stop:
                 self.notice = 5
+                self.sp = 0.0 
+                self.st = 0.0
             elif len(self.pls) == 0:
                 self.notice = 1
+                self.sp = 0.0 
+                self.st = 0.0
             elif self.pl_id == len(self.pls):
                 self.notice = 0
+                self.sp = 0.0 
+                self.st = 0.0
                 self.get_logger().info("Arrived at the destination!")
+            else:
+                self.notice = -1
+                self.pl_id, self.sp, self.st = self.per.auto_go( threshold, self.yaw, self.pl_id, self.pls, self.gps_data)
+        else:
+            self.notice = -1
 
     def places_sub_callback(self, places_msg = Float32MultiArray):
         list_point = places_msg.data
