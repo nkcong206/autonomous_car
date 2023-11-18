@@ -1,20 +1,25 @@
 import math
 
 class Perception():   
-    def __init__(self, lidar, n_bins, distance, safe_distance, width_of_bin_0):
+    def __init__(self, lidar, n_bins, distance, safe_distance, width_of_bin_0, threshold):
         self.lidar = lidar
         self.n_bins =  n_bins
         self.distance = distance
         self.safe_distance = safe_distance
         self.width_of_bin_0 = width_of_bin_0
         self.angle_of_b = 360/n_bins
-
+        self.threshold = threshold
+       
     def get_bins(self):
         bins = [] 
         safe_bins = []
+        points_in_bin = [] 
+        points_in_safe_bin = []
         for bin in range(int(self.n_bins)):
             bins.append(0)
             safe_bins.append(0)
+            points_in_bin.append(0)
+            points_in_safe_bin.append(0)
         vectors = self.lidar.getVectors()
         for vector in vectors:
             if vector[0] <= 90 or vector[0] >=270:
@@ -23,21 +28,25 @@ class Perception():
                 else:
                     angle_ = vector[0]
                 rad = math.radians(angle_)
+                if vector[1]*math.sin(rad) <= self.width_of_bin_0/2 and vector[1]*math.cos(rad) <= self.distance:
+                    points_in_bin[0] += 1
                 if vector[1]*math.sin(rad) <= self.width_of_bin_0/2 and vector[1]*math.cos(rad) <= self.safe_distance:    
-                    bins[0] = 1
-                    safe_bins[0] = 1
-                elif vector[1]*math.sin(rad) <= self.width_of_bin_0/2 and vector[1]*math.cos(rad) <= self.distance:
-                    bins[0] = 1
+                    points_in_safe_bin[0] += 1
                     
             if vector[0] <= 360 - self.angle_of_b/2 and vector[0] >= self.angle_of_b/2:
                 bin = int((self.angle_of_b/2+vector[0])/self.angle_of_b)
+                if vector[1] <= self.distance: 
+                    points_in_bin[bin] += 1
                 if vector[1] <= self.safe_distance:
-                    bins[bin] = 1
-                    safe_bins[bin] = 1
-                elif vector[1] <= self.distance: 
-                    bins[bin] = 1
-                    
+                    points_in_safe_bin[bin] += 1
+        for bin in range(int(self.n_bins)): 
+            if points_in_bin[bin] >= 3:
+                bins[bin] = 1
+            if points_in_safe_bin[bin] >= 3:
+                safe_bins[bin] = 1
+                
         return bins, safe_bins
+     
         
     def compute_desired_bins( self, beta, bins, safe_bins):
         bin_id = 0
@@ -149,11 +158,11 @@ class Perception():
         distance = R * c  
         return distance
     
-    def auto_go(self, threshold, yaw, place_id, places, gps):
-        distance = self.distance_cal( places[place_id], gps)   
+    def auto_go(self, yaw, place_id, places, gps):
+        dis = self.distance_cal( places[place_id], gps)  
         speed = 0.0
         steering = 0.0             
-        if distance >= threshold:
+        if dis >= self.threshold:
             speed, steering = self.speed_streering_cal( yaw, places[place_id], gps) 
         else:
             place_id += 1

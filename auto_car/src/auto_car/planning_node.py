@@ -9,7 +9,7 @@ from .lib.per_core import Perception
 
 from pop import LiDAR
 
-threshold = 3.0
+threshold = 4.0
 n_bins = int(12) # 4, 8, 12, 16
 distance = 1500
 safe_distance = 1000
@@ -37,7 +37,7 @@ class PlanningNode(Node):
         timer_period_planning = 0.05
         self.time_planning = self.create_timer(timer_period_planning, self.planning_main)
         
-        timer_period_show_distance = 5
+        timer_period_show_distance = 3
         self.timer_show_distance = self.create_timer(timer_period_show_distance, self.show_distance)
         
         self.notice = -1
@@ -54,7 +54,7 @@ class PlanningNode(Node):
         self.lidar = LiDAR.Rplidar()
         self.lidar.connect()
         self.lidar.startMotor()  
-        self.per = Perception( self.lidar, n_bins, distance, safe_distance, width_of_bin_0) 
+        self.per = Perception( self.lidar, n_bins, distance, safe_distance, width_of_bin_0, threshold) 
         self.get_logger().info("Planning Started!!!")
         
     def planning_main(self):
@@ -63,25 +63,29 @@ class PlanningNode(Node):
                 self.notice = 2
                 self.sp = 0.0 
                 self.st = 0.0
+                return
             elif not self.go_stop:
                 self.notice = 5
                 self.sp = 0.0 
                 self.st = 0.0
+                return
             elif len(self.pls) == 0:
                 self.notice = 1
                 self.sp = 0.0 
                 self.st = 0.0
+                return
             elif self.pl_id == len(self.pls):
                 self.notice = 0
                 self.sp = 0.0 
                 self.st = 0.0
                 self.get_logger().info("Arrived at the destination!")
+                return
             else:
                 self.notice = -1
                 self.pl_id, self.sp, self.st = self.per.auto_go( threshold, self.yaw, self.pl_id, self.pls, self.gps_data)
         else:
             self.notice = -1
-
+         
     def places_sub_callback(self, places_msg = Float32MultiArray):
         list_point = places_msg.data
         pls_data = [list_point[i:i+2] for i in range(0, len(list_point), 2)]
@@ -119,16 +123,16 @@ class PlanningNode(Node):
     def cmd_vel_pub_callback(self):
         if self.automatic:
             cmd_vel_pub = Float32MultiArray()
-            cmd_vel_pub.data = [self.sp, self.st]
+            cmd_vel_data = [0.0,0.0]
+            cmd_vel_data[0] = float(self.sp)
+            cmd_vel_data[1] = float(self.st)
+            cmd_vel_pub.data = cmd_vel_data
             self.cmd_vel_pub.publish(cmd_vel_pub)
-            self.get_logger().info(f"speed {self.sp}")
-            self.get_logger().info(f"steering {self.st}")
-
 
     def show_distance(self):
         if self.automatic and self.pl_id < len(self.pls):
-            distance = self.per.distance_cal( self.pls[self.pl_id], self.gps_data)  
-            self.get_logger().info(f"Distance to {self.pls[self.pl_id]} is {distance}!")  
+            distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
+            self.get_logger().info(f"distance: {distance}, {self.pl_id}, {self.sp}, {self.st}")
     
     def stop(self):
         self.lidar.stopMotor()
