@@ -1,4 +1,8 @@
-wget https://bootstrap.pypa.io/pip/3.6/get-pip.py
+#!/bin/bash
+
+if [ ! -f "get-pip.py" ]; then
+    wget https://bootstrap.pypa.io/pip/3.6/get-pip.py
+fi
 
 sudo -H python3 get-pip.py
 

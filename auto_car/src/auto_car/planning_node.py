@@ -28,9 +28,10 @@ class PlanningNode(Node):
         # pub
         self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
         self.cmd_vel_pub = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)
-        timer_period_notice = 0.1
+        #timer
+        timer_period_notice = 0.2
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)
-        timer_period_cmd_vel = 0.1
+        timer_period_cmd_vel = 0.2
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
         
         self.notice = -1
@@ -40,8 +41,8 @@ class PlanningNode(Node):
         self.gps_status = False
         self.go_stop = False
         self.automatic = False
-        self.speed = 0.0
-        self.steering = 0.0
+        self.sp = 0.0
+        self.st = 0.0
         self.yaw = 0.0
         
         self.lidar = LiDAR.Rplidar()
@@ -67,7 +68,7 @@ class PlanningNode(Node):
                     self.get_logger().info("Arrived at the destination!")
                 else:
                     self.notice = -1
-                    self.speed, self.steering = self.auto_go_to(self.pls[self.pl_id][0],  self.pls[self.pl_id][1], self.gps_data[0], self.gps_data[1])
+                    self.pl_id, self.sp, self.st = self.auto_go( self.per, self.yaw, self.pl_id, self.pls, self.gps_data)
             else:
                 self.notice = -1
                 self.get_logger().info("Mantual!")
@@ -102,29 +103,26 @@ class PlanningNode(Node):
         self.notice_pub.publish(notice_msg)
 
     def cmd_vel_pub_callback(self):
-        cmd_vel_pub = Float32MultiArray()
-        cmd_vel_pub.data = [self.speed, self.steering]
-        self.cmd_vel_pub.publish(cmd_vel_pub)
+        if self.automatic:
+            cmd_vel_pub = Float32MultiArray()
+            cmd_vel_pub.data = [self.sp, self.st]
+            self.cmd_vel_pub.publish(cmd_vel_pub)
+
+    def auto_go(self, per, yaw, place_id, places, gps_data):
+        distance = per.distance_cal( places[place_id], gps_data)   
+        speed = 0.0
+        steering = 0.0             
+        if distance >= threshold:
+            self.get_logger().info(f"Distance to the next point {distance}!") 
+            speed, steering = per.speed_streering_cal( yaw, places[place_id], gps_data)     
+        else:
+            self.get_logger().info(f"Has reached at {places[place_id]}")
+            place_id += 1 
+        return place_id, speed, steering
 
     def stop(self):
         self.lidar.stopMotor()
-
-    def auto_go_to(self, lat_end, lon_end, lat_start, lon_start):
-        rad_lat_end = math.radians(lat_end)
-        rad_lon_end = math.radians(lon_end)
-        rad_lat_start = math.radians(lat_start)
-        rad_lon_start = math.radians(lon_start)
-        distance = self.per.distance_cal( rad_lat_end, rad_lon_end, rad_lat_start, rad_lon_start)                
-        if distance >= threshold:
-            speed, steering = self.per.speed_streering_cal( rad_lat_end, rad_lon_end, rad_lat_start, rad_lon_start)    
-            self.get_logger().info(f"Distance to the next point {distance}!") 
-        else:
-            self.pl_id += 1 
-            speed = 0.0
-            steering = 0.0
-            self.get_logger().info(f"Has reached at [{lat_end}, {lon_end}]")
-        return speed, steering
-
+        
 def main(args=None):
     rclpy.init(args=args)
     planning = PlanningNode()

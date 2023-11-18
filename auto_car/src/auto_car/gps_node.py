@@ -3,11 +3,13 @@ from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 import serial
 
-class ReadGPS(Node):
+class GPSNode(Node):
     def __init__(self, **kwargs):
         super().__init__('gps_node')
         self.get_logger().info("GPS Started!!!")
+        #pub
         self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
+        #timer
         timer_period_gps = 0.1
         self.time_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)
 
@@ -30,7 +32,7 @@ class ReadGPS(Node):
         
 def main(args=None):
     rclpy.init(args=args)
-    gps_pub = ReadGPS()
+    gps_pub = GPSNode()
     try:
         rclpy.spin(gps_pub)
     except KeyboardInterrupt:

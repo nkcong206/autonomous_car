@@ -10,8 +10,7 @@ start = os.path.join(package_share_directory, 'scripts', 'start.sh')
 def generate_launch_description():
     chmod_start_file = ExecuteProcess(
         cmd=['chmod +x', start], 
-        shell=True,  
-        output='screen'  
+        shell=True
     )
     update_python_can = ExecuteProcess(
         cmd=['bash', start], 

@@ -10,10 +10,9 @@ from ament_index_python.packages import get_package_share_directory
 
 package_share_directory = get_package_share_directory('auto_car')
 dotenv_path = os.path.join(package_share_directory, 'config', '.env')
-runstream = os.path.join(package_share_directory, 'scripts', 'runstream.sh')
+runstream_path = os.path.join(package_share_directory, 'scripts', 'runstream.sh')
 
 load_dotenv(dotenv_path)
-SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
 
 class SocketIOListener(Node):
     # process = None
@@ -21,18 +20,11 @@ class SocketIOListener(Node):
         super().__init__('socketio_node')
         self.get_logger().info("SocketIO Started!!!")
         self.SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
-        print(self.SERVER_SOCKETIO)
+        self.get_logger().info(f"SERVER_SOCKETIO: {self.SERVER_SOCKETIO}")
         self.ID = os.getenv("ID")
-        print(self.ID)
+        self.get_logger().info(f"ID: {self.ID}")
         self.NAME = os.getenv("NAME")
-        print(self.NAME)
-        self.sio = socketio.Client()
-        
-        self.gps_data = [ 0.0, 0.0]
-        self.gps_status = False
-        self.speed = 0.0
-        self.steering = 0.0
-        self.process = None
+        self.get_logger().info(f"NAME: {self.NAME}")        
         #pub
         self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
@@ -40,12 +32,19 @@ class SocketIOListener(Node):
         self.cmd_vel_publisher = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)  
         #sub
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_sub_callback, 10)
-         
+        #timer
         timer_period_gps = 20
         self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)               
-        timer_period_cmd_vel = 0.5
+        timer_period_cmd_vel = 0.2
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)               
-
+        
+        self.sio = socketio.Client()
+        self.gps_data = [ 0.0, 0.0]
+        self.gps_status = False
+        self.speed = 0.0
+        self.steering = 0.0
+        self.process = None
+        
         @self.sio.event
         def connect():
             self.get_logger().info('Socket.IO connected')
@@ -57,7 +56,7 @@ class SocketIOListener(Node):
         @self.sio.on('connect')
         def on_connect():
             self.sio.emit("register_robot", {"robot_id" : self.ID, "robot_name" : self.NAME})
-            self.get_logger().info("Connected to server ...")
+            self.get_logger().info("Connected to server")
 
         @self.sio.on('register_robot')
         def on_message(data):
@@ -71,13 +70,13 @@ class SocketIOListener(Node):
         def open_stream(data):
             status = data["status"]
             if status == 1:
-                self.start_stream_gst()
+                self.process = self.start_stream_gst()
 
         @self.sio.on("end_stream")
         def end_stream(data):
             status = data["status"]
             if status == 1:
-                self.stop_stream_gst()
+                self.stop_stream_gst(self.process)
         
         @self.sio.on("locations_direction_robot")
         def locations_direction(data):
@@ -107,7 +106,7 @@ class SocketIOListener(Node):
             else:
                 g_msg.data = False
             self.go_stop_publisher.publish(g_msg)
-    
+
         @self.sio.on('disconnect')
         def on_disconnect():
             self.get_logger().info("Disconnected from server...")
@@ -139,15 +138,20 @@ class SocketIOListener(Node):
 
     def start_stream_gst(self):
         try:
-            self.process = subprocess.Popen(["bash", runstream], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            process = subprocess.Popen(["bash", runstream_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            self.get_logger().info(f"Stream Started, ID:{process.pid}")
+            return process
         except Exception as e:
             self.get_logger().info("Error starting stream:")
+            return None
 
-    def stop_stream_gst(self):
+    def stop_stream_gst(self, process):
         try:
-            if self.process is not None:
-                self.process.terminate()
-                self.process.wait()
+            if process is not None:
+                id = process.pid
+                process.terminate()
+                process.wait()
+                self.get_logger().info(f"Stream Stopped, ID:{id}")
         except Exception as e:
             self.get_logger().info("Error stopping stream:")
     

@@ -24,16 +24,16 @@ class Perception():
                     angle_ = vector[0]
                 rad = math.radians(angle_)
                 if vector[1]*math.sin(rad) <= self.width_of_bin_0/2 and vector[1]*math.cos(rad) <= self.safe_distance:    
-                    safe_bins[0] = 1
                     bins[0] = 1
+                    safe_bins[0] = 1
                 elif vector[1]*math.sin(rad) <= self.width_of_bin_0/2 and vector[1]*math.cos(rad) <= self.distance:
                     bins[0] = 1
                     
             if vector[0] <= 360 - self.angle_of_b/2 and vector[0] >= self.angle_of_b/2:
                 bin = int((self.angle_of_b/2+vector[0])/self.angle_of_b)
                 if vector[1] <= self.safe_distance:
-                    safe_bins[bin] = 1
                     bins[bin] = 1
+                    safe_bins[bin] = 1
                 elif vector[1] <= self.distance: 
                     bins[bin] = 1
                     
@@ -73,17 +73,20 @@ class Perception():
         else:
             return bin_id, False
         
-    def speed_streering_cal( self, yaw, lat_end, lon_end, lat_start, lon_start):      
+    def speed_streering_cal( self, yaw, end, start):   
+        lat_end = math.radians(end[0])
+        lon_end = math.radians(end[1])
+        lat_start = math.radians(start[0])
+        lon_start = math.radians(start[1])
+        
         d_lon = lon_end - lon_start
         # Calculate the bearing using the haversine formula
         y = math.sin(d_lon) * math.cos(lat_end)
         x = math.cos(lat_start) * math.sin(lat_end) - math.sin(lat_start) * math.cos(lat_end) * math.cos(d_lon)
         initial_bearing = math.atan2(y, x)
-
         # Convert the bearing from radians to degrees
         initial_bearing = math.degrees(initial_bearing)
         destination_angle = (initial_bearing + 360) % 360 #angle a
-        
         # obstacle avoidance 
         bins, safe_bins = self.get_bins()
         beta = destination_angle - yaw
@@ -132,7 +135,12 @@ class Perception():
             
         return speed, steering
 
-    def distance_cal( self, lat_end, lon_end, lat_start, lon_start):
+    def distance_cal( self, end, start):
+        lat_end = math.radians(end[0])
+        lon_end = math.radians(end[1])
+        lat_start = math.radians(start[0])
+        lon_start = math.radians(start[1])
+        
         d_lat = lat_end - lat_start
         d_lon = lon_end - lon_start
         angle = math.sin(d_lat / 2) ** 2 + math.cos(lat_end) * math.cos(lat_end) * math.sin(d_lon / 2) ** 2

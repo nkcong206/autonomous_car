@@ -9,15 +9,16 @@ from pop import Pilot
 
 max_speed = 70
 
-class DriveController(Node):
+class ControllerNode(Node):
     def __init__(self):
         super().__init__('controller_node')
         #sub
         self.notice_sub = self.create_subscription(Int32, "/notice", self.notice_sub_callback, 10)
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/cmd_vel", self.cmd_vel_sub_callback, 10)
         #pub
-        self.yaw_pub = self.create_publisher(Float32, "/yaw", 10)    
-        timer_period_yaw = 0.1
+        self.yaw_pub = self.create_publisher(Float32, "/yaw", 10)   
+        #timer 
+        timer_period_yaw = 0.2
         self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
 
         self.signal = -1
@@ -76,7 +77,7 @@ class DriveController(Node):
     
 def main(args=None):
     rclpy.init(args=args)
-    controller = DriveController()
+    controller = ControllerNode()
     try:
         rclpy.spin(controller)
     except KeyboardInterrupt:

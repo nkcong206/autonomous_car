@@ -1,6 +1,5 @@
 from .lib.aa import aaaaaa
 
-
 def main(args=None):
     aaa = aaaaaa
     aaa.paaa
