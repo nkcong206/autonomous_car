@@ -33,7 +33,9 @@ class PlanningNode(Node):
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)
         timer_period_cmd_vel = 0.5
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
-        
+        timer_period_planning = 0.1
+        self.time_planning = self.create_timer(timer_period_planning, self.planning_main)
+                
         self.notice = -1
         self.pls = []
         self.pl_id = 0
@@ -51,23 +53,22 @@ class PlanningNode(Node):
         self.per = Perception( self.lidar, n_bins, distance, safe_distance, width_of_bin_0) 
         self.get_logger().info("Planning Started!!!")
         
-        while rclpy.ok():
-            if self.automatic:
-                if not self.gps_status:
-                    self.notice = 2
-                elif not self.go_stop:
-                    self.notice = 5
-                elif len(self.pls) == 0:
-                    self.notice = 1
-                elif self.pl_id == len(self.pls):
-                    self.notice = 0
-                    self.get_logger().info("Arrived at the destination!")
-                else:
-                    self.notice = -1
-                    self.pl_id, self.sp, self.st = self.auto_go( self.per, self.yaw, self.pl_id, self.pls, self.gps_data)
+    def planning_main(self):
+        if self.automatic:
+            if not self.gps_status:
+                self.notice = 2
+            elif not self.go_stop:
+                self.notice = 5
+            elif len(self.pls) == 0:
+                self.notice = 1
+            elif self.pl_id == len(self.pls):
+                self.notice = 0
+                self.get_logger().info("Arrived at the destination!")
             else:
                 self.notice = -1
-            rclpy.spin_once(self)
+                self.pl_id, self.sp, self.st = self.auto_go( self.per, self.yaw, self.pl_id, self.pls, self.gps_data)
+        else:
+            self.notice = -1
                 
     def places_sub_callback(self, places_msg = Float32MultiArray):
         list_point = places_msg.data
