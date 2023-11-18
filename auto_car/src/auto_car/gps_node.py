@@ -29,7 +29,8 @@ class GPSNode(Node):
             
     def stop(self):
         self.ser.close()
-        
+        self.get_logger().info(f"GPS stopped!")        
+
 def main(args=None):
     rclpy.init(args=args)
     gps_pub = GPSNode()
