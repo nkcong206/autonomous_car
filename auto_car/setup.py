@@ -33,7 +33,6 @@ setup(
         'console_scripts': [
             'planning = auto_car.planning_node:main',
             'socketio = auto_car.socketio_node:main',
-             'test = auto_car.test:main',
             'gps = auto_car.gps_node:main',
             'controller = auto_car.controller_node:main',
         ],
