@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+echo "================================================================"
 pip3 install python-can --force-reinstall
-echo "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+echo "0000000000000000000000000000000000000000000000000000000000000000"
 
