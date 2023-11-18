@@ -1,4 +1,3 @@
-
 ### Fix I2C
     chmod +x ./fix_i2c.sh 
     sh ./fix_i2c.sh
@@ -13,12 +12,12 @@ The field ID in .env file: you must change the ID of robot. It is unique for eac
     pip install -r requirements.txt
 
 ## ROS2 Eloquent
-
+    cd auto_car
 ### Build ROS2 node
     colcon build --packages-select auto_car
-### Start each node
+### Setup env ROS2
     source ./install/setup.zsh
-Start node:
+### Run each node:
 
     ros2 run auto_car planning
     ros2 run auto_car gps
@@ -26,5 +25,4 @@ Start node:
     ros2 run auto_car controller
 
 ### all-in-one
-    source ./install/setup.zsh
     ros2 launch auto_car auto_car.launch.py
