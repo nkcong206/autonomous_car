@@ -119,7 +119,7 @@ class SocketIOListener(Node):
                 self.speed = value
             else:
                 self.steering = value
-                
+
     def gps_sub_callback(self, gps_msg = Float32MultiArray):
         self.gps_data = gps_msg.data
         if self.gps_data[0] == 0.0 and self.gps_data[1] == 0.0:
