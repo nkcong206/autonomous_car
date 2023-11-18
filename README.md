@@ -28,3 +28,5 @@ The field ID in .env file: you must change the ID of robot. It is unique for eac
 
 ### all-in-one
     ros2 launch auto_car auto_car.launch.py
+### check log
+    ros2 topic echo /rosout
