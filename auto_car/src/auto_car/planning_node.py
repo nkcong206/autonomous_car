@@ -75,25 +75,17 @@ class PlanningNode(Node):
         if self.pls != pls_data:
             self.get_logger().info("New route planning!")            
             self.pl_id = 0
-        self.get_logger().info(f"Route planning: {pls_data}")
         self.pls = pls_data
             
     def automatic_sub_callback(self, data_msg: Bool):
-        if data_msg.data:
-            self.get_logger().info("Automatic!")
-        else:
-            self.get_logger().info("Manual!")
         self.automatic = data_msg.data
 
     def go_stop_sub_callback(self, data_msg: Bool):
         if data_msg.data:
-            self.get_logger().info("Start!")            
             if len(self.pls) == 0:
                 self.get_logger().info("Route planning is currently empty!")
             elif not self.gps_status:                     
                 self.get_logger().info("Error GPS!")
-        else:
-            self.get_logger().info("Stop!")            
         self.go_stop = data_msg.data
 
     def yaw_sub_callback(self, yaw_msg = Float32):

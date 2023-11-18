@@ -85,13 +85,16 @@ class SocketIOListener(Node):
             place_msg = Float32MultiArray()
             place_msg.data = places
             self.places_publisher.publish(place_msg)
+            self.get_logger().info(f"Route planning: {places}")
 
         @self.sio.on("automatic")
         def automatic(data):
             auto_msg = Bool()
             if data['type'] == 'Automatic':
+                self.get_logger().info("Automatic!")
                 auto_msg.data = True
             else:
+                self.get_logger().info("Manual!")
                 auto_msg.data = False
             self.auto_publisher.publish(auto_msg)
 
@@ -100,8 +103,9 @@ class SocketIOListener(Node):
             g_msg = Bool()
             if data['type'] == 'Go':
                 g_msg.data = True
-
+                self.get_logger().info("Start!")
             else:
+                self.get_logger().info("Stop!")
                 g_msg.data = False
             self.go_stop_publisher.publish(g_msg)
             
