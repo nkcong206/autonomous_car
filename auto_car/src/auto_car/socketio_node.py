@@ -18,13 +18,9 @@ class SocketIOListener(Node):
     # process = None
     def __init__(self):
         super().__init__('socketio_node')
-        self.get_logger().info("SocketIO Started!!!")
         self.SERVER_SOCKETIO = os.getenv("SERVER_SOCKETIO")
-        self.get_logger().info(f"SERVER_SOCKETIO: {self.SERVER_SOCKETIO}")
         self.ID = os.getenv("ID")
-        self.get_logger().info(f"ID: {self.ID}")
         self.NAME = os.getenv("NAME")
-        self.get_logger().info(f"NAME: {self.NAME}")        
         #pub
         self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
@@ -38,13 +34,14 @@ class SocketIOListener(Node):
         timer_period_cmd_vel = 0.5
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)               
         
-        self.sio = socketio.Client()
         self.gps_data = [ 0.0, 0.0]
         self.gps_status = False
         self.speed = 0.0
         self.steering = 0.0
         self.process = None
-        
+        self.sio = socketio.Client()
+        self.get_logger().info("SocketIO Started!!!")
+
         @self.sio.event
         def connect():
             self.get_logger().info('Socket.IO connected')
@@ -103,6 +100,7 @@ class SocketIOListener(Node):
             g_msg = Bool()
             if data['type'] == 'Go':
                 g_msg.data = True
+
             else:
                 g_msg.data = False
             self.go_stop_publisher.publish(g_msg)

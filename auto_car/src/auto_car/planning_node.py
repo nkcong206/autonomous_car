@@ -29,7 +29,7 @@ class PlanningNode(Node):
         self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
         self.cmd_vel_pub = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)
         #timer
-        timer_period_notice = 0.2
+        timer_period_notice = 0.5
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)
         timer_period_cmd_vel = 0.5
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
@@ -55,7 +55,6 @@ class PlanningNode(Node):
             if self.automatic:
                 if not self.gps_status:
                     self.notice = 2
-                    self.get_logger().info("Error GPS!")
                 elif not self.go_stop:
                     self.notice = 5
                 elif len(self.pls) == 0:
@@ -74,24 +73,28 @@ class PlanningNode(Node):
         list_point = places_msg.data
         pls_data = [list_point[i:i+2] for i in range(0, len(list_point), 2)]
         if self.pls != pls_data:
+            self.get_logger().info("New route planning!")            
             self.pl_id = 0
+        self.get_logger().info(f"Route planning: {pls_data}")
         self.pls = pls_data
             
     def automatic_sub_callback(self, data_msg: Bool):
-        self.automatic = data_msg.data
         if data_msg.data:
             self.get_logger().info("Automatic!")
         else:
-            self.get_logger().info("Mantual!")
-            
+            self.get_logger().info("Manual!")
+        self.automatic = data_msg.data
+
     def go_stop_sub_callback(self, data_msg: Bool):
-        self.go_stop = data_msg.data
         if data_msg.data:
-            self.get_logger().info("Start!")
+            self.get_logger().info("Start!")            
             if len(self.pls) == 0:
                 self.get_logger().info("Route planning is currently empty!")
+            elif not self.gps_status:                     
+                self.get_logger().info("Error GPS!")
         else:
-            self.get_logger().info("Stop!")
+            self.get_logger().info("Stop!")            
+        self.go_stop = data_msg.data
 
     def yaw_sub_callback(self, yaw_msg = Float32):
         self.yaw = yaw_msg.data
@@ -120,12 +123,11 @@ class PlanningNode(Node):
         steering = 0.0             
         if distance >= threshold:
             speed, steering = per.speed_streering_cal( yaw, places[place_id], gps_data) 
-            self.get_logger().info(f"Distance to the next point {distance}!") 
-            # self.get_logger().info(f"Speed: {speed}!") 
-            # self.get_logger().info(f"Steering: {steering}!") 
         else:
-            self.get_logger().info(f"Has reached at {places[place_id]}")
-            place_id += 1 
+            place_id += 1
+            if place_id < len(places):
+                distance = per.distance_cal( places[place_id], gps_data)   
+                self.get_logger().info(f"Distance to the next point {distance}!")             
         return place_id, speed, steering
 
     def stop(self):

@@ -58,7 +58,6 @@ class ControllerNode(Node):
                         self.signal = -1
             else:
                 self.signal = self.notice
-                
             self.led.display(self.signal)
             
             rclpy.spin_once(self)
@@ -69,8 +68,6 @@ class ControllerNode(Node):
     def cmd_vel_sub_callback(self, cmd_vel_msg: Float32):
         self.speed = max_speed*cmd_vel_msg.data[0]
         self.steering = cmd_vel_msg.data[1]
-        self.get_logger().info(f"speed  {self.speed}")
-        self.get_logger().info(f"steering {self.steering}")
 
     def yaw_pub_callback(self):
         cmd_yaw = Float32()

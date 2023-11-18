@@ -6,14 +6,14 @@ import serial
 class GPSNode(Node):
     def __init__(self, **kwargs):
         super().__init__('gps_node')
-        self.get_logger().info("GPS Started!!!")
         #pub
         self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
         #timer
-        timer_period_gps = 0.1
+        timer_period_gps = 0.2
         self.time_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)
 
         self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
+        self.get_logger().info("GPS Started!!!")
 
     def gps_pub_callback(self):
         data = ""
