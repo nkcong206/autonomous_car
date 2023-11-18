@@ -60,22 +60,22 @@ class PlanningNode(Node):
     def planning_main(self):
         if self.automatic:
             if not self.gps_status:
-                self.notice = 2
+                self.notice = 0
                 self.sp = 0.0 
                 self.st = 0.0
                 return
             elif not self.go_stop:
-                self.notice = 5
-                self.sp = 0.0 
-                self.st = 0.0
-                return
-            elif len(self.pls) == 0:
                 self.notice = 1
                 self.sp = 0.0 
                 self.st = 0.0
                 return
+            elif len(self.pls) == 0:
+                self.notice = 2
+                self.sp = 0.0 
+                self.st = 0.0
+                return
             elif self.pl_id == len(self.pls):
-                self.notice = 0
+                self.notice = 3
                 self.sp = 0.0 
                 self.st = 0.0
                 self.get_logger().info("Arrived at the destination!")

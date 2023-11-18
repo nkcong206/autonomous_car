@@ -53,11 +53,11 @@ class ControllerNode(Node):
                 self.signal = 5
             else:
                 if self.steering > 0:
-                    self.signal = 3
+                    self.signal = 6
                 elif self.steering < 0:
-                    self.signal = 4
+                    self.signal = 7
                 else:
-                    self.signal = -1
+                    self.signal = 4
         else:
             self.signal = self.notice
         self.led.display(self.signal)
