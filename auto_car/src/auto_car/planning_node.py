@@ -121,6 +121,9 @@ class PlanningNode(Node):
             cmd_vel_pub = Float32MultiArray()
             cmd_vel_pub.data = [self.sp, self.st]
             self.cmd_vel_pub.publish(cmd_vel_pub)
+            self.get_logger().info(f"speed {self.sp}")
+            self.get_logger().info(f"steering {self.st}")
+
 
     def show_distance(self):
         if self.automatic and self.pl_id < len(self.pls):
