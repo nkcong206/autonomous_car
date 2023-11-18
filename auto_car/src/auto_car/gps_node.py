@@ -9,7 +9,7 @@ class GPSNode(Node):
         #pub
         self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
         #timer
-        timer_period_gps = 0.2
+        timer_period_gps = 0.05
         self.time_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)
 
         self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        

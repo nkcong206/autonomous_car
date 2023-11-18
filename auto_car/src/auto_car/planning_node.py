@@ -28,12 +28,15 @@ class PlanningNode(Node):
         self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
         self.cmd_vel_pub = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)
         #timer
-        timer_period_notice = 0.5
+        timer_period_notice = 0.1
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)
-        timer_period_cmd_vel = 0.5
+        
+        timer_period_cmd_vel = 0.05
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
-        timer_period_planning = 0.1
+        
+        timer_period_planning = 0.05
         self.time_planning = self.create_timer(timer_period_planning, self.planning_main)
+        
         timer_period_show_distance = 5
         self.timer_show_distance = self.create_timer(timer_period_show_distance, self.show_distance)
         
