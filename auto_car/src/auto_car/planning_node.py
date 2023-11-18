@@ -115,7 +115,7 @@ class PlanningNode(Node):
             self.cmd_vel_pub.publish(cmd_vel_pub)
 
     def show_distance(self):
-        if self.pl_id < len(self.pls):
+        if self.automatic and self.pl_id < len(self.pls):
             distance = self.per.distance_cal( self.pls[self.pl_id], self.gps_data)  
             self.get_logger().info(f"Distance to {self.pls[self.pl_id]} is {distance}!")  
     

@@ -13,6 +13,8 @@ The field ID in .env file: you must change the ID of robot. It is unique for eac
 
 ## ROS2 Eloquent
     cd auto_car
+### check usb gps
+    ls /dev/ttyUSB*
 ### Build ROS2 node
     colcon build --packages-select auto_car
 ### Setup env ROS2
