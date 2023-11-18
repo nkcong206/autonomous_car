@@ -77,6 +77,7 @@ class ControllerNode(Node):
     def stop(self):        
         self.car.stop()
         self.car.steering = 0
+        self.get_logger().info(f"Controller stopped!")        
     
 def main(args=None):
     rclpy.init(args=args)

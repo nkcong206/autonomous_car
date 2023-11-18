@@ -152,14 +152,15 @@ class SocketIOListener(Node):
                 self.get_logger().info(f"Stream Stopped, ID:{id}")
         except Exception as e:
             self.get_logger().info("Error stopping stream:")
-    
-    def stop(self):
-        self.sio.disconnect()
 
     def start(self):
         self.sio.connect(self.SERVER_SOCKETIO)
         rclpy.spin(self)
-        
+            
+    def stop(self):
+        self.sio.disconnect()
+        self.get_logger().info(f"Socketio stopped!")        
+
 def main(args=None):
     rclpy.init(args=args)
     socketio_listener = SocketIOListener()

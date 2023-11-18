@@ -33,6 +33,8 @@ class PlanningNode(Node):
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)
         timer_period_cmd_vel = 0.5
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
+        timer_period_show_distance = 5
+        self.timer_show_distance = self.create_timer(timer_period_show_distance, self.show_distance)
         
         self.notice = -1
         self.pls = []
@@ -64,7 +66,7 @@ class PlanningNode(Node):
                     self.get_logger().info("Arrived at the destination!")
                 else:
                     self.notice = -1
-                    self.pl_id, self.sp, self.st = self.auto_go( self.per, self.yaw, self.pl_id, self.pls, self.gps_data)
+                    self.pl_id, self.sp, self.st = self.per.auto_go( self.yaw, self.pl_id, self.pls, self.gps_data)
             else:
                 self.notice = -1
             rclpy.spin_once(self)
@@ -117,21 +119,14 @@ class PlanningNode(Node):
             cmd_vel_pub.data = [self.sp, self.st]
             self.cmd_vel_pub.publish(cmd_vel_pub)
 
-    def auto_go(self, per, yaw, place_id, places, gps_data):
-        distance = per.distance_cal( places[place_id], gps_data)   
-        speed = 0.0
-        steering = 0.0             
-        if distance >= threshold:
-            speed, steering = per.speed_streering_cal( yaw, places[place_id], gps_data) 
-        else:
-            place_id += 1
-            if place_id < len(places):
-                distance = per.distance_cal( places[place_id], gps_data)   
-                self.get_logger().info(f"Distance to the next point {distance}!")             
-        return place_id, speed, steering
-
+    def show_distance(self):
+        if self.pl_id < len(self.pls):
+            distance = self.per.distance_cal( self.pls[self.pl_id], self.gps_data)  
+            self.get_logger().info(f"Distance to {self.pls[self.pl_id]} is {distance}!")  
+    
     def stop(self):
         self.lidar.stopMotor()
+        self.get_logger().info(f"planning stopped!")        
         
 def main(args=None):
     rclpy.init(args=args)

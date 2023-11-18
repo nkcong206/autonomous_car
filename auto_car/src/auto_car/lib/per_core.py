@@ -148,3 +148,13 @@ class Perception():
         R = 6371000 
         distance = R * c  
         return distance
+    
+    def auto_go(self, yaw, place_id, places, gps):
+        distance = self.distance_cal( places[place_id], gps)   
+        speed = 0.0
+        steering = 0.0             
+        if distance >= threshold:
+            speed, steering = self.speed_streering_cal( yaw, places[place_id], gps) 
+        else:
+            place_id += 1
+        return place_id, speed, steering
