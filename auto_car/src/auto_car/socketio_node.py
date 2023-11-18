@@ -35,7 +35,7 @@ class SocketIOListener(Node):
         #timer
         timer_period_gps = 20
         self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)               
-        timer_period_cmd_vel = 0.2
+        timer_period_cmd_vel = 0.5
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)               
         
         self.sio = socketio.Client()
@@ -106,7 +106,7 @@ class SocketIOListener(Node):
             else:
                 g_msg.data = False
             self.go_stop_publisher.publish(g_msg)
-
+            
         @self.sio.on('disconnect')
         def on_disconnect():
             self.get_logger().info("Disconnected from server...")
@@ -128,7 +128,7 @@ class SocketIOListener(Node):
             self.gps_status = True
 
     def gps_pub_callback(self):
-        if self.gps_status:
+        if self.gps_status and self.sio.connected:
             self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(self.gps_data)})
     
     def cmd_vel_callback(self):

@@ -41,6 +41,7 @@ class led_signal():
         self.car = Car
     
     def display( self, signal):
+        self.car.setPixelDisplay(all_positions, stop_colors)
         if signal == led_signal.REACH_DESTINATION:
             self.car.setPixelDisplay(all_positions, reach_destination_colors)
         elif signal == led_signal.PLACES_EMPTY:
@@ -53,5 +54,4 @@ class led_signal():
             self.car.setPixelDisplay(all_positions, go_back_colors)
         elif signal == led_signal.ALL_BLOCK:
             self.car.setPixelDisplay(all_positions, all_block_colors)   
-        else:
-            self.car.setPixelDisplay(all_positions, stop_colors)
+
