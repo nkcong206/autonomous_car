@@ -9,7 +9,7 @@ from .lib.per_core import Perception
 
 from pop import LiDAR
 
-threshold = 4.0
+threshold = 5.0
 n_bins = int(12) # 4, 8, 12, 16
 distance = 1500
 safe_distance = 1000

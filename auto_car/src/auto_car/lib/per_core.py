@@ -161,7 +161,11 @@ class Perception():
     def auto_go(self, yaw, place_id, places, gps):
         dis = self.distance_cal( places[place_id], gps)  
         speed = 0.0
-        steering = 0.0             
+        steering = 0.0         
+        beta = 0.0
+        bins = []
+        safe_bins = []
+        angle = 0.0    
         if dis >= self.threshold:
             speed, steering, beta, bins, safe_bins, angle = self.speed_streering_cal( yaw, places[place_id], gps) 
         else:

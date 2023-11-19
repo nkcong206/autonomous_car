@@ -4,7 +4,7 @@ from std_msgs.msg import Float32MultiArray
 import serial
 # import numpy as np
 # from scipy.linalg import inv
-
+import time
 
 class GPSNode(Node):
     def __init__(self, **kwargs):
@@ -30,7 +30,7 @@ class GPSNode(Node):
                     line = line.replace('"', '')
                     data = line.split(":")[1]
                     gps_data.append([float(data.split(",")[0]), float(data.split(",")[1])])
-            
+                time.sleep(0.02)
             lat_sum = 0.0
             lon_sum = 0.0
             for i in range(len(gps_data)):
