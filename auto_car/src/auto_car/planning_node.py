@@ -143,11 +143,11 @@ class PlanningNode(Node):
     def show_distance(self):
         if self.automatic and self.pl_id < len(self.pls):
             distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
-            self.get_logger().info(f"beta: {self.beta}")
+            self.get_logger().info(f"beta: {self.beta:.2f}")
             self.get_logger().info(f"{self.bins}")
             self.get_logger().info(f"{self.safe_bins}")
-            self.get_logger().info(f"angle: {self.angle}")
-            self.get_logger().info(f"distance: {distance}, place_id: {self.pl_id},speed: {self.sp}, steering: {self.st}")
+            self.get_logger().info(f"angle: {self.angle:.2f}")
+            self.get_logger().info(f"distance: {distance:.2f}, place_id: {self.pl_id},speed: {self.sp:.2f}, steering: {self.st:.2f}\n")
     
     def stop(self):
         self.lidar.stopMotor()
