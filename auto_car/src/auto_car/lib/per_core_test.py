@@ -140,12 +140,11 @@ class Perception():
             speed = 5/6
         elif safety == 1:   
             speed = 4/6    
+            # if success == 2:
+            #     speed = -speed
+            #     steering = -steering
         else:
             speed = 0.0
-            
-        if success == 2:
-            speed = -speed
-            steering = -steering
             
         return speed, steering, beta, bins, safe_bins, angle
 

@@ -5,7 +5,7 @@ from std_msgs.msg import Int32
 from std_msgs.msg import Float32
 from std_msgs.msg import Bool
 
-from .lib.per_core_test import Perception
+from .lib.per_core import Perception
 
 from pop import LiDAR
 
@@ -34,7 +34,7 @@ class PlanningNode(Node):
         timer_period_cmd_vel = 0.1
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
         
-        timer_period_planning = 0.1
+        timer_period_planning = 0.01
         self.time_planning = self.create_timer(timer_period_planning, self.planning_main)
         
         timer_period_show_distance = 4

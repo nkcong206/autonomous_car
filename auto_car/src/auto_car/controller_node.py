@@ -18,11 +18,13 @@ class ControllerNode(Node):
         #pub
         self.yaw_pub = self.create_publisher(Float32, "/yaw", 10)   
         #timer 
-        timer_period_yaw = 0.15
+        timer_period_yaw = 0.05
         self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
         timer_period_controller = 0.1
         self.time_controller = self.create_timer(timer_period_controller, self.controller_main)
-        
+        # timer_period_show_info = 2
+        # self.time_show_info = self.create_timer(timer_period_show_info, self.show_info) 
+               
         self.notice = -1
         self.signal = -1
         self.yaw = 0.0
@@ -66,7 +68,7 @@ class ControllerNode(Node):
     def cmd_vel_sub_callback(self, cmd_vel_msg: Float32):
         self.speed = max_speed*cmd_vel_msg.data[0]
         self.steering = cmd_vel_msg.data[1]
-
+        
     def yaw_pub_callback(self):
         cmd_yaw = Float32()
         cmd_yaw.data = self.yaw
