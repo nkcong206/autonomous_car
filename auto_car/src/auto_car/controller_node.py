@@ -20,7 +20,7 @@ class ControllerNode(Node):
         #timer 
         timer_period_yaw = 0.05
         self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
-        timer_period_controller = 0.1
+        timer_period_controller = 0.05
         self.time_controller = self.create_timer(timer_period_controller, self.controller_main)
         # timer_period_show_info = 2
         # self.time_show_info = self.create_timer(timer_period_show_info, self.show_info) 

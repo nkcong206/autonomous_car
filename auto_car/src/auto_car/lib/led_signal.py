@@ -72,7 +72,8 @@ class led_signal():
             self.car.setPixelDisplay(all_positions, auto_stop_color)
         elif signal == led_signal.STRAIGHT_COLOR:
             self.car.setPixelDisplay(all_positions, straight_color)
-
+        elif signal == led_signal.EMPTY_COLOR:
+            self.car.setPixelDisplay(all_positions, empty_color)
 
             
 
