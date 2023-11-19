@@ -79,9 +79,9 @@ class PlanningNode(Node):
             
             if self.pl_id == len(self.pls):
                 self.notice = 3
+                self.get_logger().info("Arrived at the destination!")
                 self.sp = 0.0 
                 self.st = 0.0
-                self.get_logger().info("Arrived at the destination!")
                 return
             
             self.notice = -1
@@ -104,12 +104,12 @@ class PlanningNode(Node):
         self.automatic = data_msg.data
 
     def go_stop_sub_callback(self, data_msg: Bool):
-        if data_msg.data:
+        self.go_stop = data_msg.data
+        if self.go_stop:
             if len(self.pls) == 0:
                 self.get_logger().info("Route planning is currently empty!")
             elif not self.gps_status:                     
                 self.get_logger().info("Error GPS!")
-        self.go_stop = data_msg.data
 
     def yaw_sub_callback(self, yaw_msg = Float32):
         self.yaw = yaw_msg.data
