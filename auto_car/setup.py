@@ -21,7 +21,6 @@ setup(
 (os.path.join('share', package_name, 'config'), ['.env']),
 (os.path.join('share', package_name, 'scripts'), ['.env'])
     ],
-
     install_requires=['setuptools','python-socketio','python-dotenv','pyserial'],
     zip_safe=True,
     maintainer='nkcong206',
@@ -32,10 +31,8 @@ setup(
     entry_points={
         'console_scripts': [
             'planning = auto_car.planning_node:main',
-            'planning_test = auto_car.planning_node_test:main',
             'socketio = auto_car.socketio_node:main',
             'gps = auto_car.gps_node:main',
-            'gps_test = auto_car.gps_node_test:main',
             'controller = auto_car.controller_node:main',
         ],
     },
