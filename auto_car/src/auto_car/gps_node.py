@@ -2,6 +2,9 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 import serial
+# import numpy as np
+# from scipy.linalg import inv
+
 
 class GPSNode(Node):
     def __init__(self, **kwargs):
@@ -25,7 +28,8 @@ class GPSNode(Node):
             data = line.split(":")[1]
             my_gps = Float32MultiArray()
             my_gps.data = [float(data.split(",")[0]), float(data.split(",")[1])]
-            self.gps_pub.publish(my_gps)        
+            self.gps_pub.publish(my_gps)   
+            
             
     def stop(self):
         self.ser.close()

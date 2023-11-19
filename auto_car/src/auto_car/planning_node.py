@@ -37,8 +37,8 @@ class PlanningNode(Node):
         timer_period_planning = 0.05
         self.time_planning = self.create_timer(timer_period_planning, self.planning_main)
         
-        timer_period_show_distance = 3
-        self.timer_show_distance = self.create_timer(timer_period_show_distance, self.show_distance)
+        # timer_period_show_distance = 3
+        # self.timer_show_distance = self.create_timer(timer_period_show_distance, self.show_distance)
         
         self.notice = -1
         self.pls = []
@@ -64,25 +64,31 @@ class PlanningNode(Node):
                 self.sp = 0.0 
                 self.st = 0.0
                 return
-            elif not self.go_stop:
+            
+            if not self.go_stop:
                 self.notice = 1
                 self.sp = 0.0 
                 self.st = 0.0
                 return
-            elif len(self.pls) == 0:
+            
+            if len(self.pls) == 0:
                 self.notice = 2
                 self.sp = 0.0 
                 self.st = 0.0
                 return
-            elif self.pl_id == len(self.pls):
+            
+            if self.pl_id == len(self.pls):
                 self.notice = 3
                 self.sp = 0.0 
                 self.st = 0.0
                 self.get_logger().info("Arrived at the destination!")
                 return
-            else:
-                self.notice = -1
-                self.pl_id, self.sp, self.st = self.per.auto_go( threshold, self.yaw, self.pl_id, self.pls, self.gps_data)
+            
+            self.notice = -1
+            self.pl_id, self.sp, self.st = self.per.auto_go( self, self.yaw, self.pl_id, self.pls, self.gps_data)
+            self.get_logger().debug(f"distance: {distance}, {self.pl_id}, {self.sp}, {self.st}")
+            if self.sp == 0 and self.st == 0:
+                self.notice = 5
         else:
             self.notice = -1
          
@@ -129,10 +135,10 @@ class PlanningNode(Node):
             cmd_vel_pub.data = cmd_vel_data
             self.cmd_vel_pub.publish(cmd_vel_pub)
 
-    def show_distance(self):
-        if self.automatic and self.pl_id < len(self.pls):
-            distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
-            self.get_logger().info(f"distance: {distance}, {self.pl_id}, {self.sp}, {self.st}")
+    # def show_distance(self):
+    #     if self.automatic and self.pl_id < len(self.pls):
+    #         distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
+    #         self.get_logger().info(f"distance: {distance}, {self.pl_id}, {self.sp}, {self.st}")
     
     def stop(self):
         self.lidar.stopMotor()

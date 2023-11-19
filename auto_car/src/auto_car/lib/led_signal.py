@@ -27,7 +27,6 @@ for i in range(8):
     
     empty_color.append([0,0,0])
     
-
 #4 led on the left
 for i in range(4):
     left_positions += 2**i

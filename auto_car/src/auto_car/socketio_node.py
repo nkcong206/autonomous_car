@@ -85,7 +85,9 @@ class SocketIOListener(Node):
             place_msg = Float32MultiArray()
             place_msg.data = places
             self.places_publisher.publish(place_msg)
-            self.get_logger().info(f"Route planning: {places}")
+            self.get_logger().info(f"Route planning: {pls}")
+            self.get_logger().info(f"length places: {len(pls)}")
+
 
         @self.sio.on("automatic")
         def automatic(data):
