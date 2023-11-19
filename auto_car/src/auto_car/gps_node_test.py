@@ -12,7 +12,7 @@ class GPSNode(Node):
         #pub
         self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
         #timer
-        timer_period_gps = 0.05
+        timer_period_gps = 0.1
         self.time_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)
 
         self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
@@ -21,7 +21,7 @@ class GPSNode(Node):
         
         while rclpy.ok():
             gps_data = []
-            while len(gps_data) <= 10:
+            while len(gps_data) <= 15:
                 data = ""
                 x = self.ser.readline()
                 line = x.decode('utf-8', errors='ignore')
@@ -30,7 +30,7 @@ class GPSNode(Node):
                     line = line.replace('"', '')
                     data = line.split(":")[1]
                     gps_data.append([float(data.split(",")[0]), float(data.split(",")[1])])
-                time.sleep(0.02)
+                time.sleep(0.01)
             lat_sum = 0.0
             lon_sum = 0.0
             for i in range(len(gps_data)):

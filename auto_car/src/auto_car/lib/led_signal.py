@@ -46,8 +46,8 @@ class led_signal():
     STRAIGHT_COLOR = 4
     BLOCK_COLOR = 5
     
-    LEFT_COLOR = 6
-    RIGHT_COLOR = 7
+    RIGHT_COLOR = 6
+    LEFT_COLOR = 7
         
     EMPTY_COLOR = -1    
     

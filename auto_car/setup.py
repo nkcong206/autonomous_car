@@ -32,6 +32,7 @@ setup(
     entry_points={
         'console_scripts': [
             'planning = auto_car.planning_node:main',
+            'planning_test = auto_car.planning_node_test:main',
             'socketio = auto_car.socketio_node:main',
             'gps = auto_car.gps_node:main',
             'gps_test = auto_car.gps_node_test:main',

@@ -5,7 +5,7 @@ from std_msgs.msg import Int32
 from std_msgs.msg import Float32
 from std_msgs.msg import Bool
 
-from .lib.per_core import Perception
+from .lib.per_core_test import Perception
 
 from pop import LiDAR
 
@@ -37,8 +37,8 @@ class PlanningNode(Node):
         timer_period_planning = 0.1
         self.time_planning = self.create_timer(timer_period_planning, self.planning_main)
         
-        timer_period_show_info = 4
-        self.timer_show_info = self.create_timer(timer_period_show_info, self.show_info)
+        timer_period_show_distance = 4
+        self.timer_show_distance = self.create_timer(timer_period_show_distance, self.show_distance)
         
         self.notice = -1
         self.pls = []
@@ -140,7 +140,7 @@ class PlanningNode(Node):
             cmd_vel_pub.data = cmd_vel_data
             self.cmd_vel_pub.publish(cmd_vel_pub)
 
-    def show_info(self):
+    def show_distance(self):
         if self.automatic and self.pl_id < len(self.pls):
             distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
             self.get_logger().info(f"beta: {self.beta:.2f}")
