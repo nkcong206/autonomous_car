@@ -37,8 +37,8 @@ class PlanningNode(Node):
         timer_period_planning = 0.05
         self.time_planning = self.create_timer(timer_period_planning, self.planning_main)
         
-        # timer_period_show_distance = 3
-        # self.timer_show_distance = self.create_timer(timer_period_show_distance, self.show_distance)
+        timer_period_show_distance = 3
+        self.timer_show_distance = self.create_timer(timer_period_show_distance, self.show_distance)
         
         self.notice = -1
         self.pls = []
@@ -56,6 +56,12 @@ class PlanningNode(Node):
         self.lidar.startMotor()  
         self.per = Perception( self.lidar, n_bins, distance, safe_distance, width_of_bin_0, threshold) 
         self.get_logger().info("Planning Started!!!")
+        
+        
+        self.beta = 0.0
+        self.bins = []
+        self.safe_bins = []
+        self.angle = 0.0
         
     def planning_main(self):
         if self.automatic:
@@ -85,8 +91,7 @@ class PlanningNode(Node):
                 return
             
             self.notice = -1
-            self.pl_id, self.sp, self.st = self.per.auto_go( self, self.yaw, self.pl_id, self.pls, self.gps_data)
-            self.get_logger().debug(f"distance: {distance}, {self.pl_id}, {self.sp}, {self.st}")
+            self.pl_id, self.sp, self.st, self.beta, self.bins, self.safe_bins, self.angle = self.per.auto_go( self.yaw, self.pl_id, self.pls, self.gps_data)
             if self.sp == 0 and self.st == 0:
                 self.notice = 5
         else:
@@ -135,10 +140,14 @@ class PlanningNode(Node):
             cmd_vel_pub.data = cmd_vel_data
             self.cmd_vel_pub.publish(cmd_vel_pub)
 
-    # def show_distance(self):
-    #     if self.automatic and self.pl_id < len(self.pls):
-    #         distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
-    #         self.get_logger().info(f"distance: {distance}, {self.pl_id}, {self.sp}, {self.st}")
+    def show_distance(self):
+        if self.automatic and self.pl_id < len(self.pls):
+            distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
+            self.get_logger().info(f"beta: {self.beta}")
+            self.get_logger().info(f"{self.bins}")
+            self.get_logger().info(f"{self.safe_bins}")
+            self.get_logger().info(f"angle: {self.angle}")
+            self.get_logger().info(f"distance: {distance}, place_id: {self.pl_id},speed: {self.sp}, steering: {self.st}")
     
     def stop(self):
         self.lidar.stopMotor()

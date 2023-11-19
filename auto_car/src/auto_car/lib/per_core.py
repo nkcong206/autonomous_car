@@ -82,7 +82,7 @@ class Perception():
         else:
             return bin_id, False
         
-    def speed_streering_cal( self, node, yaw, end, start):   
+    def speed_streering_cal( self, yaw, end, start):   
         lat_end = math.radians(end[0])
         lon_end = math.radians(end[1])
         lat_start = math.radians(start[0])
@@ -142,11 +142,7 @@ class Perception():
         else:
             speed = 0.0
         
-        node.get_logger().debug("beta: ", beta)
-        node.get_logger().debug(bins)
-        node.get_logger().debug(safe_bins)
-        node.get_logger().debug("angle: ", angle)
-        return speed, steering
+        return speed, steering, beta, bins, safe_bins, angle
 
     def distance_cal( self, end, start):
         lat_end = math.radians(end[0])
@@ -162,12 +158,12 @@ class Perception():
         distance = R * c  
         return distance
     
-    def auto_go(self, node, yaw, place_id, places, gps):
+    def auto_go(self, yaw, place_id, places, gps):
         dis = self.distance_cal( places[place_id], gps)  
         speed = 0.0
         steering = 0.0             
         if dis >= self.threshold:
-            speed, steering = self.speed_streering_cal( node, yaw, places[place_id], gps) 
+            speed, steering, beta, bins, safe_bins, angle = self.speed_streering_cal( yaw, places[place_id], gps) 
         else:
             place_id += 1
-        return place_id, speed, steering
+        return place_id, speed, steering, beta, bins, safe_bins, angle
