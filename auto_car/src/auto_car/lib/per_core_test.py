@@ -47,7 +47,6 @@ class Perception():
         
         return bins, safe_bins
      
-        
     def compute_desired_bins( self, beta, bins, safe_bins):
         bin_id = 0
         if beta < 0: #. beta in range (0,360)
@@ -107,7 +106,6 @@ class Perception():
             angle = angle - 360
             
         if success != 0:
-
             if abs(angle) <= 15:
                 steering = 0
             elif 15 < abs(angle) and abs(angle) <= 40:
@@ -122,9 +120,6 @@ class Perception():
             if angle <= 0:
                 steering = -steering
                 
-            if success == 2:
-                steering = -steering
-                
             # safety 3 -> 2 -> 1 -> 0
             for bin in range(-self.n_bins//4 + 1, self.n_bins//4):
                 if bins[bin] == 1:
@@ -134,9 +129,7 @@ class Perception():
             for bin in range(-self.n_bins//4 + 1, self.n_bins//4):
                 if safe_bins[bin] == 1:
                     safety = 1
-                    break    
-        elif success == 2:
-            
+                    break                
         else:
             steering = 0.0
             safety = 0  
@@ -152,6 +145,7 @@ class Perception():
             
         if success == 2:
             speed = -speed
+            steering = -steering
             
         return speed, steering, beta, bins, safe_bins, angle
 

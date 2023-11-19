@@ -18,7 +18,7 @@ class ControllerNode(Node):
         #pub
         self.yaw_pub = self.create_publisher(Float32, "/yaw", 10)   
         #timer 
-        timer_period_yaw = 0.1
+        timer_period_yaw = 0.15
         self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
         timer_period_controller = 0.1
         self.time_controller = self.create_timer(timer_period_controller, self.controller_main)

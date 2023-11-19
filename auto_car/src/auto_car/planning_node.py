@@ -9,11 +9,11 @@ from .lib.per_core import Perception
 
 from pop import LiDAR
 
-threshold = 5.0
+threshold = 5.5
 n_bins = int(12) # 4, 8, 12, 16
 distance = 1500
-safe_distance = 1000
-width_of_bin_0 = 500
+safe_distance = 800
+width_of_bin_0 = 400
 
 class PlanningNode(Node):
     def __init__(self):
