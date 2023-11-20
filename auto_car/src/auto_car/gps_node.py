@@ -5,8 +5,8 @@ import serial
 import os
 from .lib.cal_coordinate import *
 
-from ament_index_python.packages import get_package_share_directory
-package_path = get_package_share_directory('auto_car')
+import ament_index_python.packages as packages
+package_path = packages.get_package_prefix('auto_car')
 
 distance_in_1s = 1
 
