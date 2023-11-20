@@ -45,29 +45,31 @@ class GPSNode(Node):
             gps_data = [round(data.split(",")[0], 6), round(data.split(",")[1], 6)]
             self.raw_gps_data = gps_data
             
-        if self.accurate_gps_data == [0.0, 0.0]:
-            self.accurate_gps_data = gps_data
-                    
-        if distance_cal(self.accurate_gps_data, gps_data) >= distance_in_1s:
-            be = bearing_cal(self.accurate_gps_data, gps_data)
-            new_gps_data = create_new_point(self.accurate_gps_data, distance_in_1s, be)
-            self.accurate_gps_data = new_gps_data
-        else:
-            self.accurate_gps_data = gps_data
+            if self.accurate_gps_data == [0.0, 0.0]:
+                self.accurate_gps_data = gps_data
+                        
+            if distance_cal(self.accurate_gps_data, gps_data) >= distance_in_1s:
+                be = bearing_cal(self.accurate_gps_data, gps_data)
+                new_gps_data = create_new_point(self.accurate_gps_data, distance_in_1s, be)
+                self.accurate_gps_data = new_gps_data
+            else:
+                self.accurate_gps_data = gps_data
             
     def save_gps(self):
-        with open(os.path.join(data_path, 'raw_data.csv'), 'a+') as f:
-            f.write(f"{self.raw_gps_data[0]},{self.raw_gps_data[1]}\n")
-        f.close()
-        
-        with open(os.path.join(data_path, 'accurate_data.csv'), 'a+') as f:
-            f.write(f"{self.accurate_gps_data[0]},{self.accurate_gps_data[1]}\n")
-        f.close()        
+        if self.accurate_gps_data != [0.0,0.0]:
+            with open(os.path.join(data_path, 'raw_data.csv'), 'a+') as f:
+                f.write(f"{self.raw_gps_data[0]},{self.raw_gps_data[1]}\n")
+            f.close()
+            
+            with open(os.path.join(data_path, 'accurate_data.csv'), 'a+') as f:
+                f.write(f"{self.accurate_gps_data[0]},{self.accurate_gps_data[1]}\n")
+            f.close()        
     
     def gps_pub_callback(self):
-        my_gps = Float32MultiArray()
-        my_gps.data = self.accurate_gps_data
-        self.gps_pub.publish(my_gps)   
+        if self.accurate_gps_data != [0.0, 0.0]:
+            my_gps = Float32MultiArray()
+            my_gps.data = self.accurate_gps_data
+            self.gps_pub.publish(my_gps)   
                         
     def stop(self):
         self.ser.close()
