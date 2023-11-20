@@ -12,6 +12,7 @@ rospack = rospkg.RosPack()
 package_path = rospack.get_path('auto_car')
 
 data_path = os.path.join(package_path,'data')
+print(data_path)
 
 class GPSNode(Node):
     def __init__(self, **kwargs):
