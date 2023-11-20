@@ -2,6 +2,16 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 import serial
+import rospkg
+import os
+from .lib.cal_coordinate import *
+
+distance_in_1s = 1
+
+rospack = rospkg.RosPack()
+package_path = rospack.get_path('auto_car')
+
+data_path = os.path.join(package_path,'data')
 
 class GPSNode(Node):
     def __init__(self, **kwargs):
@@ -9,13 +19,22 @@ class GPSNode(Node):
         #pub
         self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
         #timer
-        timer_period_gps = 0.5
-        self.time_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)
+        timer_period_read_gps = 0.01
+        self.time_read_gps = self.create_timer(timer_period_read_gps, self.gps_read)
 
+        timer_period_gps_pub = 0.5
+        self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
+
+        timer_period_save_gps = 0.5
+        self.time_gps = self.create_timer(timer_period_save_gps, self.save_gps)
+        
         self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
         self.get_logger().info("GPS Started!!!")
-            
-    def gps_pub_callback(self):
+        
+        self.accurate_gps_data = [0.0,0.0]            
+        self.raw_gps_data = [0.0,0.0]
+        
+    def gps_read(self):
         data = ""
         x = self.ser.readline()
         line = x.decode('utf-8', errors='ignore')
@@ -23,8 +42,31 @@ class GPSNode(Node):
             line = line.replace("\t", "").replace("\n", "")
             line = line.replace('"', '')
             data = line.split(":")[1]
+            gps_data = [round(data.split(",")[0], 6), round(data.split(",")[1], 6)]
+            self.raw_gps_data = gps_data
+            
+        if self.accurate_gps_data == [0.0, 0.0]:
+            self.accurate_gps_data = gps_data
+                    
+        if distance_cal(self.accurate_gps_data, gps_data) >= distance_in_1s:
+            be = bearing_cal(self.accurate_gps_data, gps_data)
+            new_gps_data = create_new_point(self.accurate_gps_data, distance_in_1s, be)
+            self.accurate_gps_data = new_gps_data
+        else:
+            self.accurate_gps_data = gps_data
+            
+    def save_gps(self):
+        with open(os.path.join(data_path, 'raw_data.csv'), 'a+') as f:
+            f.write(f"{self.raw_gps_data[0]},{self.raw_gps_data[1]}\n")
+        f.close()
+        
+        with open(os.path.join(data_path, 'accurate_data.csv'), 'a+') as f:
+            f.write(f"{self.accurate_gps_data[0]},{self.accurate_gps_data[1]}\n")
+        f.close()        
+    
+    def gps_pub_callback(self):
         my_gps = Float32MultiArray()
-        my_gps.data = [round(data.split(",")[0], 6), round(data.split(",")[1], 6)]
+        my_gps.data = self.accurate_gps_data
         self.gps_pub.publish(my_gps)   
                         
     def stop(self):
