@@ -143,7 +143,7 @@ class Perception():
             speed = 0.0
         
         return speed, steering, beta, bins, safe_bins, angle
-
+    
     def distance_cal( self, end, start):
         lat_end = math.radians(end[0])
         lon_end = math.radians(end[1])
