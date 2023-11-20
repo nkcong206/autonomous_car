@@ -5,12 +5,9 @@ import serial
 import os
 from .lib.cal_coordinate import *
 
-import ament_index_python.packages as packages
-package_path = packages.get_package_prefix('auto_car')
-os.chdir(package_path)
-os.chdir(package_path)
-distance_in_1s = 1
 
+distance_in_1s = 1
+package_path='/home/soda/Documents/data'
 data_path = os.path.join(package_path,'data')
 print(data_path)
 
