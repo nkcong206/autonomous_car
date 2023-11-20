@@ -42,7 +42,7 @@ class GPSNode(Node):
             line = line.replace("\t", "").replace("\n", "")
             line = line.replace('"', '')
             data = line.split(":")[1]
-            gps_data = [round(data.split(",")[0], 6), round(data.split(",")[1], 6)]
+            gps_data = [round(float(data.split(",")[0]), 6), round(float(data.split(",")[1]), 6)]
             self.raw_gps_data = gps_data
             
             if self.accurate_gps_data == [0.0, 0.0]:
