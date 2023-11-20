@@ -2,14 +2,13 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 import serial
-import rospkg
 import os
 from .lib.cal_coordinate import *
 
-distance_in_1s = 1
+from ament_index_python.packages import get_package_share_directory
+package_path = get_package_share_directory('auto_car')
 
-rospack = rospkg.RosPack()
-package_path = rospack.get_path('auto_car')
+distance_in_1s = 1
 
 data_path = os.path.join(package_path,'data')
 print(data_path)
