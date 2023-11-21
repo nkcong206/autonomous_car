@@ -64,7 +64,7 @@ class GPSNode(Node):
             if self.past_gps_data == 0:
                 self.past_gps_data = gps_data    
                                             
-            if self.go_stop:
+            if self.go_stop and self.pls_0 != [0.0,0.0]:
                 if self.new_pls:
                     self.current_position = self.pls_0
                     self.new_pls = False
