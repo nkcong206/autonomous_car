@@ -97,9 +97,9 @@ class GPSNode(Node):
 
     def places_sub_callback(self, places_msg = Float32MultiArray):
         list_point = places_msg.data
-        if self.pls != list_point[0:0+2]:
+        if self.pls != list_point[0:2]:
             self.new_pls = True
-        self.pls_0 = list_point[0:0+2]
+        self.pls_0 = list_point[0:2]
     
     def go_stop_sub_callback(self, data_msg: Bool):
         self.go_stop = data_msg.data        
