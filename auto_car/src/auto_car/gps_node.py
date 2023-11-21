@@ -61,11 +61,13 @@ class GPSNode(Node):
             data = line.split(":")[1]
             gps_data = [round(float(data.split(",")[0]), 6), round(float(data.split(",")[1]), 6)]
             # self.raw_gps_data = gps_data
+            if self.past_gps_data == 0:
+                self.past_gps_data = gps_data    
                                             
             if self.go_stop:
                 if self.new_pls:
-                    self.new_pls = False
                     self.current_position = self.pls_0
+                    self.new_pls = False
                 else:
                     be = bearing_cal(self.past_gps_data, gps_data)
                     if distance_cal(self.past_gps_data, gps_data) >= distance_in_1s:
@@ -77,7 +79,11 @@ class GPSNode(Node):
                         self.past_gps_data = gps_data
                         self.current_position = create_new_point(self.current_position, dis, be)
             else:
-                self.current_position = gps_data
+                be = bearing_cal(self.past_gps_data, gps_data)
+                if distance_cal(self.past_gps_data, gps_data) >= distance_in_1s:
+                    self.current_position = create_new_point(self.past_gps_data, distance_in_1s, be)
+                else:
+                    self.current_position = gps_data
             
     # def save_gps(self):
     #     if self.accurate_gps_data != [0.0,0.0]:
