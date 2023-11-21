@@ -5,9 +5,13 @@ import serial
 import os
 from .lib.cal_coordinate import *
 
+# import ament_index_python.packages as packages
+# package_path = packages.get_package_prefix('auto_car')
+# os.chdir(package_path)
+# os.chdir(package_path)
+distance_in_1s = 0.5
 
-distance_in_1s = 1
-package_path='/home/soda/Documents/data'
+package_path ='/home/soda/Documents/autonomous_car/auto_car'
 data_path = os.path.join(package_path,'data')
 print(data_path)
 
@@ -17,7 +21,7 @@ class GPSNode(Node):
         #pub
         self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
         #timer
-        timer_period_read_gps = 0.01
+        timer_period_read_gps = 0.5
         self.time_read_gps = self.create_timer(timer_period_read_gps, self.gps_read)
 
         timer_period_gps_pub = 0.5
@@ -31,6 +35,14 @@ class GPSNode(Node):
         
         self.accurate_gps_data = [0.0,0.0]            
         self.raw_gps_data = [0.0,0.0]
+        
+        with open(os.path.join(data_path, 'raw_data.csv'), 'a+') as f:
+            f.write(f"x,y\n")
+        f.close()
+        
+        with open(os.path.join(data_path, 'accurate_data.csv'), 'a+') as f:
+            f.write(f"x,y\n")
+        f.close()
         
     def gps_read(self):
         data = ""

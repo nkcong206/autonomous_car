@@ -29,9 +29,9 @@ class SocketIOListener(Node):
         #sub
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_sub_callback, 10)
         #timer
-        timer_period_gps = 6
+        timer_period_gps = 20
         self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)               
-        timer_period_cmd_vel = 0.05
+        timer_period_cmd_vel = 0.1
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)               
         
         self.gps_data = [ 0.0, 0.0]
