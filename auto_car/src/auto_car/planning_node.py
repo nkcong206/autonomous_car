@@ -120,8 +120,9 @@ class PlanningNode(Node):
         self.yaw = yaw_msg.data
         
     def gps_sub_callback(self, gps_msg = Float32MultiArray):
-        self.gps_data = gps_msg.data
-        if self.gps_data[0] == 0.0 and self.gps_data[1] == 0:
+        rounded_coordinates = [float(round(coord, 6)) for coord in gps_msg.data]
+        self.gps_data = [float(coord) for coord in rounded_coordinates]
+        if self.gps_data[0] == 0.0 and self.gps_data[1] == 0.0:
             self.gps_status = False
         else:
             self.gps_status = True

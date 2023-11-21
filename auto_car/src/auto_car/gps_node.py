@@ -27,8 +27,8 @@ class GPSNode(Node):
         timer_period_gps_pub = 0.5
         self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
 
-        timer_period_save_gps = 0.5
-        self.time_gps = self.create_timer(timer_period_save_gps, self.save_gps)
+        # timer_period_save_gps = 0.5
+        # self.time_gps = self.create_timer(timer_period_save_gps, self.save_gps)
         
 
         self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
@@ -61,7 +61,7 @@ class GPSNode(Node):
             data = line.split(":")[1]
             gps_data = [round(float(data.split(",")[0]), 6), round(float(data.split(",")[1]), 6)]
             # self.raw_gps_data = gps_data
-            if self.past_gps_data == 0:
+            if self.past_gps_data == [0.0,0.0]:
                 self.past_gps_data = gps_data    
                                             
             if self.go_stop and self.pls_0 != [0.0,0.0]:
