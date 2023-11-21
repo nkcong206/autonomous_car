@@ -90,7 +90,7 @@ class GPSNode(Node):
     #         f.close()        
     
     def gps_pub_callback(self):
-        if self.accurate_gps_data != [0.0, 0.0]:
+        if self.current_position != [0.0, 0.0]:
             my_gps = Float32MultiArray()
             my_gps.data = self.current_position
             self.gps_pub.publish(my_gps)   
