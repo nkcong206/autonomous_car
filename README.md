@@ -1,6 +1,9 @@
 ### Fix I2C
+    first:
     chmod +x ./fix_i2c.sh 
     sh ./fix_i2c.sh
+    next:
+    pip install python-can --force-reinstall
 ### Config connect to server
     /auto_car/auto_car/.env
 The field SERVER_SOCKETIO and SERVER_RTMP in .env file: you must change the IP address to the server’s IP address.
@@ -15,6 +18,7 @@ The field ID in .env file: you must change the ID of robot. It is unique for eac
     cd auto_car
 ### check usb gps
     ls /dev/ttyUSB*
+    /dev/ttyUSB1
 ### Build ROS2 node
     colcon build --packages-select auto_car
 ### Setup env ROS2
