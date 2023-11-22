@@ -31,7 +31,7 @@ class PlanningNode(Node):
         timer_period_notice = 0.1
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)
         
-        timer_period_cmd_vel = 0.05
+        timer_period_cmd_vel = 0.01
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
         
         timer_period_planning = 0.01
@@ -64,7 +64,6 @@ class PlanningNode(Node):
         self.angle = 0.0
         
     def planning_main(self):
-        
         if self.automatic:
             if not self.gps_status:
                 self.notice = 0
@@ -121,8 +120,9 @@ class PlanningNode(Node):
         self.yaw = yaw_msg.data
         
     def gps_sub_callback(self, gps_msg = Float32MultiArray):
-        self.gps_data = gps_msg.data
-        if self.gps_data[0] == 0.0 and self.gps_data[1] == 0:
+        rounded_coordinates = [float(round(coord, 6)) for coord in gps_msg.data]
+        self.gps_data = [float(coord) for coord in rounded_coordinates]
+        if self.gps_data[0] == 0.0 and self.gps_data[1] == 0.0:
             self.gps_status = False
         else:
             self.gps_status = True

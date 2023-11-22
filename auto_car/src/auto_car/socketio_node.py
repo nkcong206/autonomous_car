@@ -29,9 +29,9 @@ class SocketIOListener(Node):
         #sub
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_sub_callback, 10)
         #timer
-        timer_period_gps = 20
+        timer_period_gps = 6
         self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)               
-        timer_period_cmd_vel = 0.1
+        timer_period_cmd_vel = 0.05
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)               
         
         self.gps_data = [ 0.0, 0.0]
@@ -125,7 +125,8 @@ class SocketIOListener(Node):
                 self.steering = value
 
     def gps_sub_callback(self, gps_msg = Float32MultiArray):
-        self.gps_data = gps_msg.data
+        rounded_coordinates = [float(round(coord, 6)) for coord in gps_msg.data]
+        self.gps_data = [float(coord) for coord in rounded_coordinates]
         if self.gps_data[0] == 0.0 and self.gps_data[1] == 0.0:
             self.gps_status = False
         else:
