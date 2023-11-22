@@ -1,7 +1,10 @@
+### Fix zsh_history
+    chmod +x ./fix_zsh.sh
+    ./fix_zsh.sh
 ### Fix I2C
     first:
     chmod +x ./fix_i2c.sh 
-    sh ./fix_i2c.sh
+    ./fix_i2c.sh
     next:
     pip install python-can --force-reinstall
 ### Config connect to server
