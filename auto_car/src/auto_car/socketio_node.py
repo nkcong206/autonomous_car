@@ -125,11 +125,11 @@ class SocketIOListener(Node):
                 self.steering = value
 
     def gps_sub_callback(self, gps_msg = Float32MultiArray):
-        self.gps_data = gps_msg.data
-        if self.gps_data[0] == 0 and self.gps_data[1] == 0:
+        if self.gps_data[0] == 0 and gps_msg.data[1] == 0:
             self.gps_status = False
         else:
             self.gps_status = True
+            self.gps_data = gps_msg.data[:2]
 
     def gps_pub_callback(self):
         if self.gps_status and self.sio.connected:

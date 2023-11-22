@@ -32,6 +32,7 @@ class GPSNode(Node):
         self.go_stop = False
         self.new_pls = False
         self.pls_0 = [0.0,0.0] 
+        self.status = 0
     
     def gps_read(self):
         data = ""
@@ -61,17 +62,20 @@ class GPSNode(Node):
                     self.past_gps_data = create_new_point(self.past_gps_data, dis, be)
                     self.current_position = create_new_point(self.current_position, dis, be)
                     self.past_position = self.current_position
+                self.status = 1
             else:
                 be = bearing_cal(self.past_gps_data, gps_data)
                 dis = distance_cal(self.past_gps_data, gps_data)
                 if dis > distance_in_1s:
                     dis = distance_in_1s
-                self.current_position = create_new_point(self.past_gps_data, dis, be)      
+                self.current_position = create_new_point(self.past_gps_data, dis, be)    
+                self.status = 0  
     
     def gps_pub_callback(self):
         if self.current_position != [0.0, 0.0]:
             my_gps = Float32MultiArray()
             my_gps.data = self.current_position
+            my_gps.data.append(self.status)
             self.gps_pub.publish(my_gps)   
 
     def places_sub_callback(self, places_msg = Float32MultiArray):
