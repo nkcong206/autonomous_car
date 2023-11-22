@@ -46,5 +46,5 @@ def create_new_point (point, distance, bearing_degrees):
 
     end_lat = math.degrees(end_lat)
     end_lon = math.degrees(end_lon)
-    new_point = [round(end_lat,6), round(end_lon,6)]
+    new_point = [end_lat, end_lon]
     return new_point
