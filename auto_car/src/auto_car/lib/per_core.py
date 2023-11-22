@@ -69,7 +69,7 @@ class Perception():
         if all(bin == 1 for bin in bins):
             return bin_id, False
         
-        if bin_id <= self.n_bins//2:
+        if bin_id < self.n_bins//2:
             for beta in range(0, bin_id - 1):
                 if safe_bins[beta] == 1:
                     return bin_id, False
@@ -79,6 +79,8 @@ class Perception():
                 if safe_bins[beta] == 1:
                     return bin_id, False
             return bin_id, True
+        else:
+            return bin_id, False
         
     def speed_streering_cal( self, yaw, end, start):   
         lat_end = math.radians(end[0])
@@ -141,7 +143,7 @@ class Perception():
             speed = 0.0
         
         return speed, steering, beta, bins, safe_bins, angle
-
+    
     def distance_cal( self, end, start):
         lat_end = math.radians(end[0])
         lon_end = math.radians(end[1])
