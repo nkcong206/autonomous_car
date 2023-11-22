@@ -3,15 +3,9 @@ from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Bool
 import serial
-import os
 from .lib.cal_coordinate import *
 
 distance_in_1s = 0.5
-
-# package_path ='/home/soda/Documents/autonomous_car/auto_car'
-
-# data_path = os.path.join(package_path,'data')
-# print(data_path)
 
 class GPSNode(Node):
     def __init__(self, **kwargs):
@@ -31,7 +25,6 @@ class GPSNode(Node):
         self.get_logger().info("GPS Started!!!")
         
         self.past_gps_data = [0.0,0.0]            
-        # self.raw_gps_data = [0.0,0.0]
                 
         self.current_position = [0.0,0.0]
         self.past_position = [0.0,0.0]

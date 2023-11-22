@@ -64,7 +64,7 @@ class ControllerNode(Node):
     def notice_sub_callback(self, notice_msg:Int32):
         self.notice = notice_msg.data
 
-    def cmd_vel_sub_callback(self, cmd_vel_msg: Float32):
+    def cmd_vel_sub_callback(self, cmd_vel_msg: Float32MultiArray):
         self.speed = max_speed*cmd_vel_msg.data[0]
         self.steering = cmd_vel_msg.data[1]
         
