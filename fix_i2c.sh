@@ -1,4 +1,5 @@
 #!/bin/bash
+cd ~
 if [ ! -f "get-pip.py" ]; then
     wget https://bootstrap.pypa.io/pip/3.6/get-pip.py
 fi
