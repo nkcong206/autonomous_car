@@ -142,7 +142,7 @@ class Perception():
         else:
             speed = 0.0
         
-        return speed, steering, beta, bins, safe_bins, angle
+        return speed, steering, beta
     
     def distance_cal( self, end, start):
         lat_end = math.radians(end[0])
@@ -167,7 +167,7 @@ class Perception():
         safe_bins = []
         angle = 0.0    
         if dis >= self.threshold:
-            speed, steering, beta, bins, safe_bins, angle = self.speed_streering_cal( yaw, places[place_id], gps) 
+            speed, steering, beta = self.speed_streering_cal( yaw, places[place_id], gps) 
         else:
             place_id += 1
-        return place_id, speed, steering, beta, bins, safe_bins, angle
+        return place_id, speed, steering, beta

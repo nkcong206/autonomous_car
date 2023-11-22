@@ -17,7 +17,6 @@ class GPSNode(Node):
         #timer
         timer_period_read_gps = 0.5
         self.time_read_gps = self.create_timer(timer_period_read_gps, self.gps_read)
-
         timer_period_gps_pub = 0.5
         self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
 
@@ -25,13 +24,12 @@ class GPSNode(Node):
         self.get_logger().info("GPS Started!!!")
         
         self.past_gps_data = [0.0,0.0]            
-                
         self.current_position = [0.0,0.0]
         self.past_position = [0.0,0.0]
+        self.pls_0 = [0.0,0.0] 
         
         self.go_stop = False
         self.new_pls = False
-        self.pls_0 = [0.0,0.0] 
         self.status = 0
     
     def gps_read(self):
@@ -42,12 +40,9 @@ class GPSNode(Node):
             line = line.replace("\t", "").replace("\n", "")
             line = line.replace('"', '')
             data = line.split(":")[1]
-
             gps_data = [float(data.split(",")[0]), float(data.split(",")[1])]
-            
             if self.past_gps_data == [0.0,0.0]:
                 self.past_gps_data = gps_data
-                                            
             if self.go_stop and self.pls_0 != [0.0,0.0]:
                 if self.new_pls:
                     self.new_pls = False
@@ -70,7 +65,9 @@ class GPSNode(Node):
                     dis = distance_in_1s
                 self.current_position = create_new_point(self.past_gps_data, dis, be)    
                 self.status = 0  
-    
+        else:
+            self.status = 0  
+
     def gps_pub_callback(self):
         if self.current_position != [0.0, 0.0]:
             my_gps = Float32MultiArray()
@@ -80,9 +77,9 @@ class GPSNode(Node):
 
     def places_sub_callback(self, places_msg = Float32MultiArray):
         list_point = places_msg.data
-        if self.pls_0 != list_point[0:2]:
+        if self.pls_0 != list_point[:2]:
             self.new_pls = True
-        self.pls_0 = list_point[0:2]
+        self.pls_0 = list_point[:2]
     
     def go_stop_sub_callback(self, data_msg: Bool):
         self.go_stop = data_msg.data        

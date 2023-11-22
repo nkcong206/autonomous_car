@@ -9,7 +9,7 @@ from .lib.per_core import Perception
 
 from pop import LiDAR
 
-threshold = 5.5
+threshold = 4
 n_bins = int(12) # 4, 8, 12, 16
 distance = 1500
 safe_distance = 800
@@ -50,29 +50,24 @@ class PlanningNode(Node):
         self.sp = 0.0
         self.st = 0.0
         self.yaw = 0.0
+        self.beta = 0.0
         
         self.lidar = LiDAR.Rplidar()
         self.lidar.connect()
         self.lidar.startMotor()  
         self.per = Perception( self.lidar, n_bins, distance, safe_distance, width_of_bin_0, threshold) 
         self.get_logger().info("Planning Started!!!")
-        
-        
-        self.beta = 0.0
-        self.bins = []
-        self.safe_bins = []
-        self.angle = 0.0
-        
+                
     def planning_main(self):
         if self.automatic:
-            if not self.gps_status:
-                self.notice = 0
+            if not self.go_stop:
+                self.notice = 1
                 self.sp = 0.0 
                 self.st = 0.0
                 return
             
-            if not self.go_stop:
-                self.notice = 1
+            if not self.gps_status:
+                self.notice = 0
                 self.sp = 0.0 
                 self.st = 0.0
                 return
@@ -91,7 +86,7 @@ class PlanningNode(Node):
                 return
             
             self.notice = -1
-            self.pl_id, self.sp, self.st, self.beta, self.bins, self.safe_bins, self.angle = self.per.auto_go( self.yaw, self.pl_id, self.pls, self.gps_data)
+            self.pl_id, self.sp, self.st, self.beta = self.per.auto_go( self.yaw, self.pl_id, self.pls, self.gps_data)
             if self.sp == 0 and self.st == 0:
                 self.notice = 5
         else:
@@ -121,7 +116,7 @@ class PlanningNode(Node):
         
     def gps_sub_callback(self, gps_msg = Float32MultiArray):
         self.gps_status =  gps_msg.data[2]
-        if self.gps_status:
+        if self.gps_status == 1:
             self.gps_data = gps_msg.data
 
     def notice_pub_callback(self):
@@ -141,11 +136,7 @@ class PlanningNode(Node):
     def show_info(self):
         if self.automatic and self.pl_id < len(self.pls):
             distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
-            self.get_logger().info(f"beta: {self.beta:.2f}")
-            self.get_logger().info(f"{self.bins}")
-            self.get_logger().info(f"{self.safe_bins}")
-            self.get_logger().info(f"angle: {self.angle:.2f}")
-            self.get_logger().info(f"distance: {distance:.2f}, place_id: {self.pl_id},speed: {self.sp:.2f}, steering: {self.st:.2f}\n")
+            self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
     
     def stop(self):
         self.lidar.stopMotor()
