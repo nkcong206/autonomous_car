@@ -63,6 +63,7 @@ class GPSNode(Node):
                 dis = distance_cal(self.past_gps_data, gps_data)
                 if dis > distance_in_1s:
                     dis = distance_in_1s
+                self.past_gps_data = create_new_point(self.past_gps_data, dis, be)
                 self.current_position = create_new_point(self.past_gps_data, dis, be)    
                 self.status = 0  
         else:
