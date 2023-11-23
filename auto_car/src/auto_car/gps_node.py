@@ -5,7 +5,7 @@ from std_msgs.msg import Bool
 import serial
 from .lib.cal_coordinate import *
 
-distance_in_1s = 0.5
+distance_in_1s = 1
 
 class GPSNode(Node):
     def __init__(self, **kwargs):
@@ -28,43 +28,52 @@ class GPSNode(Node):
         self.new_pls = False
         self.status = 0
         
-        self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
+        # self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
         self.get_logger().info("GPS Started!!!")
             
     def gps_read(self):
-        data = ""
-        x = self.ser.readline()
-        line = x.decode('utf-8', errors='ignore')
-        if line.find("localtion") != -1:
-            line = line.replace("\t", "").replace("\n", "")
-            line = line.replace('"', '')
-            data = line.split(":")[1]
-            gps_data = [float(data.split(",")[0]), float(data.split(",")[1])]
-            if self.past_gps_data == [0.0,0.0]:
-                self.past_gps_data = gps_data
-            if self.go_stop and self.pls_0 != [0.0,0.0]:
-                if self.new_pls:
-                    self.new_pls = False
-                    self.current_position = self.pls_0
+        with serial.Serial('/dev/ttyUSB1', 9600, timeout=10) as ser:
+            data = ""
+            x = ser.readline()
+            line = x.decode('utf-8', errors='ignore')
+            if line.find("localtion") != -1:
+                line = line.replace("\t", "").replace("\n", "")
+                line = line.replace('"', '')
+                data = line.split(":")[1]
+                gps_data = [float(data.split(",")[0]), float(data.split(",")[1])]
+                print(gps_data)
+                if self.past_gps_data == [0.0,0.0]:
+                    self.past_gps_data = gps_data
+                if self.go_stop and self.pls_0 != [0.0,0.0]:
+                    if self.new_pls:
+                        self.new_pls = False
+                        self.current_position = self.pls_0
+                    else:
+                        be = bearing_cal(self.past_gps_data, gps_data)
+                        dis = distance_cal(self.past_gps_data, gps_data)
+                        print("be", be)
+                        print("dis", dis)
+                        if dis > distance_in_1s:
+                            dis = distance_in_1s
+                        self.past_gps_data = create_new_point(self.past_gps_data, dis, be)
+                        self.current_position = create_new_point(self.past_position, dis, be)
+                    self.past_position = self.current_position
+                    self.status = 1
+                    print("current position", self.current_position)
+
                 else:
                     be = bearing_cal(self.past_gps_data, gps_data)
                     dis = distance_cal(self.past_gps_data, gps_data)
                     if dis > distance_in_1s:
                         dis = distance_in_1s
                     self.past_gps_data = create_new_point(self.past_gps_data, dis, be)
-                    self.current_position = create_new_point(self.past_position, dis, be)
-                self.past_position = self.current_position
-                self.status = 1
+                    self.current_position = create_new_point(self.past_gps_data, dis, be)    
+                    self.status = 0  
+                    print("current position", self.current_position)
+
             else:
-                be = bearing_cal(self.past_gps_data, gps_data)
-                dis = distance_cal(self.past_gps_data, gps_data)
-                if dis > distance_in_1s:
-                    dis = distance_in_1s
-                self.past_gps_data = create_new_point(self.past_gps_data, dis, be)
-                self.current_position = create_new_point(self.past_gps_data, dis, be)    
                 self.status = 0  
-        else:
-            self.status = 0  
+        ser.close()
 
     def gps_pub_callback(self):
         if self.current_position != [0.0, 0.0]:
