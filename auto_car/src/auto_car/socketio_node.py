@@ -7,6 +7,8 @@ from std_msgs.msg import Float32MultiArray
 from dotenv import load_dotenv
 import subprocess
 from ament_index_python.packages import get_package_share_directory
+from .arduino import *
+import serial
 
 package_share_directory = get_package_share_directory('auto_car')
 dotenv_path = os.path.join(package_share_directory, 'config', '.env')
@@ -40,6 +42,7 @@ class SocketIOListener(Node):
         self.steering = 0.0
         self.process = None
         self.sio = socketio.Client()
+        
         self.get_logger().info("SocketIO Started!!!")
 
         @self.sio.event
@@ -123,7 +126,12 @@ class SocketIOListener(Node):
                 self.speed = value
             else:
                 self.steering = value
-
+        
+        @self.sio.on("send_signal_robot")
+        def uart(data):
+            value = data["data"]
+            ReadSignal.get_instance().send_uart(value)
+        
     def gps_sub_callback(self, gps_msg = Float32MultiArray):
         if self.gps_data[0] == 0 and gps_msg.data[1] == 0:
             self.gps_status = False
@@ -160,7 +168,10 @@ class SocketIOListener(Node):
             self.get_logger().info("Error stopping stream:")
 
     def start(self):
+        
         self.sio.connect(self.SERVER_SOCKETIO)
+        ReadSignal.get_instance().contructor(self.sio)
+        ReadSignal.get_instance().start()
         rclpy.spin(self)
             
     def stop(self):
