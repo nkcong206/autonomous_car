@@ -28,14 +28,14 @@ class GPSNode(Node):
         self.go_stop = False
         self.new_pls = False
         self.status = 0
-        
+        self.ser = None
         # self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
         self.get_logger().info("GPS Started!!!")
             
     def gps_read(self):
-        with serial.Serial('/dev/ttyUSB1', 9600, timeout=10) as ser:
+        with serial.Serial('/dev/ttyUSB1', 9600, timeout=10) as self.ser:
             data = ""
-            x = ser.readline()
+            x = self.ser.readline()
             line = x.decode('utf-8', errors='ignore')
             if line.find("localtion") != -1:
                 line = line.replace("\t", "").replace("\n", "")
@@ -62,7 +62,7 @@ class GPSNode(Node):
                     self.status = 0  
             else:
                 self.status = 0  
-        ser.close()
+        self.ser.close()
 
 
     def gps_pub_callback(self):
@@ -83,7 +83,7 @@ class GPSNode(Node):
         self.go_stop = data_msg.data        
                                     
     def stop(self):
-        # self.ser.close()
+        self.ser.close()
         self.get_logger().info(f"GPS stopped!")        
 
 def main(args=None):
