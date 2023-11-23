@@ -116,7 +116,7 @@ class PlanningNode(Node):
         
     def gps_sub_callback(self, gps_msg = Float32MultiArray):
         self.gps_status =  gps_msg.data[2]
-        self.gps_data = gps_msg.data
+        self.gps_data = gps_msg.data[:2]
 
     def notice_pub_callback(self):
         notice_msg = Int32()
