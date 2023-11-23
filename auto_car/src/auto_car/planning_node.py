@@ -31,11 +31,11 @@ class PlanningNode(Node):
         timer_period_notice = 0.1
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)
         
-        timer_period_cmd_vel = 0.05
+        timer_period_cmd_vel = 0.1
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
         
-        timer_period_planning = 0.01
-        self.time_planning = self.create_timer(timer_period_planning, self.planning_main)
+        # timer_period_planning = 0.01
+        # self.time_planning = self.create_timer(timer_period_planning, self.planning_main)
         
         timer_period_show_info = 3
         self.timer_show_info = self.create_timer(timer_period_show_info, self.show_info)
@@ -58,39 +58,33 @@ class PlanningNode(Node):
         self.per = Perception( self.lidar, n_bins, distance, safe_distance, width_of_bin_0, threshold) 
         self.get_logger().info("Planning Started!!!")
                 
-    def planning_main(self):
-        if self.automatic:
-            if not self.go_stop:
-                self.notice = 1
-                self.sp = 0.0 
-                self.st = 0.0
-                return
-            
-            if not self.gps_status:
-                self.notice = 0
-                self.sp = 0.0 
-                self.st = 0.0
-                return
-            
-            if len(self.pls) == 0:
-                self.notice = 2
-                self.sp = 0.0 
-                self.st = 0.0
-                return
-            
-            if self.pl_id == len(self.pls):
-                self.notice = 3
-                self.get_logger().info("Arrived at the destination!")
-                self.sp = 0.0 
-                self.st = 0.0
-                return
-            
-            self.notice = -1
-            self.pl_id, self.sp, self.st, self.beta = self.per.auto_go( self.yaw, self.pl_id, self.pls, self.gps_data)
-            if self.sp == 0 and self.st == 0:
-                self.notice = 5
-        else:
-            self.notice = -1
+        while rclpy.ok():
+            if self.automatic:
+                if not self.go_stop:
+                    self.notice = 1
+                    self.sp = 0.0 
+                    self.st = 0.0
+                elif not self.gps_status:
+                    self.notice = 0
+                    self.sp = 0.0 
+                    self.st = 0.0
+                elif len(self.pls) == 0:
+                    self.notice = 2
+                    self.sp = 0.0 
+                    self.st = 0.0
+                elif self.pl_id == len(self.pls):
+                    self.notice = 3
+                    self.get_logger().info("Arrived at the destination!")
+                    self.sp = 0.0 
+                    self.st = 0.0
+                else:
+                    self.notice = -1
+                    self.pl_id, self.sp, self.st, self.beta = self.per.auto_go( self.yaw, self.pl_id, self.pls, self.gps_data)
+                    if self.sp == 0 and self.st == 0:
+                        self.notice = 5
+            else:
+                self.notice = -1
+            rclpy.spin_once(self)
          
     def places_sub_callback(self, places_msg = Float32MultiArray):
         list_point = places_msg.data

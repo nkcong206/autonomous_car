@@ -31,9 +31,9 @@ class SocketIOListener(Node):
         #sub
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_sub_callback, 10)
         #timer
-        timer_period_gps = 6
+        timer_period_gps = 2
         self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)               
-        timer_period_cmd_vel = 0.05
+        timer_period_cmd_vel = 0.1
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)               
         
         self.gps_data = [ 0.0, 0.0]
@@ -127,10 +127,10 @@ class SocketIOListener(Node):
             else:
                 self.steering = value
         
-        @self.sio.on("send_signal_robot")
-        def uart(data):
-            value = data["data"]
-            ReadSignal.get_instance().send_uart(value)
+        # @self.sio.on("send_signal_robot")
+        # def uart(data):
+        #     value = data["data"]
+        #     ReadSignal.get_instance().send_uart(value)
         
     def gps_sub_callback(self, gps_msg = Float32MultiArray):
         if self.gps_data[0] == 0 and gps_msg.data[1] == 0:
@@ -170,8 +170,8 @@ class SocketIOListener(Node):
     def start(self):
         
         self.sio.connect(self.SERVER_SOCKETIO)
-        ReadSignal.get_instance().contructor(self.sio, self.ID)
-        ReadSignal.get_instance().start()
+        # ReadSignal.get_instance().contructor(self.sio, self.ID)
+        # ReadSignal.get_instance().start()
         rclpy.spin(self)
             
     def stop(self):
