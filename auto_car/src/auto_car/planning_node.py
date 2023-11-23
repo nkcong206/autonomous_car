@@ -84,7 +84,9 @@ class PlanningNode(Node):
                         self.notice = 5
             else:
                 self.notice = -1
+            distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
             self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
+            self.get_logger().info(f"speed: {self.speed:.2f}, steering: {steering:.2f}\n")
             rclpy.spin_once(self)
          
     def places_sub_callback(self, places_msg = Float32MultiArray):
