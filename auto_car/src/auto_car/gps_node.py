@@ -5,6 +5,9 @@ from std_msgs.msg import Bool
 import serial
 from .lib.cal_coordinate import *
 
+
+distance_in_1s = 1
+
 class GPSNode(Node):
     def __init__(self, **kwargs):
         super().__init__('gps_node')
@@ -13,9 +16,9 @@ class GPSNode(Node):
         #pub
         self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
         #timer
-        timer_period_read_gps = 0.5
+        timer_period_read_gps = 0.1
         self.time_read_gps = self.create_timer(timer_period_read_gps, self.gps_read)
-        timer_period_gps_pub = 0.5
+        timer_period_gps_pub = 0.1
         self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
 
         self.root_gps_data = [0.0,0.0]            
@@ -26,35 +29,41 @@ class GPSNode(Node):
         self.new_pls = False
         self.status = 0
         
-        self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
+        # self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
         self.get_logger().info("GPS Started!!!")
             
     def gps_read(self):
-        data = ""
-        x = self.ser.readline()
-        line = x.decode('utf-8', errors='ignore')
-        if line.find("localtion") != -1:
-            line = line.replace("\t", "").replace("\n", "")
-            line = line.replace('"', '')
-            data = line.split(":")[1]
-            gps_data = [float(data.split(",")[0]), float(data.split(",")[1])]
-            if self.past_gps_data == [0.0,0.0]:
-                self.past_gps_data = gps_data
-            if self.go_stop and self.pls_0 != [0.0,0.0]:
-                if self.new_pls:
-                    self.new_pls = False
-                    self.root_position = self.pls_0
-                    self.root_gps_data = gps_data
+        with serial.Serial('/dev/ttyUSB1', 9600, timeout=10) as ser:
+            data = ""
+            x = ser.readline()
+            line = x.decode('utf-8', errors='ignore')
+            if line.find("localtion") != -1:
+                line = line.replace("\t", "").replace("\n", "")
+                line = line.replace('"', '')
+                data = line.split(":")[1]
+                gps_data = [float(data.split(",")[0]), float(data.split(",")[1])]
+                # if self.past_gps_data == [0.0,0.0]:
+                #     self.past_gps_data = gps_data
+                print(gps_data)
+                if self.go_stop and self.pls_0 != [0.0,0.0]:
+                    if self.new_pls:
+                        self.new_pls = False
+                        self.root_position = self.pls_0
+                        self.root_gps_data = gps_data
+                    else:
+                        be = bearing_cal(self.root_gps_data, gps_data)
+                        dis = distance_cal(self.root_gps_data, gps_data)
+                        if dis > distance_in_1s:
+                            dis = distance_in_1s
+                        self.current_position = create_new_point(self.root_position, dis, be)
+                    self.status = 1
                 else:
-                    be = bearing_cal(self.root_gps_data, gps_data)
-                    dis = distance_cal(self.root_gps_data, gps_data)
-                    self.current_position = create_new_point(self.root_position, dis, be)
-                self.status = 1
+                    self.current_position = gps_data  
+                    self.status = 0  
             else:
-                self.current_position = gps_data  
                 self.status = 0  
-        else:
-            self.status = 0  
+        ser.close()
+
 
     def gps_pub_callback(self):
         if self.current_position != [0.0, 0.0]:
@@ -74,7 +83,7 @@ class GPSNode(Node):
         self.go_stop = data_msg.data        
                                     
     def stop(self):
-        self.ser.close()
+        # self.ser.close()
         self.get_logger().info(f"GPS stopped!")        
 
 def main(args=None):
