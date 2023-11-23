@@ -5,8 +5,6 @@ from std_msgs.msg import Bool
 import serial
 from .lib.cal_coordinate import *
 
-distance_in_1s = 0.5
-
 class GPSNode(Node):
     def __init__(self, **kwargs):
         super().__init__('gps_node')
@@ -20,9 +18,9 @@ class GPSNode(Node):
         timer_period_gps_pub = 0.5
         self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
 
-        self.past_gps_data = [0.0,0.0]            
+        self.root_gps_data = [0.0,0.0]            
         self.current_position = [0.0,0.0]
-        self.past_position = [0.0,0.0]
+        self.root_position = [0.0,0.0]
         self.pls_0 = [0.0,0.0]         
         self.go_stop = False
         self.new_pls = False
@@ -45,23 +43,15 @@ class GPSNode(Node):
             if self.go_stop and self.pls_0 != [0.0,0.0]:
                 if self.new_pls:
                     self.new_pls = False
-                    self.current_position = self.pls_0
+                    self.root_position = self.pls_0
+                    self.root_gps_data = gps_data
                 else:
-                    be = bearing_cal(self.past_gps_data, gps_data)
-                    dis = distance_cal(self.past_gps_data, gps_data)
-                    if dis > distance_in_1s:
-                        dis = distance_in_1s
-                    self.past_gps_data = create_new_point(self.past_gps_data, dis, be)
-                    self.current_position = create_new_point(self.past_position, dis, be)
-                self.past_position = self.current_position
+                    be = bearing_cal(self.root_gps_data, gps_data)
+                    dis = distance_cal(self.root_gps_data, gps_data)
+                    self.current_position = create_new_point(self.root_position, dis, be)
                 self.status = 1
             else:
-                be = bearing_cal(self.past_gps_data, gps_data)
-                dis = distance_cal(self.past_gps_data, gps_data)
-                if dis > distance_in_1s:
-                    dis = distance_in_1s
-                self.past_gps_data = create_new_point(self.past_gps_data, dis, be)
-                self.current_position = create_new_point(self.past_gps_data, dis, be)    
+                self.current_position = gps_data  
                 self.status = 0  
         else:
             self.status = 0  
@@ -69,7 +59,7 @@ class GPSNode(Node):
     def gps_pub_callback(self):
         if self.current_position != [0.0, 0.0]:
             gps_ms = self.current_position
-            gps_ms.append(self.status)
+            gps_ms.append(float(self.status))
             my_gps = Float32MultiArray()
             my_gps.data = gps_ms
             self.gps_pub.publish(my_gps)   
