@@ -20,18 +20,17 @@ class GPSNode(Node):
         timer_period_gps_pub = 0.5
         self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
 
-        self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
-        self.get_logger().info("GPS Started!!!")
-        
         self.past_gps_data = [0.0,0.0]            
         self.current_position = [0.0,0.0]
         self.past_position = [0.0,0.0]
-        self.pls_0 = [0.0,0.0] 
-        
+        self.pls_0 = [0.0,0.0]         
         self.go_stop = False
         self.new_pls = False
         self.status = 0
-    
+        
+        self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
+        self.get_logger().info("GPS Started!!!")
+            
     def gps_read(self):
         data = ""
         x = self.ser.readline()
@@ -47,16 +46,14 @@ class GPSNode(Node):
                 if self.new_pls:
                     self.new_pls = False
                     self.current_position = self.pls_0
-                    self.past_position = self.pls_0
                 else:
-                    self.current_position = self.past_position
                     be = bearing_cal(self.past_gps_data, gps_data)
                     dis = distance_cal(self.past_gps_data, gps_data)
                     if dis > distance_in_1s:
                         dis = distance_in_1s
                     self.past_gps_data = create_new_point(self.past_gps_data, dis, be)
-                    self.current_position = create_new_point(self.current_position, dis, be)
-                    self.past_position = self.current_position
+                    self.current_position = create_new_point(self.past_position, dis, be)
+                self.past_position = self.current_position
                 self.status = 1
             else:
                 be = bearing_cal(self.past_gps_data, gps_data)
@@ -71,9 +68,10 @@ class GPSNode(Node):
 
     def gps_pub_callback(self):
         if self.current_position != [0.0, 0.0]:
+            gps_ms = self.current_position
+            gps_ms.append(self.status)
             my_gps = Float32MultiArray()
-            my_gps.data = self.current_position
-            my_gps.data.append(self.status)
+            my_gps.data = gps_ms
             self.gps_pub.publish(my_gps)   
 
     def places_sub_callback(self, places_msg = Float32MultiArray):
