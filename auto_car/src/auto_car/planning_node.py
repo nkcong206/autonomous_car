@@ -9,7 +9,7 @@ from .lib.per_core import Perception
 
 from pop import LiDAR
 
-threshold = 4
+threshold = 5
 n_bins = int(12) # 4, 8, 12, 16
 distance = 1500
 safe_distance = 800
@@ -31,7 +31,7 @@ class PlanningNode(Node):
         timer_period_notice = 0.1
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)
         
-        timer_period_cmd_vel = 0.01
+        timer_period_cmd_vel = 0.05
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
         
         timer_period_planning = 0.01

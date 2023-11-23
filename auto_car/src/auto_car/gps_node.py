@@ -69,7 +69,7 @@ class GPSNode(Node):
     def gps_pub_callback(self):
         if self.current_position != [0.0, 0.0]:
             gps_ms = self.current_position
-            gps_ms.append(self.status)
+            gps_ms.append(float(self.status))
             my_gps = Float32MultiArray()
             my_gps.data = gps_ms
             self.gps_pub.publish(my_gps)   
