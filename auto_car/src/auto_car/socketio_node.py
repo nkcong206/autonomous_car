@@ -170,7 +170,7 @@ class SocketIOListener(Node):
     def start(self):
         
         self.sio.connect(self.SERVER_SOCKETIO)
-        ReadSignal.get_instance().contructor(self.sio)
+        ReadSignal.get_instance().contructor(self.sio, self.ID)
         ReadSignal.get_instance().start()
         rclpy.spin(self)
             
