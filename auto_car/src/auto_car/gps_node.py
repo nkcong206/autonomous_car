@@ -43,7 +43,6 @@ class GPSNode(Node):
                 line = line.replace('"', '')
                 data = line.split(":")[1]
                 gps_data = [float(data.split(",")[0]), float(data.split(",")[1])]
-                print(gps_data)
                 if self.go_stop and self.pls_0 != [0.0,0.0]:
                     if self.new_pls:
                         self.new_pls = False

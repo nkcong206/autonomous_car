@@ -21,7 +21,7 @@ class ControllerNode(Node):
         timer_period_yaw = 0.1
         self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
 
-        timer_main = 0.1
+        timer_main = 0.01
         self.time_main = self.create_timer(timer_main, self.main_thread)
             
         self.notice = -1

@@ -32,7 +32,7 @@ class PlanningNode(Node):
         #timer
         timer_period_notice = 0.1
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)      
-        timer_period_cmd_vel = 0.1
+        timer_period_cmd_vel = 0.01
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
         timer_period_show_info = 3
         self.timer_show_info = self.create_timer(timer_period_show_info, self.show_info)
@@ -61,16 +61,16 @@ class PlanningNode(Node):
             if self.automatic:
                 if not self.go_stop:
                     self.notice = 1
-                    self.sp = 0.0 
-                    self.st = 0.0
+                    # self.sp = 0.0 
+                    # self.st = 0.0
                 elif not self.gps_status:
                     self.notice = 0
-                    self.sp = 0.0 
-                    self.st = 0.0
+                    # self.sp = 0.0 
+                    # self.st = 0.0
                 elif len(self.pls) == 0:
                     self.notice = 2
-                    self.sp = 0.0 
-                    self.st = 0.0
+                    # self.sp = 0.0 
+                    # self.st = 0.0
                 elif self.pl_id == len(self.pls):
                     self.notice = 3
                     self.get_logger().info("Arrived at the destination!")
@@ -104,8 +104,15 @@ class PlanningNode(Node):
         if self.go_stop:
             if len(self.pls) == 0:
                 self.get_logger().info("Route planning is currently empty!")
+                self.sp = 0.0 
+                self.st = 0.0
             elif not self.gps_status:                     
                 self.get_logger().info("Error GPS!")
+                self.sp = 0.0 
+                self.st = 0.0
+        else:
+            self.sp = 0.0 
+            self.st = 0.0
 
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
