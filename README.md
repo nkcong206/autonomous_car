@@ -27,7 +27,7 @@ The field ID in .env file: you must change the ID of robot. It is unique for eac
     colcon build --packages-select auto_car
 ### Setup env ROS2
     source ./install/setup.zsh
-
+    export ROS_DOMAIN_ID=30
 ### all-in-one
     ros2 launch auto_car auto_car.launch.py
 ### check log
