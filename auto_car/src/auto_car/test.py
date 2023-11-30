@@ -3,6 +3,7 @@ from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Bool
 import serial
+import time
 from .lib.cal_coordinate import *
 
 
@@ -55,15 +56,18 @@ class GPSNode(Node):
                     
                     be = bearing_cal(self.root_gps_data, gps_data)
                     dis = distance_cal(self.root_gps_data, gps_data)
-                    print(dis)
+                    print('dis: ',dis)
                     self.current_position = create_new_point(self.root_position, dis, be)
                     self.status = 1
                 else:
                     self.current_position = gps_data  
-                    self.status = 0  
+                    self.status = 0 
+                    
+                print('cp: ', self.current_position) 
             else:
                 self.status = 0
                 print("No GPS!")
+
     def gps_pub_callback(self):
         if self.current_position != [0.0, 0.0]:
             gps_ms = self.current_position
