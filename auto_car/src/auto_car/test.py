@@ -48,6 +48,7 @@ class GPSNode(Node):
             my_gps = Float32MultiArray()
             my_gps.data = gps_ms
             self.gps_pub.publish(my_gps)   
+            print("No GPS!")
                                     
     def stop(self):
         self.ser.close()
