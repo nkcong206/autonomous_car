@@ -40,14 +40,14 @@ class ControllerNode(Node):
         #get yaw
         # self.yaw = self.car.getEuler('yaw') 
         #control motor
-        # self.car.steering = self.steering            
-        # self.car.setSpeed(abs(self.speed))
-        # if self.speed > 0:
-        #     self.car.forward()
-        # elif self.speed < 0:
-        #     self.car.backward()
-        # else:
-        #     self.car.stop()
+        self.car.steering = self.steering            
+        self.car.setSpeed(abs(self.speed))
+        if self.speed > 0:
+            self.car.forward()
+        elif self.speed < 0:
+            self.car.backward()
+        else:
+            self.car.stop()
         #control led
         if self.notice == -1:
             if self.speed != 0:
@@ -69,14 +69,7 @@ class ControllerNode(Node):
     def cmd_vel_sub_callback(self, cmd_vel_msg: Float32MultiArray):
         self.speed = max_speed*cmd_vel_msg.data[0]
         self.steering = cmd_vel_msg.data[1]
-        self.car.steering = self.steering            
-        self.car.setSpeed(abs(self.speed))
-        if self.speed > 0:
-            self.car.forward()
-        elif self.speed < 0:
-            self.car.backward()
-        else:
-            self.car.stop()
+
     
     def yaw_pub_callback(self):
         cmd_yaw = Float64()
