@@ -1,6 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Float64MultiArray
 from std_msgs.msg import Bool
 import serial
 from .lib.cal_coordinate import *
@@ -11,10 +12,10 @@ distance_in_1s = 1
 class GPSNode(Node):
     def __init__(self, **kwargs):
         super().__init__('gps_node')
-        self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_sub_callback, 10)
+        self.places_sub = self.create_subscription(Float64MultiArray, "/places", self.places_sub_callback, 10)
         self.go_stop_sub = self.create_subscription(Bool, "/go_stop", self.go_stop_sub_callback, 10)
         #pub
-        self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
+        self.gps_pub = self.create_publisher(Float64MultiArray, "/gps", 10) 
         #timer
         timer_period_read_gps = 0.1
         self.time_read_gps = self.create_timer(timer_period_read_gps, self.gps_read)
@@ -42,8 +43,6 @@ class GPSNode(Node):
                 line = line.replace('"', '')
                 data = line.split(":")[1]
                 gps_data = [float(data.split(",")[0]), float(data.split(",")[1])]
-                # if self.past_gps_data == [0.0,0.0]:
-                #     self.past_gps_data = gps_data
                 print(gps_data)
                 if self.go_stop and self.pls_0 != [0.0,0.0]:
                     if self.new_pls:
@@ -66,7 +65,7 @@ class GPSNode(Node):
         if self.current_position != [0.0, 0.0]:
             gps_ms = self.current_position
             gps_ms.append(float(self.status))
-            my_gps = Float32MultiArray()
+            my_gps = Float64MultiArray()
             my_gps.data = gps_ms
             self.gps_pub.publish(my_gps)   
 

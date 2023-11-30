@@ -136,9 +136,9 @@ class Perception():
         if safety == 3:
             speed = 1
         elif safety == 2:   
-            speed = 5/6
+            speed = 0.8
         elif safety == 1:   
-            speed = 4/6    
+            speed = 0.6    
         else:
             speed = 0.0
         

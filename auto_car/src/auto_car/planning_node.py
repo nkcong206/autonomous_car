@@ -1,8 +1,10 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Float64MultiArray
 from std_msgs.msg import Int32
 from std_msgs.msg import Float32
+from std_msgs.msg import Float64
 from std_msgs.msg import Bool
 
 from .lib.per_core import Perception
@@ -19,11 +21,11 @@ class PlanningNode(Node):
     def __init__(self):
         super().__init__('planning_node')
         # sub
-        self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_sub_callback, 10)
+        self.places_sub = self.create_subscription(Float64MultiArray, "/places", self.places_sub_callback, 10)
         self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_sub_callback, 10)
         self.go_stop_sub = self.create_subscription(Bool, "/go_stop", self.go_stop_sub_callback, 10)
-        self.gps_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_sub_callback, 10)
-        self.yaw_sub = self.create_subscription(Float32, "/yaw", self.yaw_sub_callback, 10)
+        self.gps_sub = self.create_subscription(Float64MultiArray, "/gps", self.gps_sub_callback, 10)
+        self.yaw_sub = self.create_subscription(Float64, "/yaw", self.yaw_sub_callback, 10)
         # pub
         self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
         self.cmd_vel_pub = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)
@@ -86,7 +88,7 @@ class PlanningNode(Node):
             # self.get_logger().info(f"speed: {self.speed:.2f}, steering: {steering:.2f}\n")
             rclpy.spin_once(self)
          
-    def places_sub_callback(self, places_msg = Float32MultiArray):
+    def places_sub_callback(self, places_msg = Float64MultiArray):
         list_point = places_msg.data
         pls_data = [list_point[i:i+2] for i in range(0, len(list_point), 2)]
         if self.pls != pls_data:
@@ -105,10 +107,10 @@ class PlanningNode(Node):
             elif not self.gps_status:                     
                 self.get_logger().info("Error GPS!")
 
-    def yaw_sub_callback(self, yaw_msg = Float32):
+    def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
         
-    def gps_sub_callback(self, gps_msg = Float32MultiArray):
+    def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_status =  gps_msg.data[2]
         self.gps_data = gps_msg.data[:2]
         print(self.gps_data)

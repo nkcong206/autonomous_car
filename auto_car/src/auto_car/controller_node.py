@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Int32
-from std_msgs.msg import Float32
+from std_msgs.msg import Float64
 from std_msgs.msg import Float32MultiArray
 from .lib.led_signal import *
 
@@ -16,7 +16,7 @@ class ControllerNode(Node):
         self.notice_sub = self.create_subscription(Int32, "/notice", self.notice_sub_callback, 10)
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/cmd_vel", self.cmd_vel_sub_callback, 10)
         #pub
-        self.yaw_pub = self.create_publisher(Float32, "/yaw", 10)   
+        self.yaw_pub = self.create_publisher(Float64, "/yaw", 10)   
         #timer 
         timer_period_yaw = 0.1
         self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
@@ -38,7 +38,7 @@ class ControllerNode(Node):
         
     def main_thread(self):
         #get yaw
-        self.yaw = self.car.getEuler('yaw') 
+        # self.yaw = self.car.getEuler('yaw') 
         #control motor
         # self.car.steering = self.steering            
         # self.car.setSpeed(abs(self.speed))
@@ -80,7 +80,7 @@ class ControllerNode(Node):
     
     def yaw_pub_callback(self):
         cmd_yaw = Float32()
-        cmd_yaw.data = self.yaw
+        cmd_yaw.data = self.car.getEuler('yaw') 
         self.yaw_pub.publish(cmd_yaw) 
 
     def stop(self):        

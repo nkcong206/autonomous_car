@@ -25,7 +25,7 @@ class SocketIOListener(Node):
         self.ID = os.getenv("ID")
         self.NAME = os.getenv("NAME")
         #pub
-        self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
+        self.places_publisher = self.create_publisher(Float64MultiArray, '/places', 10)
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
         self.go_stop_publisher = self.create_publisher(Bool, '/go_stop', 10)
         self.cmd_vel_publisher = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)  
@@ -86,7 +86,7 @@ class SocketIOListener(Node):
             for point in pls:
                 places.append(float(point[0]))
                 places.append(float(point[1]))
-            place_msg = Float32MultiArray()
+            place_msg = Float64MultiArray()
             place_msg.data = places
             self.places_publisher.publish(place_msg)
             self.get_logger().info(f"Route planning: {pls}")
