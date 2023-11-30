@@ -29,17 +29,14 @@ class PlanningNode(Node):
         self.cmd_vel_pub = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)
         #timer
         timer_period_notice = 0.1
-        self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)
-        
+        self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)      
         timer_period_cmd_vel = 0.1
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
-        
+        timer_period_show_info = 3
+        self.timer_show_info = self.create_timer(timer_period_show_info, self.show_info)
         # timer_period_planning = 0.01
         # self.time_planning = self.create_timer(timer_period_planning, self.planning_main)
-        
-        # timer_period_show_info = 3
-        # self.timer_show_info = self.create_timer(timer_period_show_info, self.show_info)
-        
+                
         self.notice = -1
         self.pls = []
         self.pl_id = 0
@@ -84,9 +81,9 @@ class PlanningNode(Node):
                         self.notice = 5
             else:
                 self.notice = -1
-            distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
-            self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
-            self.get_logger().info(f"speed: {self.speed:.2f}, steering: {steering:.2f}\n")
+            # distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
+            # self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
+            # self.get_logger().info(f"speed: {self.speed:.2f}, steering: {steering:.2f}\n")
             rclpy.spin_once(self)
          
     def places_sub_callback(self, places_msg = Float32MultiArray):
@@ -123,16 +120,13 @@ class PlanningNode(Node):
     def cmd_vel_pub_callback(self):
         if self.automatic:
             cmd_vel_pub = Float32MultiArray()
-            # cmd_vel_data = [0.0,0.0]
-            #  cmd_vel_data[0] = float(self.sp)
-            #  cmd_vel_data[1] = float(self.st)
             cmd_vel_pub.data = [float(self.sp),float(self.st)]
             self.cmd_vel_pub.publish(cmd_vel_pub)
 
-    # def show_info(self):
-    #     if self.automatic and self.pl_id < len(self.pls):
-    #         distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
-    #         self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
+    def show_info(self):
+        if self.automatic and self.pl_id < len(self.pls):
+            distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
+            self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
     
     def stop(self):
         self.lidar.stopMotor()

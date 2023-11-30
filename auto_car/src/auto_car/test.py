@@ -15,7 +15,6 @@ class GPSNode(Node):
         self.time_read_gps = self.create_timer(timer_period_read_gps, self.gps_read)
         timer_period_gps_pub = 0.1
         self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
-
         self.current_position = [0.0,0.0]
         self.status = 0
         self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
@@ -25,20 +24,16 @@ class GPSNode(Node):
         data = self.ser.readline().decode('utf-8', errors='ignore').strip()
         if data.startswith('$GNRMC'):
             dataGPS = data.split(',')
-
             if dataGPS[2] == "A":
                 latgps = float(dataGPS[3])
                 if dataGPS[4] == "S":
                     latgps = -latgps
-                
                 latdeg = int(latgps/100)
                 latmin = latgps - latdeg*100
                 lat = latdeg + latmin/60
-
                 longps = float(dataGPS[5])
                 if dataGPS[6] =="W":
                     longps = -longps
-                
                 londeg = int(longps/100)
                 lonmin = longps - londeg*100
                 lon = londeg + lonmin/60  

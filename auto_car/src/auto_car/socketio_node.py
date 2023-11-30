@@ -37,7 +37,7 @@ class SocketIOListener(Node):
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)               
         
         self.gps_data = [ 0.0, 0.0]
-        self.gps_status = False
+        self.gps_status = 0
         self.speed = 0.0
         self.steering = 0.0
         self.process = None
@@ -91,7 +91,6 @@ class SocketIOListener(Node):
             self.get_logger().info(f"Route planning: {pls}")
             self.get_logger().info(f"length places: {len(pls)}")
 
-
         @self.sio.on("automatic")
         def automatic(data):
             auto_msg = Bool()
@@ -133,11 +132,8 @@ class SocketIOListener(Node):
         #     ReadSignal.get_instance().send_uart(value)
         
     def gps_sub_callback(self, gps_msg = Float32MultiArray):
-        if self.gps_data[0] == 0 and gps_msg.data[1] == 0:
-            self.gps_status = False
-        else:
-            self.gps_status = True
-            self.gps_data = gps_msg.data[:2]
+        self.gps_status = gps_msg.data[2]
+        self.gps_data = gps_msg.data[:2]
 
     def gps_pub_callback(self):
         if self.gps_status and self.sio.connected:
@@ -167,8 +163,7 @@ class SocketIOListener(Node):
         except Exception as e:
             self.get_logger().info("Error stopping stream:")
 
-    def start(self):
-        
+    def start(self):    
         self.sio.connect(self.SERVER_SOCKETIO)
         # ReadSignal.get_instance().contructor(self.sio, self.ID)
         # ReadSignal.get_instance().start()
