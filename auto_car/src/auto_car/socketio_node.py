@@ -137,7 +137,6 @@ class SocketIOListener(Node):
             self.gps_status = False
         else:
             self.gps_status = True
-        print(self.gps_status, self.gps_data)
         
 
     def gps_pub_callback(self):

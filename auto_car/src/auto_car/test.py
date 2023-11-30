@@ -5,18 +5,27 @@ from std_msgs.msg import Bool
 import serial
 from .lib.cal_coordinate import *
 
+
 class GPSNode(Node):
     def __init__(self, **kwargs):
         super().__init__('gps_node')
+        self.go_stop_sub = self.create_subscription(Bool, "/go_stop", self.go_stop_sub_callback, 10)
+        self.places_sub = self.create_subscription(Float32MultiArray, "/places", self.places_sub_callback, 10)
         #pub
         self.gps_pub = self.create_publisher(Float32MultiArray, "/gps", 10) 
         #timer
-        timer_period_read_gps = 0.1
+        timer_period_read_gps = 1
         self.time_read_gps = self.create_timer(timer_period_read_gps, self.gps_read)
-        timer_period_gps_pub = 0.1
+        timer_period_gps_pub = 1
         self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
-        self.current_position = [0.0,0.0]
+        self.current_position = [0.0,0.0]        
+        self.root_gps_data = [0.0,0.0]            
+        self.root_position = [0.0,0.0]
+        self.pls_0 = [0.0,0.0]         
+        self.go_stop = False
+        self.new_pls = False
         self.status = 0
+        self.ser = None
         self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=10)        
         self.get_logger().info("GPS Started!!!")
   
@@ -37,19 +46,41 @@ class GPSNode(Node):
                 londeg = int(longps/100)
                 lonmin = longps - londeg*100
                 lon = londeg + lonmin/60  
-            self.current_position = [lat, lon] 
-            self.status = 1
-        else:
-            self.status = 0
+                gps_data = [lat, lon] 
+                if self.go_stop and self.pls_0 != [0.0,0.0]:
+                    if self.new_pls:
+                        self.new_pls = False
+                        self.root_position = self.pls_0
+                        self.root_gps_data = gps_data
+                    
+                    be = bearing_cal(self.root_gps_data, gps_data)
+                    dis = distance_cal(self.root_gps_data, gps_data)
+                    print(dis)
+                    self.current_position = create_new_point(self.root_position, dis, be)
+                    self.status = 1
+                else:
+                    self.current_position = gps_data  
+                    self.status = 0  
+            else:
+                self.status = 0
+                print("No GPS!")
     def gps_pub_callback(self):
-        if self.status != 0:
+        if self.current_position != [0.0, 0.0]:
             gps_ms = self.current_position
             gps_ms.append(float(self.status))
             my_gps = Float32MultiArray()
             my_gps.data = gps_ms
-            self.gps_pub.publish(my_gps)   
-            print("No GPS!")
-                                    
+            self.gps_pub.publish(my_gps)    
+  
+    def places_sub_callback(self, places_msg = Float32MultiArray):
+        list_point = places_msg.data
+        if self.pls_0 != list_point[:2]:
+            self.new_pls = True
+        self.pls_0 = list_point[:2]
+    
+    def go_stop_sub_callback(self, data_msg: Bool):
+        self.go_stop = data_msg.data        
+                                                                      
     def stop(self):
         self.ser.close()
         self.get_logger().info(f"GPS stopped!")        

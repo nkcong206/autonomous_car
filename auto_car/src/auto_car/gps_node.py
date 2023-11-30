@@ -50,12 +50,10 @@ class GPSNode(Node):
                         self.new_pls = False
                         self.root_position = self.pls_0
                         self.root_gps_data = gps_data
-                    else:
-                        be = bearing_cal(self.root_gps_data, gps_data)
-                        dis = distance_cal(self.root_gps_data, gps_data)
-                        # if dis > distance_in_1s:
-                        #     dis = distance_in_1s
-                        self.current_position = create_new_point(self.root_position, dis, be)
+                    
+                    be = bearing_cal(self.root_gps_data, gps_data)
+                    dis = distance_cal(self.root_gps_data, gps_data)
+                    self.current_position = create_new_point(self.root_position, dis, be)
                     self.status = 1
                 else:
                     self.current_position = gps_data  

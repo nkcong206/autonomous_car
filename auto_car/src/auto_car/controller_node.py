@@ -20,7 +20,10 @@ class ControllerNode(Node):
         #timer 
         timer_period_yaw = 0.1
         self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
-               
+
+        timer_main = 0.1
+        self.time_main = self.create_timer(timer_main, self.main_thread)
+            
         self.notice = -1
         self.signal = -1
         self.yaw = 0.0
@@ -33,33 +36,32 @@ class ControllerNode(Node):
         self.led = led_signal(self.car)
         self.get_logger().info("Controller Started!!!")
         
-        while rclpy.ok():
-            #get yaw
-            self.yaw = self.car.getEuler('yaw') 
-            #control motor
-            self.car.steering = self.steering            
-            self.car.setSpeed(abs(self.speed))
-            if self.speed > 0:
-                self.car.forward()
-            elif self.speed < 0:
-                self.car.backward()
-            else:
-                self.car.stop()
-            #control led
-            if self.notice == -1:
-                if self.speed != 0:
-                    if self.steering > 0:
-                        self.signal = 6
-                    elif self.steering < 0:
-                        self.signal = 7
-                    else:
-                        self.signal = 4
+    def main_thread(self):
+        #get yaw
+        self.yaw = self.car.getEuler('yaw') 
+        #control motor
+        # self.car.steering = self.steering            
+        # self.car.setSpeed(abs(self.speed))
+        # if self.speed > 0:
+        #     self.car.forward()
+        # elif self.speed < 0:
+        #     self.car.backward()
+        # else:
+        #     self.car.stop()
+        #control led
+        if self.notice == -1:
+            if self.speed != 0:
+                if self.steering > 0:
+                    self.signal = 6
+                elif self.steering < 0:
+                    self.signal = 7
                 else:
-                    self.signal = -1
+                    self.signal = 4
             else:
-                self.signal = self.notice
-            self.led.display(self.signal)
-            rclpy.spin_once(self)
+                self.signal = -1
+        else:
+            self.signal = self.notice
+        self.led.display(self.signal)
             
     def notice_sub_callback(self, notice_msg:Int32):
         self.notice = notice_msg.data
@@ -67,7 +69,15 @@ class ControllerNode(Node):
     def cmd_vel_sub_callback(self, cmd_vel_msg: Float32MultiArray):
         self.speed = max_speed*cmd_vel_msg.data[0]
         self.steering = cmd_vel_msg.data[1]
-        
+        self.car.steering = self.steering            
+        self.car.setSpeed(abs(self.speed))
+        if self.speed > 0:
+            self.car.forward()
+        elif self.speed < 0:
+            self.car.backward()
+        else:
+            self.car.stop()
+    
     def yaw_pub_callback(self):
         cmd_yaw = Float32()
         cmd_yaw.data = self.yaw
