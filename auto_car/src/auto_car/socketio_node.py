@@ -4,6 +4,7 @@ import os
 from rclpy.node import Node
 from std_msgs.msg import Bool
 from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Float64MultiArray
 from dotenv import load_dotenv
 import subprocess
 from ament_index_python.packages import get_package_share_directory
@@ -29,7 +30,7 @@ class SocketIOListener(Node):
         self.go_stop_publisher = self.create_publisher(Bool, '/go_stop', 10)
         self.cmd_vel_publisher = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)  
         #sub
-        self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_sub_callback, 10)
+        self.cmd_vel_sub = self.create_subscription(Float64MultiArray, "/gps", self.gps_sub_callback, 10)
         #timer
         timer_period_gps = 2
         self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)               
@@ -131,7 +132,7 @@ class SocketIOListener(Node):
         #     value = data["data"]
         #     ReadSignal.get_instance().send_uart(value)
         
-    def gps_sub_callback(self, gps_msg = Float32MultiArray):
+    def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_data = gps_msg.data[:2]
         if self.gps_data[0] == 0.0 and self.gps_data[1] == 0.0:
             self.gps_status = False
