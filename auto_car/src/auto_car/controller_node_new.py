@@ -55,7 +55,7 @@ class ControllerThread(Thread):
         self.get_logger().info("Controller Started!!!")   
         
     def run(self):
-        while rclpy.ok():
+        while True:
             global speed, steering, yaw, notice
             yaw = self.car.getEuler('yaw')
             self.car.steering = steering            
