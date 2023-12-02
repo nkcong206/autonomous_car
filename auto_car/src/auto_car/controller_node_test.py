@@ -55,6 +55,7 @@ class ControllerThread(Thread):
         while rclpy.ok():
             with self.lock:
                 global speed, steering, yaw, notice
+                yaw = self.car.getEuler('yaw')
                 self.car.steering = steering            
                 self.car.setSpeed(abs(speed))
                 if speed > 0:
