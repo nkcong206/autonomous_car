@@ -57,11 +57,10 @@ class ControllerThread(Thread):
                 global speed, steering, yaw, notice
                 yaw = self.car.getEuler('yaw')
                 self.car.steering = steering            
-                self.car.setSpeed(abs(speed))
                 if speed > 0:
-                    self.car.forward()
+                    self.car.forward(speed)
                 elif speed < 0:
-                    self.car.backward()
+                    self.car.backward(-speed)
                 else:
                     self.car.stop()
                 #control led
