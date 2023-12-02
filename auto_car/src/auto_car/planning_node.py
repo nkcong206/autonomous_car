@@ -45,7 +45,7 @@ class PlanningNode(Node):
         self.root_gps_data = [0.0,0.0]            
         self.root_position = [0.0,0.0]
         self.new_pls = False
-        self.gps_status = False
+        self.gps_status = Falses
         self.go_stop = False
         self.automatic = False
         self.yaw = 0.0
@@ -68,15 +68,25 @@ class PlanningNode(Node):
             
     def automatic_sub_callback(self, data_msg: Bool):
         self.automatic = data_msg.data
+        if not self.automatic:
+            cmd_vel_pub = Float32MultiArray()        
+            cmd_vel_pub.data = [0.0,0.0]
+            self.cmd_vel_pub.publish(cmd_vel_pub)
 
     def go_stop_sub_callback(self, data_msg: Bool):
         self.go_stop = data_msg.data
+        cmd_vel_pub = Float32MultiArray()        
         if self.go_stop:
-            if len(self.pls) == 0:
+            if not len(self.pls):
                 self.get_logger().info("Route planning is currently empty!")
-            elif not self.gps_status:                     
-                self.get_logger().info("Error GPS!")
-
+                cmd_vel_pub.data = [0.0,0.0]
+                self.cmd_vel_pub.publish(cmd_vel_pub)
+            else:
+                if not self.gps_status:                     
+                    self.get_logger().info("Error GPS!")
+                    cmd_vel_pub.data = [0.0,0.0]
+                    self.cmd_vel_pub.publish(cmd_vel_pub)
+            
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
         
@@ -84,7 +94,7 @@ class PlanningNode(Node):
         self.gps_status =  gps_msg.data[2]
         self.gps_data = gps_msg.data[:2]
         if self.gps_status:
-            if self.go_stop and len(self.pls) != 0:
+            if self.go_stop and len(self.pls):
                 if self.new_pls:
                     self.new_pls = False
                     self.root_position = self.pls[0]
@@ -102,45 +112,34 @@ class PlanningNode(Node):
 
     def cmd_vel_pub_callback(self):
         cmd_vel_pub = Float32MultiArray()
-        sp = 0
-        st = 0
         if self.automatic:
             if not self.go_stop:
                 self.notice = 1
-                cmd_vel_pub.data = [float(sp),float(st)]
-                self.cmd_vel_pub.publish(cmd_vel_pub)
-                return
-            elif not self.gps_status:
-                self.notice = 0
-                cmd_vel_pub.data = [float(sp),float(st)]
-                self.cmd_vel_pub.publish(cmd_vel_pub)
-                return
-            elif len(self.pls) == 0:
-                self.notice = 2
-                cmd_vel_pub.data = [float(sp),float(st)]
-                self.cmd_vel_pub.publish(cmd_vel_pub)
-                return
-            elif self.pl_id == len(self.pls):
-                self.notice = 3
-                self.get_logger().info("Arrived at the destination!")
-                cmd_vel_pub.data = [float(sp),float(st)]
-                self.cmd_vel_pub.publish(cmd_vel_pub)
-                return
             else:
-                self.notice = -1
-                dis = self.per.distance_cal( self.pls[self.pl_id], self.current_position)  
-                if dis >= threshold:
-                    sp, st, self.beta = self.per.speed_streering_cal( self.yaw, self.pls[self.pl_id], self.current_position) 
+                if not self.gps_status:
+                    self.notice = 0
                 else:
-                    self.pl_id += 1
-                if sp == 0:
-                    self.notice = 5
-                cmd_vel_pub.data = [float(sp),float(st)]
-                self.cmd_vel_pub.publish(cmd_vel_pub)
-                return
+                    if not len(self.pls):
+                        self.notice = 2
+                    else:
+                        if self.pl_id == len(self.pls):
+                            self.notice = 3
+                            self.get_logger().info("Arrived at the destination!")
+                            cmd_vel_pub.data = [0.0,0.0]
+                            self.cmd_vel_pub.publish(cmd_vel_pub)
+                        else:
+                            self.notice = -1
+                            dis = self.per.distance_cal( self.pls[self.pl_id], self.current_position)  
+                            if dis >= threshold:
+                                sp, st, self.beta = self.per.speed_streering_cal( self.yaw, self.pls[self.pl_id], self.current_position) 
+                            else:
+                                self.pl_id += 1
+                            if sp == 0:
+                                self.notice = 5
+                            cmd_vel_pub.data = [float(sp),float(st)]
+                            self.cmd_vel_pub.publish(cmd_vel_pub)
         else:
             self.notice = -1
-            return
 
     def show_info(self):
         if self.automatic and self.pl_id < len(self.pls):
