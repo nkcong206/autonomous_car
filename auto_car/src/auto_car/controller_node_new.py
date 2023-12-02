@@ -41,7 +41,6 @@ class ControllerNode(Node):
         with lock:
             speed = self.sp
             steering = self.st
-            print("1: ", speed, steering)
 
     def yaw_pub_callback(self):
         global yaw
@@ -73,7 +72,6 @@ class ControllerThread(Thread):
                 self.st = steering
                 yaw = self.ya
                 self.ya = notice
-            print("2: ", self.sp, self.st )
             self.car.steering = self.st             
             if self.sp > 0:
                 self.car.forward(self.sp)

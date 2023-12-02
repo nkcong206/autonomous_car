@@ -41,6 +41,7 @@ class GPSNode(Node):
 
     def gps_pub_callback(self):
         gps_ms = [self.gps_data[0], self.gps_data[1]]
+        print(gps_ms)
         my_gps = Float64MultiArray()
         my_gps.data = gps_ms
         self.gps_pub.publish(my_gps)  
