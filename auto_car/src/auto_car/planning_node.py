@@ -127,7 +127,7 @@ class PlanningNode(Node):
                                 self.pl_id += 1
                             if sp == 0.0:
                                 self.notice = 5
-            cmd_vel.data = [float(sp),float(st)]
+            cmd_vel.data = [sp,st]
             print(cmd_vel.data)
             self.cmd_vel_pub.publish(cmd_vel)
         else:
