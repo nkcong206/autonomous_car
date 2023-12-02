@@ -34,7 +34,8 @@ setup(
             'socketio = auto_car.socketio_node:main',
             'gps = auto_car.gps_node:main',
             'controller = auto_car.controller_node:main',
-            'test = auto_car.test:main',
+            'controller_new = auto_car.controller_node_new:main',
+            'gps_new = auto_car.gps_node_new:main',
         ],
     },
 )
