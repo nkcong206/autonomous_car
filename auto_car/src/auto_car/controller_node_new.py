@@ -12,6 +12,7 @@ notice = -1
 yaw = 0.0
 speed = 0.0
 steering = 0.0
+lock = Lock()
 
 class ControllerNode(Node):
     def __init__(self):
@@ -24,25 +25,22 @@ class ControllerNode(Node):
         #timer 
         timer_period_yaw = 0.1
         self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
-        self.lock = Lock()
 
     def notice_sub_callback(self, notice_msg:Int32):
         global notice
-        with self.lock:
-            notice = notice_msg.data
+        notice = notice_msg.data
 
     def cmd_vel_sub_callback(self, cmd_vel_msg: Float32MultiArray):
         global speed, steering
-        with self.lock:
+        with lock:
             speed = max_speed*cmd_vel_msg.data[0]
             steering = cmd_vel_msg.data[1]
 
     def yaw_pub_callback(self):
         global yaw
-        with self.lock:
-            cmd_yaw = Float64()
-            cmd_yaw.data = yaw
-            self.yaw_pub.publish(cmd_yaw) 
+        cmd_yaw = Float64()
+        cmd_yaw.data = yaw
+        self.yaw_pub.publish(cmd_yaw) 
      
 class ControllerThread(Thread):
     def __init__(self):
@@ -57,13 +55,14 @@ class ControllerThread(Thread):
         while rclpy.ok():
             global speed, steering, yaw, notice
             yaw = self.car.getEuler('yaw')
-            self.car.steering = steering            
-            if speed > 0:
-                self.car.forward(speed)
-            elif speed < 0:
-                self.car.backward(-speed)
-            else:
-                self.car.stop()
+            with lock:
+                self.car.steering = steering            
+                if speed > 0:
+                    self.car.forward(speed)
+                elif speed < 0:
+                    self.car.backward(-speed)
+                else:
+                    self.car.stop()
             #control led
             if notice == -1:
                 if speed != 0:
