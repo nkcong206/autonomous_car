@@ -52,10 +52,9 @@ class ControllerThread(Thread):
         self.car.setSensorStatus(euler=1)
         self.led = led_signal(self.car)
         self.signal = -1
-        print("start!!!")
         
     def run(self):
-        while True:
+        while rclpy.ok():
             global speed, steering, yaw, notice
             yaw = self.car.getEuler('yaw')
             self.car.steering = steering            
