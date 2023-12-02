@@ -68,33 +68,23 @@ class PlanningNode(Node):
             
     def automatic_sub_callback(self, data_msg: Bool):
         self.automatic = data_msg.data
-        if not self.automatic:
-            cmd_vel_pub = Float32MultiArray()        
-            cmd_vel_pub.data = [0.0,0.0]
-            self.cmd_vel_pub.publish(cmd_vel_pub)
 
     def go_stop_sub_callback(self, data_msg: Bool):
         self.go_stop = data_msg.data
-        cmd_vel_pub = Float32MultiArray()        
         if self.go_stop:
             if not len(self.pls):
                 self.get_logger().info("Route planning is currently empty!")
-                cmd_vel_pub.data = [0.0,0.0]
-                self.cmd_vel_pub.publish(cmd_vel_pub)
             else:
                 if not self.gps_status:                     
                     self.get_logger().info("Error GPS!")
-                    cmd_vel_pub.data = [0.0,0.0]
-                    self.cmd_vel_pub.publish(cmd_vel_pub)
             
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
         
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_data = gps_msg.data[:2]
-        if not self.gps_data[0] and not self.gps_data[0]:
+        if self.gps_data[0] and self.gps_data[1]:
             self.gps_status = True
-        if self.gps_status:
             if self.go_stop and len(self.pls):
                 if self.new_pls:
                     self.new_pls = False
@@ -116,18 +106,20 @@ class PlanningNode(Node):
         if self.automatic:
             if not self.go_stop:
                 self.notice = 1
+                cmd_vel_pub.data = [0.0,0.0]
             else:
                 if not self.gps_status:
                     self.notice = 0
+                    cmd_vel_pub.data = [0.0,0.0]
                 else:
                     if not len(self.pls):
                         self.notice = 2
+                        cmd_vel_pub.data = [0.0,0.0]
                     else:
                         if self.pl_id == len(self.pls):
                             self.notice = 3
                             self.get_logger().info("Arrived at the destination!")
                             cmd_vel_pub.data = [0.0,0.0]
-                            self.cmd_vel_pub.publish(cmd_vel_pub)
                         else:
                             self.notice = -1
                             dis = self.per.distance_cal( self.pls[self.pl_id], self.current_position)  
@@ -138,7 +130,7 @@ class PlanningNode(Node):
                             if sp == 0:
                                 self.notice = 5
                             cmd_vel_pub.data = [float(sp),float(st)]
-                            self.cmd_vel_pub.publish(cmd_vel_pub)
+            self.cmd_vel_pub.publish(cmd_vel_pub)
         else:
             self.notice = -1
 

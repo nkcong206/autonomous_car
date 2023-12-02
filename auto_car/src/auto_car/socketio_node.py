@@ -134,7 +134,7 @@ class SocketIOListener(Node):
         
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_data = gps_msg.data[:2]
-        if not self.gps_data[0] and not self.gps_data[0]:
+        if self.gps_data[0] and self.gps_data[1]:
             self.gps_status = True 
                    
     def gps_pub_callback(self):
