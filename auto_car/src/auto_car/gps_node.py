@@ -33,7 +33,10 @@ class GPSNode(Node):
                 line = line.replace("\t", "").replace("\n", "")
                 line = line.replace('"', '')
                 data = line.split(":")[1]
-                self.gps_data = [float(data.split(",")[0]), float(data.split(",")[1])]
+                try: 
+                    self.gps_data = [float(data.split(",")[0]), float(data.split(",")[1])]
+                except:
+                    pass
         self.ser.close()
 
     def gps_pub_callback(self):
