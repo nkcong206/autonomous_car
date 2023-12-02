@@ -52,7 +52,7 @@ class ControllerThread(Thread):
         self.car.setSensorStatus(euler=1)
         self.led = led_signal(self.car)
         self.signal = -1
-        self.get_logger().info("Controller Started!!!")   
+        print("start!!!")
         
     def run(self):
         while True:
@@ -83,7 +83,6 @@ class ControllerThread(Thread):
     def stop(self):        
         self.car.stop()
         self.car.steering = 0
-        self.get_logger().info("Controller stopped!")   
 
 def main(args=None):
     rclpy.init(args=args)
@@ -91,9 +90,11 @@ def main(args=None):
     controller_thread = ControllerThread()
     try:
         controller_thread.start()
+        controller_node.get_logger().info("Controller Started!!!")
         rclpy.spin(controller_node)
     except KeyboardInterrupt:
         controller_thread.stop()
+        controller_node.get_logger().info("Controller stopped!")   
     controller_node.destroy_node()
     rclpy.shutdown()
    

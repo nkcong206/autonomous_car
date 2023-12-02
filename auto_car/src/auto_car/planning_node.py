@@ -91,8 +91,9 @@ class PlanningNode(Node):
         self.yaw = yaw_msg.data
         
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
-        self.gps_status =  gps_msg.data[2]
         self.gps_data = gps_msg.data[:2]
+        if not self.gps_data[0] and not self.gps_data[0]:
+            self.gps_status = True
         if self.gps_status:
             if self.go_stop and len(self.pls):
                 if self.new_pls:

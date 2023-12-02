@@ -133,9 +133,10 @@ class SocketIOListener(Node):
         #     ReadSignal.get_instance().send_uart(value)
         
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
-        self.gps_status = gps_msg.data[2]
         self.gps_data = gps_msg.data[:2]
-        
+        if not self.gps_data[0] and not self.gps_data[0]:
+            self.gps_status = True 
+                   
     def gps_pub_callback(self):
         if self.gps_status and self.sio.connected:
             self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(self.gps_data)})
