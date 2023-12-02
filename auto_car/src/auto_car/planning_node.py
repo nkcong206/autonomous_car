@@ -3,11 +3,11 @@ from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Float64MultiArray
 from std_msgs.msg import Int32
-from std_msgs.msg import Float32
 from std_msgs.msg import Float64
 from std_msgs.msg import Bool
 
 from .lib.per_core import Perception
+from .lib.cal_coordinate import *
 
 from pop import LiDAR
 
@@ -32,17 +32,19 @@ class PlanningNode(Node):
         #timer
         timer_period_notice = 0.1
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)      
-        timer_period_cmd_vel = 0.01
+        timer_period_cmd_vel = 0.1
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
         timer_period_show_info = 3
         self.timer_show_info = self.create_timer(timer_period_show_info, self.show_info)
-        # timer_period_planning = 0.01
-        # self.time_planning = self.create_timer(timer_period_planning, self.planning_main)
                 
         self.notice = -1
         self.pls = []
         self.pl_id = 0
         self.gps_data = [ 0.0, 0.0]
+        self.current_position = [0.0,0.0]
+        self.root_gps_data = [0.0,0.0]            
+        self.root_position = [0.0,0.0]
+        self.new_pls = False
         self.gps_status = False
         self.go_stop = False
         self.automatic = False
@@ -50,42 +52,38 @@ class PlanningNode(Node):
         self.st = 0.0
         self.yaw = 0.0
         self.beta = 0.0
-        
+                
         self.lidar = LiDAR.Rplidar()
         self.lidar.connect()
         self.lidar.startMotor()  
-        self.per = Perception( self.lidar, n_bins, distance, safe_distance, width_of_bin_0, threshold) 
+        self.per = Perception( self.lidar, n_bins, distance, safe_distance, width_of_bin_0) 
         self.get_logger().info("Planning Started!!!")
                 
         while rclpy.ok():
             if self.automatic:
                 if not self.go_stop:
                     self.notice = 1
-                    # self.sp = 0.0 
-                    # self.st = 0.0
                 elif not self.gps_status:
                     self.notice = 0
-                    # self.sp = 0.0 
-                    # self.st = 0.0
                 elif len(self.pls) == 0:
                     self.notice = 2
-                    # self.sp = 0.0 
-                    # self.st = 0.0
-                elif self.pl_id == len(self.pls):
-                    self.notice = 3
-                    self.get_logger().info("Arrived at the destination!")
-                    self.sp = 0.0 
-                    self.st = 0.0
                 else:
-                    self.notice = -1
-                    self.pl_id, self.sp, self.st, self.beta = self.per.auto_go( self.yaw, self.pl_id, self.pls, self.gps_data)
-                    if self.sp == 0 and self.st == 0:
-                        self.notice = 5
+                    if self.pl_id != len(self.pls):
+                        self.notice = -1
+                        dis = self.per.distance_cal( self.pls[self.pl_id], self.current_position)  
+                        if dis >= threshold:
+                            self.sp, self.st, self.beta = self.per.speed_streering_cal( self.yaw, self.pls[self.pl_id], self.current_position) 
+                        else:
+                            self.pl_id += 1
+                        if self.sp == 0:
+                            self.notice = 5
+                    else:
+                        self.notice = 3
+                        self.get_logger().info("Arrived at the destination!")
+                        self.sp = 0.0 
+                        self.st = 0.0
             else:
                 self.notice = -1
-            # distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
-            # self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
-            # self.get_logger().info(f"speed: {self.speed:.2f}, steering: {steering:.2f}\n")
             rclpy.spin_once(self)
          
     def places_sub_callback(self, places_msg = Float64MultiArray):
@@ -94,6 +92,7 @@ class PlanningNode(Node):
         if self.pls != pls_data:
             self.get_logger().info("New route planning!")            
             self.pl_id = 0
+            self.new_pls = True
         self.pls = pls_data
             
     def automatic_sub_callback(self, data_msg: Bool):
@@ -120,6 +119,17 @@ class PlanningNode(Node):
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_status =  gps_msg.data[2]
         self.gps_data = gps_msg.data[:2]
+        if self.gps_status:
+            if self.go_stop and len(self.pls) != 0:
+                if self.new_pls:
+                    self.new_pls = False
+                    self.root_position = self.pls[0]
+                    self.root_gps_data = self.current_position
+                be = bearing_cal(self.root_gps_data, self.gps_data)
+                dis = distance_cal(self.root_gps_data, self.gps_data)
+                self.current_position = create_new_point(self.root_position, dis, be)
+            else:
+                self.current_position = self.gps_data
 
     def notice_pub_callback(self):
         notice_msg = Int32()
@@ -134,7 +144,7 @@ class PlanningNode(Node):
 
     def show_info(self):
         if self.automatic and self.pl_id < len(self.pls):
-            distance = self.per.distance_cal(self.pls[ self.pl_id], self.gps_data)
+            distance = self.per.distance_cal(self.pls[ self.pl_id], self.current_position)
             self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
     
     def stop(self):
