@@ -72,6 +72,7 @@ class ControllerThread(Thread):
                 self.st = steering
                 yaw = self.ya
                 self.ya = notice
+            print(self.sp,self.st)
             self.car.steering = self.st             
             if self.sp > 0:
                 self.car.forward(self.sp)
