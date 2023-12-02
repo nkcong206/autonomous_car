@@ -45,7 +45,7 @@ class PlanningNode(Node):
         self.root_gps_data = [0.0,0.0]            
         self.root_position = [0.0,0.0]
         self.new_pls = False
-        self.gps_status = Falses
+        self.gps_status = False
         self.go_stop = False
         self.automatic = False
         self.yaw = 0.0
