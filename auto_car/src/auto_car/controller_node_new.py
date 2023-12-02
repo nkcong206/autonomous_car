@@ -27,11 +27,13 @@ class ControllerNode(Node):
         self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
         self.sp = 0.0
         self.st = 0.0
-
+        self.no = -1
+        self.ya = 0.0
     def notice_sub_callback(self, notice_msg:Int32):
         global notice
-        notice = notice_msg.data
-
+        self.notice = notice_msg.data
+        with lock:
+            notice = self.no
     def cmd_vel_sub_callback(self, cmd_vel_msg: Float32MultiArray):
         global speed, steering
         self.sp = max_speed*cmd_vel_msg.data[0]
@@ -44,7 +46,9 @@ class ControllerNode(Node):
     def yaw_pub_callback(self):
         global yaw
         cmd_yaw = Float64()
-        cmd_yaw.data = yaw
+        with lock:
+            self.ya = yaw
+        cmd_yaw.data = self.ya
         self.yaw_pub.publish(cmd_yaw) 
      
 class ControllerThread(Thread):
@@ -57,14 +61,18 @@ class ControllerThread(Thread):
         self.signal = -1
         self.sp = 0.0
         self.st = 0.0
+        self.no = -1
+        self.ya = 0.0
         
     def run(self):
         while rclpy.ok():
             global speed, steering, yaw, notice
-            yaw = self.car.getEuler('yaw')
+            self.ya = self.car.getEuler('yaw')
             with lock:
                 self.sp = speed
                 self.st = steering
+                yaw = self.ya
+                self.ya = notice
             print("2: ", self.sp, self.st )
             self.car.steering = self.st             
             if self.sp > 0:
@@ -73,8 +81,7 @@ class ControllerThread(Thread):
                 self.car.backward(-self.sp)
             else:
                 self.car.stop()
-            #control led
-            if notice == -1:
+            if self.ya == -1:
                 if self.sp != 0:
                     if self.st  > 0:
                         self.signal = 6
@@ -85,7 +92,7 @@ class ControllerThread(Thread):
                 else:
                     self.signal = -1
             else:
-                self.signal = notice
+                self.signal = self.ya
             self.led.display(self.signal)        
 
     def stop(self):        
@@ -101,8 +108,8 @@ def main(args=None):
         controller_node.get_logger().info("Controller Started!!!")
         rclpy.spin(controller_node)
     except KeyboardInterrupt:
-        controller_thread.stop()
         controller_node.get_logger().info("Controller stopped!")   
+        controller_thread.stop()
     controller_node.destroy_node()
     rclpy.shutdown()
    
