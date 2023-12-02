@@ -103,23 +103,25 @@ class PlanningNode(Node):
 
     def cmd_vel_pub_callback(self):
         cmd_vel_pub = Float32MultiArray()
+        sp = 0.0
+        st = 0.0
         if self.automatic:
             if not self.go_stop:
                 self.notice = 1
-                cmd_vel_pub.data = [0.0,0.0]
+                cmd_vel_pub.data = [sp,st]
             else:
                 if not self.gps_status:
                     self.notice = 0
-                    cmd_vel_pub.data = [0.0,0.0]
+                    cmd_vel_pub.data = [sp,st]
                 else:
                     if not len(self.pls):
                         self.notice = 2
-                        cmd_vel_pub.data = [0.0,0.0]
+                        cmd_vel_pub.data = [sp,st]
                     else:
                         if self.pl_id == len(self.pls):
                             self.notice = 3
                             self.get_logger().info("Arrived at the destination!")
-                            cmd_vel_pub.data = [0.0,0.0]
+                            cmd_vel_pub.data = [sp,st]
                         else:
                             self.notice = -1
                             dis = self.per.distance_cal( self.pls[self.pl_id], self.current_position)  
@@ -127,7 +129,7 @@ class PlanningNode(Node):
                                 sp, st, self.beta = self.per.speed_streering_cal( self.yaw, self.pls[self.pl_id], self.current_position) 
                             else:
                                 self.pl_id += 1
-                            if sp == 0:
+                            if sp == 0.0:
                                 self.notice = 5
                             cmd_vel_pub.data = [float(sp),float(st)]
             self.cmd_vel_pub.publish(cmd_vel_pub)
