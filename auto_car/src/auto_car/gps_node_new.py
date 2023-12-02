@@ -45,11 +45,10 @@ class GPSNode(Node):
         self.ser.close()
         
     def gps_pub_callback(self):
-        if self.current_position != [0.0, 0.0]:
-            gps_ms = [self.gps_data[0], self.gps_data[1], float(self.status)]
-            my_gps = Float64MultiArray()
-            my_gps.data = gps_ms
-            self.gps_pub.publish(my_gps)    
+        gps_ms = [self.gps_data[0], self.gps_data[1], float(self.status)]
+        my_gps = Float64MultiArray()
+        my_gps.data = gps_ms
+        self.gps_pub.publish(my_gps)    
                                                                       
     def stop(self):
         self.ser.close()
