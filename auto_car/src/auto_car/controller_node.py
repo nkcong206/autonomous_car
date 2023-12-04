@@ -21,8 +21,8 @@ class ControllerNode(Node):
         timer_period_yaw = 0.1
         self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
 
-        timer_main = 0.01
-        self.time_main = self.create_timer(timer_main, self.main_thread)
+        timer_led = 0.1
+        self.time_led = self.create_timer(timer_led, self.led_display)
             
         self.notice = -1
         self.signal = -1
@@ -36,18 +36,18 @@ class ControllerNode(Node):
         self.led = led_signal(self.car)
         self.get_logger().info("Controller Started!!!")
         
-    def main_thread(self):
+    def led_display(self):
         #get yaw
         # self.yaw = self.car.getEuler('yaw') 
         #control motor
-        self.car.steering = self.steering            
-        self.car.setSpeed(abs(self.speed))
-        if self.speed > 0:
-            self.car.forward()
-        elif self.speed < 0:
-            self.car.backward()
-        else:
-            self.car.stop()
+        # self.car.steering = self.steering            
+        # self.car.setSpeed(abs(self.speed))
+        # if self.speed > 0:
+        #     self.car.forward()
+        # elif self.speed < 0:
+        #     self.car.backward()
+        # else:
+        #     self.car.stop()
         #control led
         if self.notice == -1:
             if self.speed != 0:
@@ -69,7 +69,14 @@ class ControllerNode(Node):
     def cmd_vel_sub_callback(self, cmd_vel_msg: Float32MultiArray):
         self.speed = max_speed*cmd_vel_msg.data[0]
         self.steering = cmd_vel_msg.data[1]
-
+        self.car.steering = self.steering            
+        self.car.setSpeed(abs(self.speed))
+        if self.speed > 0:
+            self.car.forward()
+        elif self.speed < 0:
+            self.car.backward()
+        else:
+            self.car.stop()
     
     def yaw_pub_callback(self):
         cmd_yaw = Float64()
