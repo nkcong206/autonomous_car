@@ -7,7 +7,6 @@ from std_msgs.msg import Float64
 from std_msgs.msg import Bool
 
 from .lib.per_core import Perception
-from .lib.cal_coordinate import *
 
 from pop import LiDAR
 
@@ -86,20 +85,19 @@ class PlanningNode(Node):
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_data = gps_msg.data[:2]
         if self.gps_data[0] and self.gps_data[1]:
-            self.gps_status = False
+            self.gps_status = True
             if len(self.pls):
                 if self.new_pls:
                     self.new_pls = False
                     self.past_position = self.pls[0]
                     self.past_gps_data = self.gps_data
-                be = bearing_cal(self.past_gps_data, self.gps_data)
-                dis = distance_cal(self.past_gps_data, self.gps_data)
+                be = self.per.bearing_cal(self.past_gps_data, self.gps_data)
+                dis = self.per.distance_cal(self.past_gps_data, self.gps_data)
                 if dis > dis_gps:
                     dis = dis_gps
-                self.past_gps_data = create_new_point(self.past_gps_data, dis, be)                    
-                self.past_position = create_new_point(self.past_position, dis, be)
+                self.past_gps_data = self.per.create_new_point(self.past_gps_data, dis, be)                    
+                self.past_position = self.per.create_new_point(self.past_position, dis, be)
                 self.current_position = self.past_position
-                self.gps_status = True
         else:
             self.gps_status = False
 
