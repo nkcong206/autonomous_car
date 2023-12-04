@@ -2,4 +2,4 @@ build
 log
 test
 install
-**/.env
+auto_car/.env
