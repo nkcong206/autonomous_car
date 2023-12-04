@@ -1,10 +1,7 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import Float64MultiArray
-from std_msgs.msg import Bool
 import serial
-from .lib.cal_coordinate import *
 
 class GPSNode(Node):
     def __init__(self, **kwargs):
