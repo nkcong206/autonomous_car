@@ -33,7 +33,7 @@ setup(
             'planning = auto_car.planning_node:main',
             'socketio = auto_car.socketio_node:main',
             'gps = auto_car.gps_node:main',
-            'gps_new = auto_car.gps_node_new:main',
+            'gps_new = auto_car.gps_new_node:main',
             'controller = auto_car.controller_node:main',
         ],
     },
