@@ -1,14 +1,13 @@
 import math
 
 class Perception():   
-    def __init__(self, lidar, n_bins, distance, safe_distance, width_of_bin_0, threshold):
+    def __init__(self, lidar, n_bins, distance, safe_distance, width_of_bin_0):
         self.lidar = lidar
         self.n_bins =  n_bins
         self.distance = distance
         self.safe_distance = safe_distance
         self.width_of_bin_0 = width_of_bin_0
         self.angle_of_b = 360/n_bins
-        self.threshold = threshold
        
     def get_bins(self):
         bins = [] 
@@ -136,9 +135,9 @@ class Perception():
         if safety == 3:
             speed = 1
         elif safety == 2:   
-            speed = 5/6
+            speed = 0.8
         elif safety == 1:   
-            speed = 4/6    
+            speed = 0.6    
         else:
             speed = 0.0
         
@@ -158,16 +157,3 @@ class Perception():
         distance = R * c  
         return distance
     
-    def auto_go(self, yaw, place_id, places, gps):
-        dis = self.distance_cal( places[place_id], gps)  
-        speed = 0.0
-        steering = 0.0         
-        beta = 0.0
-        bins = []
-        safe_bins = []
-        angle = 0.0    
-        if dis >= self.threshold:
-            speed, steering, beta = self.speed_streering_cal( yaw, places[place_id], gps) 
-        else:
-            place_id += 1
-        return place_id, speed, steering, beta

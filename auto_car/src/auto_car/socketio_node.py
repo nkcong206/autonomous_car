@@ -4,9 +4,12 @@ import os
 from rclpy.node import Node
 from std_msgs.msg import Bool
 from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Float64MultiArray
 from dotenv import load_dotenv
 import subprocess
 from ament_index_python.packages import get_package_share_directory
+from .arduino import *
+import serial
 
 package_share_directory = get_package_share_directory('auto_car')
 dotenv_path = os.path.join(package_share_directory, 'config', '.env')
@@ -22,24 +25,25 @@ class SocketIOListener(Node):
         self.ID = os.getenv("ID")
         self.NAME = os.getenv("NAME")
         #pub
-        self.places_publisher = self.create_publisher(Float32MultiArray, '/places', 10)
+        self.places_publisher = self.create_publisher(Float64MultiArray, '/places', 10)
         self.auto_publisher = self.create_publisher(Bool, '/automatic', 10)
         self.go_stop_publisher = self.create_publisher(Bool, '/go_stop', 10)
         self.cmd_vel_publisher = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)  
         #sub
-        self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/gps", self.gps_sub_callback, 10)
+        self.cmd_vel_sub = self.create_subscription(Float64MultiArray, "/gps", self.gps_sub_callback, 10)
         #timer
-        timer_period_gps = 6
+        timer_period_gps = 2
         self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)               
-        timer_period_cmd_vel = 0.05
-        self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)               
+        # timer_period_cmd_vel = 0.1
+        # self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)               
         
         self.gps_data = [ 0.0, 0.0]
-        self.gps_status = False
+        self.gps_status = 0.0
         self.speed = 0.0
         self.steering = 0.0
         self.process = None
         self.sio = socketio.Client()
+        
         self.get_logger().info("SocketIO Started!!!")
 
         @self.sio.event
@@ -82,12 +86,11 @@ class SocketIOListener(Node):
             for point in pls:
                 places.append(float(point[0]))
                 places.append(float(point[1]))
-            place_msg = Float32MultiArray()
+            place_msg = Float64MultiArray()
             place_msg.data = places
             self.places_publisher.publish(place_msg)
             self.get_logger().info(f"Route planning: {pls}")
             self.get_logger().info(f"length places: {len(pls)}")
-
 
         @self.sio.on("automatic")
         def automatic(data):
@@ -123,22 +126,28 @@ class SocketIOListener(Node):
                 self.speed = value
             else:
                 self.steering = value
-
-    def gps_sub_callback(self, gps_msg = Float32MultiArray):
-        if self.gps_data[0] == 0 and gps_msg.data[1] == 0:
-            self.gps_status = False
-        else:
-            self.gps_status = True
-            self.gps_data = gps_msg.data[:2]
-
+            cmd_vel_ms = Float32MultiArray()
+            cmd_vel_ms.data = [ self.speed, self.steering]
+            self.cmd_vel_publisher.publish(cmd_vel_ms)    
+        
+        # @self.sio.on("send_signal_robot")
+        # def uart(data):
+        #     value = data["data"]
+        #     ReadSignal.get_instance().send_uart(value)
+        
+    def gps_sub_callback(self, gps_msg = Float64MultiArray):
+        self.gps_data = gps_msg.data[:2]
+        if self.gps_data[0] and self.gps_data[1]:
+            self.gps_status = True 
+                   
     def gps_pub_callback(self):
         if self.gps_status and self.sio.connected:
             self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(self.gps_data)})
     
-    def cmd_vel_callback(self):
-        cmd_vel_ms = Float32MultiArray()
-        cmd_vel_ms.data = [ self.speed, self.steering]
-        self.cmd_vel_publisher.publish(cmd_vel_ms)
+    # def cmd_vel_callback(self):
+    #     cmd_vel_ms = Float32MultiArray()
+    #     cmd_vel_ms.data = [ self.speed, self.steering]
+    #     self.cmd_vel_publisher.publish(cmd_vel_ms)
 
     def start_stream_gst(self):
         try:
@@ -159,8 +168,10 @@ class SocketIOListener(Node):
         except Exception as e:
             self.get_logger().info("Error stopping stream:")
 
-    def start(self):
+    def start(self):    
         self.sio.connect(self.SERVER_SOCKETIO)
+        # ReadSignal.get_instance().contructor(self.sio, self.ID)
+        # ReadSignal.get_instance().start()
         rclpy.spin(self)
             
     def stop(self):
