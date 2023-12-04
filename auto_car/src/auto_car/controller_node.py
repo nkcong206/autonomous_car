@@ -73,8 +73,11 @@ class ControllerNode(Node):
     
     def yaw_pub_callback(self):
         cmd_yaw = Float64()
-        cmd_yaw.data = self.car.getEuler('yaw') 
-        self.yaw_pub.publish(cmd_yaw) 
+        try:
+            cmd_yaw.data = self.car.getEuler('yaw') 
+            self.yaw_pub.publish(cmd_yaw) 
+        except:
+            pass
 
     def stop(self):        
         self.car.stop()
