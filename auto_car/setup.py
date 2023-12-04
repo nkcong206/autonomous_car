@@ -35,7 +35,6 @@ setup(
             'gps = auto_car.gps_node:main',
             'gps_new = auto_car.gps_node_new:main',
             'controller = auto_car.controller_node:main',
-            'controller_new = auto_car.controller_node_new:main',
         ],
     },
 )
