@@ -37,18 +37,6 @@ class ControllerNode(Node):
         self.get_logger().info("Controller Started!!!")
         
     def led_display(self):
-        #get yaw
-        # self.yaw = self.car.getEuler('yaw') 
-        #control motor
-        # self.car.steering = self.steering            
-        # self.car.setSpeed(abs(self.speed))
-        # if self.speed > 0:
-        #     self.car.forward()
-        # elif self.speed < 0:
-        #     self.car.backward()
-        # else:
-        #     self.car.stop()
-        #control led
         if self.notice == -1:
             if self.speed != 0:
                 if self.steering > 0:
