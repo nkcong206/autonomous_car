@@ -33,13 +33,10 @@ class SocketIOListener(Node):
         self.cmd_vel_sub = self.create_subscription(Float64MultiArray, "/gps", self.gps_sub_callback, 10)
         #timer
         timer_period_gps = 2
-        self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)                              
-        timer_period_cmd_vel = 0.1
-        self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)   
+        self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)                               
         
         self.gps_data = [ 0.0, 0.0]
         self.gps_status = 0.0
-        self.automatic = False
         self.speed = 0.0
         self.steering = 0.0
         self.process = None
@@ -98,11 +95,10 @@ class SocketIOListener(Node):
             auto_msg = Bool()
             if data['type'] == 'Automatic':
                 self.get_logger().info("Automatic!")
-                self.automatic = True
+                auto_msg.data = True
             else:
                 self.get_logger().info("Manual!")
-                self.automatic = False
-            auto_msg.data = self.automatic 
+                auto_msg.data = False
             self.auto_publisher.publish(auto_msg)
 
         @self.sio.on("go_stop")
@@ -127,7 +123,10 @@ class SocketIOListener(Node):
             if type == "speed":
                 self.speed = round(value, 4) 
             else:
-                self.steering = round(value, 4)    
+                self.steering = round(value, 4) 
+            cmd_vel_ms = Float32MultiArray()
+            cmd_vel_ms.data = [ self.speed, self.steering]
+            self.cmd_vel_publisher.publish(cmd_vel_ms)  
         
         # @self.sio.on("send_signal_robot")
         # def uart(data):
@@ -142,12 +141,6 @@ class SocketIOListener(Node):
     def gps_pub_callback(self):
         if self.gps_status and self.sio.connected:
             self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(self.gps_data)})
-    
-    def cmd_vel_callback(self):
-        if not self.automatic:
-            cmd_vel_ms = Float32MultiArray()
-            cmd_vel_ms.data = [ self.speed, self.steering]
-            self.cmd_vel_publisher.publish(cmd_vel_ms)
 
     def start_stream_gst(self):
         try:
