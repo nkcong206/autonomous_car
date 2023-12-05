@@ -34,8 +34,6 @@ class SocketIOListener(Node):
         #timer
         timer_period_gps = 2
         self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)                              
-        timer_period_cmd_vel = 0.1
-        self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_callback)   
         
         self.gps_data = [ 0.0, 0.0]
         self.gps_status = 0.0
@@ -127,7 +125,10 @@ class SocketIOListener(Node):
             if type == "speed":
                 self.speed = round(value, 4) 
             else:
-                self.steering = round(value, 4)    
+                self.steering = round(value, 4)   
+            cmd_vel_ms = Float32MultiArray()
+            cmd_vel_ms.data = [ self.speed, self.steering]
+            self.cmd_vel_publisher.publish(cmd_vel_ms) 
         
         # @self.sio.on("send_signal_robot")
         # def uart(data):
@@ -142,12 +143,6 @@ class SocketIOListener(Node):
     def gps_pub_callback(self):
         if self.gps_status and self.sio.connected:
             self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(self.gps_data)})
-    
-    def cmd_vel_callback(self):
-        if not self.automatic:
-            cmd_vel_ms = Float32MultiArray()
-            cmd_vel_ms.data = [ self.speed, self.steering]
-            self.cmd_vel_publisher.publish(cmd_vel_ms)
 
     def start_stream_gst(self):
         try:

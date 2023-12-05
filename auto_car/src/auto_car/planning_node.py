@@ -18,7 +18,6 @@ distance = 1500
 safe_distance = 800
 width_of_bin_0 = 400
 
-
 class PlanningNode(Node):
     def __init__(self):
         super().__init__('planning_node')
