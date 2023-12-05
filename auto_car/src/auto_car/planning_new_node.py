@@ -120,9 +120,9 @@ class PlanningNode(Node):
                             self.get_logger().info("Arrived at the destination!")
                         else:
                             self.notice = -1
-                            dis = self.per.distance_cal( self.pls[self.pl_id], self.current_position)  
+                            dis = self.per.distance_cal( self.current_position, self.pls[self.pl_id])  
                             if dis >= threshold:
-                                sp, st, self.beta = self.per.speed_streering_cal( self.yaw, self.pls[self.pl_id], self.current_position) 
+                                sp, st, self.beta = self.per.speed_streering_cal( self.yaw, self.current_position, self.pls[self.pl_id]) 
                             else:
                                 self.pl_id += 1
                             self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
