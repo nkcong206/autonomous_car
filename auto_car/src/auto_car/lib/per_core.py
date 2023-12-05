@@ -82,19 +82,20 @@ class Perception():
             return bin_id, False
         
     def speed_streering_cal( self, yaw, end, start):   
-        lat_end = math.radians(end[0])
-        lon_end = math.radians(end[1])
-        lat_start = math.radians(start[0])
-        lon_start = math.radians(start[1])
+        # lat_end = math.radians(end[0])
+        # lon_end = math.radians(end[1])
+        # lat_start = math.radians(start[0])
+        # lon_start = math.radians(start[1])
         
-        d_lon = lon_end - lon_start
-        # Calculate the bearing using the haversine formula
-        y = math.sin(d_lon) * math.cos(lat_end)
-        x = math.cos(lat_start) * math.sin(lat_end) - math.sin(lat_start) * math.cos(lat_end) * math.cos(d_lon)
-        initial_bearing = math.atan2(y, x)
-        # Convert the bearing from radians to degrees
-        initial_bearing = math.degrees(initial_bearing)
-        destination_angle = (initial_bearing + 360) % 360 #angle a
+        # d_lon = lon_end - lon_start
+        # # Calculate the bearing using the haversine formula
+        # y = math.sin(d_lon) * math.cos(lat_end)
+        # x = math.cos(lat_start) * math.sin(lat_end) - math.sin(lat_start) * math.cos(lat_end) * math.cos(d_lon)
+        # initial_bearing = math.atan2(y, x)
+        # # Convert the bearing from radians to degrees
+        # initial_bearing = math.degrees(initial_bearing)
+        # destination_angle = (initial_bearing + 360) % 360 #angle a
+        destination_angle = self.bearing_cal(start, end)
         # obstacle avoidance 
         bins, safe_bins = self.get_bins()
         beta = destination_angle - yaw

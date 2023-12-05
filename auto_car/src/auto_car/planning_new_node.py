@@ -10,7 +10,7 @@ from .lib.per_core import Perception
 
 from pop import LiDAR
 
-threshold = 2
+threshold = 3
 n_bins = int(12) # 4, 8, 12, 16
 distance = 1500
 safe_distance = 800
@@ -33,12 +33,10 @@ class PlanningNode(Node):
         self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)      
         timer_period_cmd_vel = 0.1
         self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
-        timer_period_show_info = 2
-        self.timer_show_info = self.create_timer(timer_period_show_info, self.show_info)
-                
+
         self.notice = -1
         self.pls = []
-        self.pl_id = 0
+        self.pl_id = 1
         self.gps_data = [ 0.0, 0.0]
         self.current_position = [0.0,0.0]
         self.root_gps_data = [0.0,0.0]            
@@ -61,12 +59,14 @@ class PlanningNode(Node):
         pls_data = [list_point[i:i+2] for i in range(0, len(list_point), 2)]
         if self.pls != pls_data:
             self.get_logger().info("New route planning!")            
-            self.pl_id = 0
+            self.pl_id = 1
             self.new_pls = True
         self.pls = pls_data
             
     def automatic_sub_callback(self, data_msg: Bool):
         self.automatic = data_msg.data
+        if not self.automatic:
+            self.pl_id = 1
 
     def go_stop_sub_callback(self, data_msg: Bool):
         self.go_stop = data_msg.data
@@ -76,21 +76,20 @@ class PlanningNode(Node):
             else:
                 if not self.gps_status:                     
                     self.get_logger().info("Error GPS!")
-        else:
-            self.pl_id = 0
-    
+            
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
         
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_data = gps_msg.data[:2]
-        if self.gps_data[0] and self.gps_data[1]:
+        if self.gps_data[0] and self.gps_data[1] and len(self.pls):
             self.gps_status = True
-            if len(self.pls):
-                if self.new_pls:
-                    self.new_pls = False
-                    self.root_position = self.pls[0]
-                    self.root_gps_data = self.gps_data
+            if self.new_pls:
+                self.new_pls = False
+                self.root_position = self.pls[0]
+                self.root_gps_data = self.gps_data
+                self.current_position = self.root_position
+            else:
                 be = self.per.bearing_cal(self.root_gps_data, self.gps_data)
                 dis = self.per.distance_cal(self.root_gps_data, self.gps_data)
                 self.current_position = self.per.create_new_point(self.root_position, dis, be)
@@ -126,6 +125,7 @@ class PlanningNode(Node):
                                 sp, st, self.beta = self.per.speed_streering_cal( self.yaw, self.pls[self.pl_id], self.current_position) 
                             else:
                                 self.pl_id += 1
+                            self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
                             if sp == 0.0:
                                 self.notice = 5
             cmd_vel.data = [float(sp),float(st)]
@@ -133,11 +133,6 @@ class PlanningNode(Node):
         else:
             self.notice = -1
 
-    def show_info(self):
-        if self.automatic and self.pl_id < len(self.pls):
-            distance = self.per.distance_cal(self.pls[ self.pl_id], self.current_position)
-            self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
-    
     def stop(self):
         self.lidar.stopMotor()
         self.get_logger().info(f"planning stopped!")        
