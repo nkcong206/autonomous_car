@@ -35,12 +35,12 @@ class GPSNode(Node):
                     londeg = int(longps/100)
                     lonmin = longps - londeg*100
                     lon = londeg + lonmin/60  
-                    self.gps_data = [lat, lon] 
+                    self.gps_data = [float(lat), float(lon)] 
         self.ser.close()
         
     def gps_pub_callback(self):
-        gps_ms = [self.gps_data[0], self.gps_data[1]]
         my_gps = Float64MultiArray()
+        my_gps.data = self.gps_data
         self.gps_pub.publish(my_gps)    
                                                                       
     def stop(self):
