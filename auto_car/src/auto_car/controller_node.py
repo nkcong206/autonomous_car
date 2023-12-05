@@ -23,19 +23,19 @@ class ControllerNode(Node):
 
         timer_led = 0.1
         self.time_led = self.create_timer(timer_led, self.led_display)
+
+        self.car = Pilot.AutoCar()
+        self.car.setObstacleDistance(distance=0)
+        self.car.setSensorStatus(euler=1)
+        self.led = led_signal(self.car)
+        self.get_logger().info("Controller Started!!!")
             
         self.notice = -1
         self.signal = -1
         self.yaw = 0.0
         self.speed = 0.0
         self.steering = 0.0
-        
-        self.car = Pilot.AutoCar()
-        self.car.setObstacleDistance(distance=0)
-        self.car.setSensorStatus(euler=1)
-        self.led = led_signal(self.car)
-        self.get_logger().info("Controller Started!!!")
-        
+                
     def led_display(self):
         if self.notice == -1:
             if self.speed != 0:
@@ -68,11 +68,8 @@ class ControllerNode(Node):
     
     def yaw_pub_callback(self):
         cmd_yaw = Float64()
-        try:
-            cmd_yaw.data = self.car.getEuler('yaw') 
-            self.yaw_pub.publish(cmd_yaw) 
-        except:
-            pass
+        cmd_yaw.data = self.car.getEuler('yaw') 
+        self.yaw_pub.publish(cmd_yaw) 
 
     def stop(self):        
         self.car.stop()
