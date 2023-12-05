@@ -9,9 +9,9 @@ class GPSNode(Node):
         #pub
         self.gps_pub = self.create_publisher(Float64MultiArray, "/gps", 10) 
         #timer
-        timer_period_read_gps = 0.5
+        timer_period_read_gps = 0.1
         self.time_read_gps = self.create_timer(timer_period_read_gps, self.gps_read)
-        timer_period_gps_pub = 0.5
+        timer_period_gps_pub = 0.1
         self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
         self.gps_data = [0.0, 0.0]
         self.ser = None
@@ -40,9 +40,7 @@ class GPSNode(Node):
         
     def gps_pub_callback(self):
         gps_ms = [self.gps_data[0], self.gps_data[1]]
-        print(gps_ms)
         my_gps = Float64MultiArray()
-        my_gps.data = gps_ms
         self.gps_pub.publish(my_gps)    
                                                                       
     def stop(self):
