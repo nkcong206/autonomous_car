@@ -32,10 +32,12 @@ setup(
         'console_scripts': [
             'planning = auto_car.planning_node:main',
             'planning_new = auto_car.planning_new_node:main',
+            'planning_ultr = auto_car.ultrasonic_planning:main',
             'socketio = auto_car.socketio_node:main',
             'gps = auto_car.gps_node:main',
             'gps_new = auto_car.gps_new_node:main',
             'controller = auto_car.controller_node:main',
+            'controller_ultr = auto_car.ultrasonic_controller:main',
         ],
     },
 )
