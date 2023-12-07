@@ -75,7 +75,7 @@ class ControllerNode(Node):
         self.yaw_pub.publish(cmd_yaw) 
         
     def ultrasonic_pub_callback(self):
-        cmd_ultrasonic = Float64MultiArray()
+        cmd_ultrasonic = Float32MultiArray()
         ul_data = self.car.getUltrasonic()
         cmd_ultrasonic.data = [float(ul_data[0][0]),float(ul_data[0][1])]
         self.ultrasonic_pub.publish(cmd_ultrasonic) 

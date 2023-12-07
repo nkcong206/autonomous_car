@@ -56,7 +56,7 @@ class PlanningNode(Node):
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
     
-    def ultrasonic_sub_callback(self, ultrasonic_msg = Float64MultiArray):
+    def ultrasonic_sub_callback(self, ultrasonic_msg = Float32MultiArray):
         self.ultrasonic = ultrasonic_msg.data
         
     def notice_pub_callback(self):
