@@ -22,7 +22,7 @@ class PlanningNode(Node):
         self.automatic_sub = self.create_subscription(Bool, "/automatic", self.automatic_sub_callback, 10)
         self.go_stop_sub = self.create_subscription(Bool, "/go_stop", self.go_stop_sub_callback, 10)
         self.yaw_sub = self.create_subscription(Float64, "/yaw", self.yaw_sub_callback, 10)
-        self.ultrasonic_sub = self.create_subscription(Float64MultiArray, "/ultrasonic", self.ultrasonic_sub_callback, 10)
+        self.ultrasonic_sub = self.create_subscription(Float32MultiArray, "/ultrasonic", self.ultrasonic_sub_callback, 10)
         # pub
         self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
         self.cmd_vel_pub = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)

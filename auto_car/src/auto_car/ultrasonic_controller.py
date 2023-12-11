@@ -18,7 +18,7 @@ class ControllerNode(Node):
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/cmd_vel", self.cmd_vel_sub_callback, 10)
         #pub
         self.yaw_pub = self.create_publisher(Float64, "/yaw", 10)  
-        self.ultrasonic_pub = self.create_publisher(Float64MultiArray, "/ultrasonic", 10)   
+        self.ultrasonic_pub = self.create_publisher(Float32MultiArray, "/ultrasonic", 10)   
         #timer 
         timer_yaw = 0.1
         self.time_yaw = self.create_timer(timer_yaw, self.yaw_pub_callback)
