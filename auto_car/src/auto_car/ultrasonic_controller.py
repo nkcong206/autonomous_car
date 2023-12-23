@@ -3,6 +3,7 @@ from rclpy.node import Node
 from std_msgs.msg import Int32
 from std_msgs.msg import Float64
 from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Float64MultiArray
 from .lib.led_signal import *
 
 from pop import Pilot
@@ -16,10 +17,13 @@ class ControllerNode(Node):
         self.notice_sub = self.create_subscription(Int32, "/notice", self.notice_sub_callback, 10)
         self.cmd_vel_sub = self.create_subscription(Float32MultiArray, "/cmd_vel", self.cmd_vel_sub_callback, 10)
         #pub
-        self.yaw_pub = self.create_publisher(Float64, "/yaw", 10)   
+        self.yaw_pub = self.create_publisher(Float64, "/yaw", 10)  
+        self.ultrasonic_pub = self.create_publisher(Float32MultiArray, "/ultrasonic", 10)   
         #timer 
         timer_yaw = 0.1
         self.time_yaw = self.create_timer(timer_yaw, self.yaw_pub_callback)
+        timer_ultrasonic = 0.1
+        self.time_ultrasonic = self.create_timer(timer_ultrasonic, self.ultrasonic_pub_callback)
         timer_led = 0.1
         self.time_led = self.create_timer(timer_led, self.led_display)
 
@@ -69,7 +73,13 @@ class ControllerNode(Node):
         cmd_yaw = Float64()
         cmd_yaw.data = self.car.getEuler('yaw') 
         self.yaw_pub.publish(cmd_yaw) 
-
+        
+    def ultrasonic_pub_callback(self):
+        cmd_ultrasonic = Float32MultiArray()
+        ul_data = self.car.getUltrasonic()
+        cmd_ultrasonic.data = [float(ul_data[0][0]),float(ul_data[0][1])]
+        self.ultrasonic_pub.publish(cmd_ultrasonic) 
+        
     def stop(self):        
         self.car.stop()
         self.car.steering = 0
