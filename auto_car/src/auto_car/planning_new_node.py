@@ -120,24 +120,25 @@ class PlanningNode(Node):
 
     def planning_thread(self):
         if self.automatic:
-            if not self.go_stop or not self.gps_status or not len(self.pls) or self.pl_id >= len(self.pls):
-                if self.pl_id >= len(self.pls):
-                    self.notice_pub_callback(3)
-                    self.get_logger().info("Arrived at the destination!")
+            if not self.go_stop or not self.gps_status or not len(self.pls):
                 self.cmd_vel_pub_callback(0,0)
                 return
             
-            self.notice_pub_callback(-1)
-            dis = self.per.distance_cal( self.current_position, self.pls[self.pl_id])  
-            if dis >= threshold:
-                sp, st, beta = self.per.speed_streering_cal( self.yaw, self.current_position, self.pls[self.pl_id]) 
-                if sp == 0.0:
-                    self.notice_pub_callback(5)
-                self.cmd_vel_pub_callback(sp,st)
-                self.get_logger().info(f"beta: {beta:.2f}, distance: {dis:.2f}, place_id: {self.pl_id}\n")
-            else:
-                self.pl_id += 1
-            
+            if self.pl_id >= len(self.pls):
+                self.notice_pub_callback(3)
+                self.get_logger().info("Arrived at the destination!")
+                self.cmd_vel_pub_callback(0,0)
+            else:            
+                self.notice_pub_callback(-1)
+                dis = self.per.distance_cal( self.current_position, self.pls[self.pl_id])  
+                if dis >= threshold:
+                    sp, st, beta = self.per.speed_streering_cal( self.yaw, self.current_position, self.pls[self.pl_id]) 
+                    if sp == 0.0:
+                        self.notice_pub_callback(5)
+                    self.cmd_vel_pub_callback(sp,st)
+                    self.get_logger().info(f"beta: {beta:.2f}, distance: {dis:.2f}, place_id: {self.pl_id}\n")
+                else:
+                    self.pl_id += 1
         # else:
         #     self.notice = -1
             
