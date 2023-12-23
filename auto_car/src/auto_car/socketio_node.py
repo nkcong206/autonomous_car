@@ -36,7 +36,6 @@ class SocketIOListener(Node):
         self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)                              
         
         self.gps_data = [ 0.0, 0.0]
-        self.gps_status = 0.0
         self.automatic = False
         self.speed = 0.0
         self.steering = 0.0
@@ -137,11 +136,9 @@ class SocketIOListener(Node):
         
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_data = gps_msg.data[:2]
-        if self.gps_data[0] and self.gps_data[1]:
-            self.gps_status = True 
                    
     def gps_pub_callback(self):
-        if self.gps_status and self.sio.connected:
+        if self.sio.connected:
             self.sio.emit("robot_location",{"robot_id" : self.ID, "location": list(self.gps_data)})
 
     def start_stream_gst(self):
