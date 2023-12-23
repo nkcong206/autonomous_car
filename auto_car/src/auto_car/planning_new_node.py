@@ -11,7 +11,6 @@ from .lib.per_core import Perception
 from pop import LiDAR
 
 threshold = 3
-dis_gps = 0.3
 
 n_bins = int(12) # 4, 8, 12, 16
 distance = 1500
@@ -86,30 +85,25 @@ class PlanningNode(Node):
             
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
-        
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_data = gps_msg.data[:2]
-        if (self.gps_data[0] and self.gps_data[1]) and len(self.pls):
+        if self.gps_data[0] and self.gps_data[1] and len(self.pls):
             self.gps_status = True
             if self.new_pls:
                 self.new_pls = False
-                self.past_position = self.pls[0]
-                self.past_gps_data = self.gps_data
-                self.current_position = self.past_position
-            else:    
-                be = self.per.bearing_cal(self.past_gps_data, self.gps_data)
-                dis = self.per.distance_cal(self.past_gps_data, self.gps_data)
-                if dis > dis_gps:
-                    dis = dis_gps
-                self.past_gps_data = self.per.create_new_point(self.past_gps_data, dis, be)                    
-                self.past_position = self.per.create_new_point(self.past_position, dis, be)
-                self.current_position = self.past_position
-                
+                self.root_position = self.pls[0]
+                self.root_gps_data = self.gps_data
+                self.current_position = self.root_position
+            else:
+                be = self.per.bearing_cal(self.root_gps_data, self.gps_data)
+                dis = self.per.distance_cal(self.root_gps_data, self.gps_data)
+                self.current_position = self.per.create_new_point(self.root_position, dis, be)
+            
             my_gps = Float64MultiArray()
             my_gps.data = self.current_position
             self.gps_pub_fix.publish(my_gps) 
         else:
-            self.gps_status = False
+            self.gps_status = False     
 
     def notice_pub_callback(self, noti):
         notice_msg = Int32()
