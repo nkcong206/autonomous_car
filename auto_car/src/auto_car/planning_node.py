@@ -28,15 +28,16 @@ class PlanningNode(Node):
         self.gps_sub = self.create_subscription(Float64MultiArray, "/gps", self.gps_sub_callback, 10)
         self.yaw_sub = self.create_subscription(Float64, "/yaw", self.yaw_sub_callback, 10)
         # pub
+        self.gps_pub_fix = self.create_publisher(Float64MultiArray, "/gps_fix", 10) 
         self.notice_pub = self.create_publisher(Int32, "/notice", 10)    
         self.cmd_vel_pub = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)
         #timer
-        timer_period_notice = 0.1
-        self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)      
-        timer_period_cmd_vel = 0.1
-        self.timer_cmd_vel = self.create_timer(timer_period_cmd_vel, self.cmd_vel_pub_callback)
+        # timer_period_notice = 0.1
+        # self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)      
+        timer_cmd_vel = 0.1
+        self.cmd_vel = self.create_timer(timer_cmd_vel, self.cmd_vel_thread)
 
-        self.notice = -1
+        # self.notice = -1
         self.pls = []
         self.pl_id = 1
         self.gps_data = [ 0.0, 0.0]
@@ -48,7 +49,6 @@ class PlanningNode(Node):
         self.go_stop = False
         self.automatic = False
         self.yaw = 0.0
-        self.beta = 0.0
                 
         self.lidar = LiDAR.Rplidar()
         self.lidar.connect()
@@ -69,15 +69,20 @@ class PlanningNode(Node):
         self.automatic = data_msg.data
         if not self.automatic:
             self.pl_id = 1
+            self.notice_pub_callback(-1)
 
     def go_stop_sub_callback(self, data_msg: Bool):
         self.go_stop = data_msg.data
         if self.go_stop:
             if not len(self.pls):
                 self.get_logger().info("Route planning is currently empty!")
-            else:
-                if not self.gps_status:                     
-                    self.get_logger().info("Error GPS!")
+                self.notice_pub_callback(2)
+                return
+            if not self.gps_status:                     
+                self.get_logger().info("Error GPS!")
+                self.notice_pub_callback(0)
+        else:
+            self.notice_pub_callback(1)
             
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
@@ -99,45 +104,46 @@ class PlanningNode(Node):
                 self.past_gps_data = self.per.create_new_point(self.past_gps_data, dis, be)                    
                 self.past_position = self.per.create_new_point(self.past_position, dis, be)
                 self.current_position = self.past_position
+                
+            my_gps = Float64MultiArray()
+            my_gps.data = self.current_position
+            self.gps_pub_fix.publish(my_gps) 
         else:
             self.gps_status = False
 
-    def notice_pub_callback(self):
+    def notice_pub_callback(self, noti):
         notice_msg = Int32()
-        notice_msg.data = self.notice
+        notice_msg.data = noti
         self.notice_pub.publish(notice_msg)
 
-    def cmd_vel_pub_callback(self):
+    def cmd_vel_pub_callback(self, sp, st):
         cmd_vel = Float32MultiArray()
-        sp = 0.0
-        st = 0.0
+        cmd_vel.data = [float(sp),float(st)]
+        self.cmd_vel_pub.publish(cmd_vel)
+
+    def cmd_vel_thread(self):
         if self.automatic:
-            if not self.go_stop:
-                self.notice = 1
+            if not self.go_stop or not self.gps_status or not len(self.pls) or self.pl_id >= len(self.pls):
+                if self.pl_id >= len(self.pls):
+                    self.notice_pub_callback(3)
+                    self.get_logger().info("Arrived at the destination!")
+                self.cmd_vel_pub_callback(0,0)
+                return
+            
+            self.notice_pub_callback(-1)
+            dis = self.per.distance_cal( self.current_position, self.pls[self.pl_id])  
+            if dis >= threshold:
+                sp, st, beta = self.per.speed_streering_cal( self.yaw, self.current_position, self.pls[self.pl_id]) 
+                if sp == 0.0:
+                    self.notice_pub_callback(5)
+                self.cmd_vel_pub_callback(sp,st)
+                self.get_logger().info(f"beta: {beta:.2f}, distance: {dis:.2f}, place_id: {self.pl_id}\n")
             else:
-                if not self.gps_status:
-                    self.notice = 0
-                else:
-                    if not len(self.pls):
-                        self.notice = 2
-                    else:
-                        if self.pl_id == len(self.pls):
-                            self.notice = 3
-                            self.get_logger().info("Arrived at the destination!")
-                        else:
-                            self.notice = -1
-                            dis = self.per.distance_cal( self.current_position, self.pls[self.pl_id])  
-                            if dis >= threshold:
-                                sp, st, self.beta = self.per.speed_streering_cal( self.yaw, self.current_position, self.pls[self.pl_id]) 
-                            else:
-                                self.pl_id += 1
-                            self.get_logger().info(f"beta: {self.beta:.2f}, distance: {distance:.2f}, place_id: {self.pl_id}\n")
-                            if sp == 0.0:
-                                self.notice = 5
-            cmd_vel.data = [float(sp),float(st)]
-            self.cmd_vel_pub.publish(cmd_vel)
-        else:
-            self.notice = -1
+                self.pl_id += 1
+            
+        # else:
+        #     self.notice = -1
+            
     def stop(self):
         self.lidar.stopMotor()
         self.get_logger().info(f"planning stopped!")        

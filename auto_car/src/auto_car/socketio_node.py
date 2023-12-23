@@ -30,7 +30,7 @@ class SocketIOListener(Node):
         self.go_stop_publisher = self.create_publisher(Bool, '/go_stop', 10)
         self.cmd_vel_publisher = self.create_publisher(Float32MultiArray, "/cmd_vel", 10)  
         #sub
-        self.cmd_vel_sub = self.create_subscription(Float64MultiArray, "/gps", self.gps_sub_callback, 10)
+        self.cmd_vel_sub = self.create_subscription(Float64MultiArray, "/gps_fix", self.gps_sub_callback, 10)
         #timer
         timer_period_gps = 2
         self.timer_gps = self.create_timer(timer_period_gps, self.gps_pub_callback)                              
