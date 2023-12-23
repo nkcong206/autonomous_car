@@ -33,8 +33,8 @@ class PlanningNode(Node):
         #timer
         # timer_period_notice = 0.1
         # self.timer_notice = self.create_timer(timer_period_notice, self.notice_pub_callback)      
-        timer_cmd_vel = 0.1
-        self.cmd_vel = self.create_timer(timer_cmd_vel, self.cmd_vel_thread)
+        timer_planning = 0.1
+        self.planning = self.create_timer(timer_planning, self.planning_thread)
 
         # self.notice = -1
         self.pls = []
@@ -115,7 +115,7 @@ class PlanningNode(Node):
         cmd_vel.data = [float(sp),float(st)]
         self.cmd_vel_pub.publish(cmd_vel)
 
-    def cmd_vel_thread(self):
+    def planning_thread(self):
         if self.automatic:
             if not self.go_stop or not self.gps_status or not len(self.pls) or self.pl_id >= len(self.pls):
                 if self.pl_id >= len(self.pls):
