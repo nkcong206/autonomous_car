@@ -76,6 +76,8 @@ class PlanningNode(Node):
             else:
                 if not self.gps_status:                     
                     self.get_logger().info("Error GPS!")
+        else:
+            self.new_pls = True
             
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
