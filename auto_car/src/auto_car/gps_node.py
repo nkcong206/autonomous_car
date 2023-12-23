@@ -11,10 +11,10 @@ class GPSNode(Node):
         #timer
         timer_period_read_gps = 0.1
         self.time_read_gps = self.create_timer(timer_period_read_gps, self.gps_read)
-        timer_period_gps_pub = 0.1
-        self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
+        # timer_period_gps_pub = 0.1
+        # self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
 
-        self.gps_data = [0.0,0.0]
+        # self.gps_data = [0.0,0.0]
         self.ser = None
         self.get_logger().info("GPS Started!!!")
             
@@ -28,14 +28,15 @@ class GPSNode(Node):
                 line = line.replace('"', '')
                 data = line.split(":")[1]
                 try: 
-                    self.gps_data = [float(data.split(",")[0]), float(data.split(",")[1])]
+                    # self.gps_data = [float(data.split(",")[0]), float(data.split(",")[1])]
+                    self.gps_pub_callback(data.split(",")[0], data.split(",")[1])
                 except:
                     pass
         self.ser.close()
 
-    def gps_pub_callback(self):
+    def gps_pub_callback(self, lat, lon):
         my_gps = Float64MultiArray()
-        my_gps.data = self.gps_data
+        my_gps.data = [float(lat), float(lon)]
         self.gps_pub.publish(my_gps)  
             
     def stop(self):

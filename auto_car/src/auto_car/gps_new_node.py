@@ -11,9 +11,9 @@ class GPSNode(Node):
         #timer
         timer_period_read_gps = 0.1
         self.time_read_gps = self.create_timer(timer_period_read_gps, self.gps_read)
-        timer_period_gps_pub = 0.1
-        self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
-        self.gps_data = [0.0, 0.0]
+        # timer_period_gps_pub = 0.1
+        # self.time_gps_pub = self.create_timer(timer_period_gps_pub, self.gps_pub_callback)
+        # self.gps_data = [0.0, 0.0]
         self.ser = None
         self.get_logger().info("GPS Started!!!")
   
@@ -35,14 +35,14 @@ class GPSNode(Node):
                     londeg = int(longps/100)
                     lonmin = longps - londeg*100
                     lon = londeg + lonmin/60  
-                    self.gps_data = [float(lat), float(lon)] 
+                    self.gps_pub_callback(lat,lon)
         self.ser.close()
         
-    def gps_pub_callback(self):
+    def gps_pub_callback(self, lat, lon):
         my_gps = Float64MultiArray()
-        my_gps.data = self.gps_data
-        self.gps_pub.publish(my_gps)    
-                                                                      
+        my_gps.data = [float(lat), float(lon)]
+        self.gps_pub.publish(my_gps)  
+                                        
     def stop(self):
         self.ser.close()
         self.get_logger().info(f"GPS stopped!")        

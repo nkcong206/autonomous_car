@@ -18,10 +18,11 @@ class ControllerNode(Node):
         #pub
         self.yaw_pub = self.create_publisher(Float64, "/yaw", 10)   
         #timer 
-        timer_yaw = 0.1
-        self.time_yaw = self.create_timer(timer_yaw, self.yaw_pub_callback)
-        timer_led = 0.1
-        self.time_led = self.create_timer(timer_led, self.led_display)
+        # timer_period_yaw = 0.1
+        # self.time_yaw = self.create_timer(timer_period_yaw, self.yaw_pub_callback)
+
+        timer_controller = 0.1
+        self.time_controller = self.create_timer(timer_controller, self.controller)
 
         self.car = Pilot.AutoCar()
         self.car.setObstacleDistance(distance=0)
@@ -30,25 +31,26 @@ class ControllerNode(Node):
         self.get_logger().info("Controller Started!!!")
             
         self.notice = -1
-        self.signal = -1
+        # self.signal = -1
         self.yaw = 0.0
         self.speed = 0.0
         self.steering = 0.0
                 
-    def led_display(self):
+    def controller(self):
+        self.yaw_pub_callback(self.car.getEuler('yaw')) 
         if self.notice == -1:
             if self.speed != 0:
                 if self.steering > 0:
-                    self.signal = 6
+                    signal = 6
                 elif self.steering < 0:
-                    self.signal = 7
+                    signal = 7
                 else:
-                    self.signal = 4
+                    signal = 4
             else:
-                self.signal = -1
+                signal = -1
         else:
-            self.signal = self.notice
-        self.led.display(self.signal)
+            signal = self.notice
+        self.led.display(signal)
             
     def notice_sub_callback(self, notice_msg:Int32):
         self.notice = notice_msg.data
@@ -65,9 +67,9 @@ class ControllerNode(Node):
         else:
             self.car.stop()
     
-    def yaw_pub_callback(self):
+    def yaw_pub_callback(self, yaw):
         cmd_yaw = Float64()
-        cmd_yaw.data = self.car.getEuler('yaw') 
+        cmd_yaw.data = yaw
         self.yaw_pub.publish(cmd_yaw) 
 
     def stop(self):        
