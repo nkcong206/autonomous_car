@@ -82,6 +82,7 @@ class PlanningNode(Node):
                 self.get_logger().info("Error GPS!")
                 self.notice_pub_callback(0)
         else:
+            self.new_pls = True
             self.notice_pub_callback(1)
             
     def yaw_sub_callback(self, yaw_msg = Float64):
@@ -89,6 +90,7 @@ class PlanningNode(Node):
         
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_data = gps_msg.data[:2]
+        my_gps = Float64MultiArray()
         if (self.gps_data[0] and self.gps_data[1]) and len(self.pls):
             self.gps_status = True
             if self.new_pls:
@@ -105,11 +107,12 @@ class PlanningNode(Node):
                 self.past_position = self.per.create_new_point(self.past_position, dis, be)
                 self.current_position = self.past_position
                 
-            my_gps = Float64MultiArray()
             my_gps.data = self.current_position
             self.gps_pub_fix.publish(my_gps) 
         else:
             self.gps_status = False
+            my_gps.data = self.gps_data
+            self.gps_pub_fix.publish(my_gps)
 
     def notice_pub_callback(self, noti):
         notice_msg = Int32()
