@@ -8,7 +8,7 @@
     next:
     pip install python-can --force-reinstall
 ### Config connect to server
-    /auto_car/auto_car/.env
+    /auto_car/.env
 The field SERVER_SOCKETIO and SERVER_RTMP in .env file: you must change the IP address to the server’s IP address.
 
 The field ID in .env file: you must change the ID of robot. It is unique for each robot
