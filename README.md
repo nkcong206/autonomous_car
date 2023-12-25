@@ -37,7 +37,7 @@ SERVER_RTMP=rtmp://192.168.200.184:1935
 ID=robot1
 NAME=1234
 ```
-```SERVER_SOCKETIO``` and ```SERVER_RTMP```: you must change the IP address to the server’s IP address.
+```SERVER_SOCKETIO``` and ```SERVER_RTMP```: you must change the IP address to the server’s IP address.\\
 ```ID```: you must change the ID of robot. It is unique for each robot.
 
 ### Build node
@@ -60,7 +60,7 @@ ros2 pkg executables
 source ./install/setup.zsh
 export ROS_DOMAIN_ID=id
 ```
-Different id for each car.
+Different ```id``` for each car.
 ### Check GPS device
 
 ```
@@ -88,7 +88,6 @@ To stop, press Ctrl+C and wait for the terminal to show "Node stopped!"
 ```
 ros2 launch auto_car auto_car.launch.py
 ```
-
 - Show log in other terminal
 
 ```
