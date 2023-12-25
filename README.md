@@ -40,24 +40,11 @@ NAME=1234
 ```SERVER_SOCKETIO``` and ```SERVER_RTMP```: you must change the IP address to the server’s IP address.
 ```ID```: you must change the ID of robot. It is unique for each robot.
 
-### Build node ROS2
+### Build node
 
 ```
 colcon build
 ```
-### Setup env ROS2
-
-```
-source ./install/setup.zsh
-export ROS_DOMAIN_ID=id
-```
-Different id for each car.
-### Check GPS
-
-```
-ls /dev/ttyUSB*
-```
-Output: ```/dev/ttyUSB1``` -> GPS has connected. 
 ### Check auto_car node
 
 ```
@@ -67,6 +54,19 @@ or
 ```
 ros2 pkg executables
 ```
+### Setup env
+
+```
+source ./install/setup.zsh
+export ROS_DOMAIN_ID=id
+```
+Different id for each car.
+### Check GPS device
+
+```
+ls /dev/ttyUSB*
+```
+Output: ```/dev/ttyUSB1``` -> GPS device has connected. 
 ### Debug
 - Permission:
 
