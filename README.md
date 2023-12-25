@@ -15,7 +15,7 @@ chmod +x ./fix_i2c.sh
 - Next time:
 
 ```
-pip install python-can --force-reinstall
+sudo pip install python-can --force-reinstall
 ```
 
 ## Run Ros2
