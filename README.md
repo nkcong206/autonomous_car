@@ -18,7 +18,7 @@ chmod +x ./fix_i2c.sh
 sudo pip install python-can --force-reinstall
 ```
 
-## Run Ros2
+## Run ROS2
 
 ```
 cd auto_car
@@ -58,7 +58,7 @@ export ROS_DOMAIN_ID=id
 ls /dev/ttyUSB*
 ```
 Output: ```/dev/ttyUSB1``` -> GPS has connected. 
-### Check auto_car nodes
+### Check auto_car node
 
 ```
 ros2 pkg list
@@ -74,7 +74,7 @@ ros2 pkg executables
 sudo chmod +x 666 /dev/ttyUSB1
 
 ```
-- Run 4 nodes with each terminal:
+- Run 4 commands with each terminal:
 
 ```
 ros2 run auto_car gps
@@ -82,8 +82,9 @@ ros2 run auto_car socketio
 ros2 run auto_car planning
 ros2 run auto_car controller
 ```
+To stop, press Ctrl+C and wait for the terminal to show "Node stopped!"
 ### All-in-One:
-- Just run the following command instead of running 4 nodes as above.
+- Just run 1 command instead of running the commands as above:
 
 ```
 ros2 launch auto_car auto_car.launch.py
