@@ -37,9 +37,8 @@ SERVER_RTMP=rtmp://192.168.200.184:1935
 ID=robot1
 NAME=1234
 ```
-```SERVER_SOCKETIO``` and ```SERVER_RTMP```: you must change the IP address to the server’s IP address.\\
+```SERVER_SOCKETIO``` and ```SERVER_RTMP```: you must change the IP address to the server’s IP address.  
 ```ID```: you must change the ID of robot. It is unique for each robot.
-
 ### Build node
 
 ```
