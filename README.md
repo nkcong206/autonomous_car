@@ -72,7 +72,6 @@ Output: ```/dev/ttyUSB1``` -> GPS device has connected.
 
 ```
 sudo chmod +x 666 /dev/ttyUSB1
-
 ```
 - Run 4 commands with each terminal:
 
