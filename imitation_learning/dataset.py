@@ -85,7 +85,7 @@ class DatasetNode(Node):
         self.pls, self.action = router_planning()
         self.gps_status = False
         self.pl_id = 0
-        self.distance = 0
+        self.abc = False
          
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_data = gps_msg.data[:2]
@@ -93,16 +93,16 @@ class DatasetNode(Node):
             self.gps_status = True
             if self.new_pl:
                 self.new_pl = False
-                self.past_position = self.pls[self.pl_id]
+                self.past_position = self.pls[0]
                 self.past_gps_data = self.gps_data
                 self.current_position = self.past_position
             else:    
                 be = self.per.bearing_cal(self.past_gps_data, self.gps_data)
-                self.distance  = self.per.distance_cal(self.past_gps_data, self.gps_data)
-                if self.distance  > dis_gps:
-                    self.distance  = dis_gps
-                self.past_gps_data = self.per.create_new_point(self.past_gps_data, self.distance , be)                    
-                self.past_position = self.per.create_new_point(self.past_position, self.distance , be)
+                distance  = self.per.distance_cal(self.past_gps_data, self.gps_data)
+                if distance  > dis_gps:
+                    distance  = dis_gps
+                self.past_gps_data = self.per.create_new_point(self.past_gps_data, distance , be)                    
+                self.past_position = self.per.create_new_point(self.past_position, distance , be)
                 self.current_position = self.past_position
         else:
             self.gps_status = False
@@ -110,12 +110,13 @@ class DatasetNode(Node):
     def planning_thread(self):
         global start 
         if start:
-            if self.distance < dis_gps:
+            dis1 = self.per.distance_cal(self.current_position, self.pls[self.pl_id])
+            dis2 = self.per.distance_cal(self.current_position, self.pls[self.pl_id+1])
+            if dis2 < dis_gps:
+                self.pl_id +=1
+            if dis1 < dis_gps or dis2 < dis_gps:
                 action = self.action[self.pl_id]
-                self.pl_id+=1
-            destination_angle = self.per.bearing_cal(self.pls[self.pl_id], self.pls[self.pl_id+1])
-            yaw = self.car.getEuler('yaw')
-            beta = destination_angle - yaw
+                
             matrix = self.lidar.getMap(size, limit_distance)
             
             # vectors = self.lidar.getVectors()
@@ -135,8 +136,8 @@ class ps4controller(Controller):
                    
     def on_square_press(self):
         print("start")
-        global capture
-        capture = 1
+        global start
+        start = True
         
     def on_L3_y_at_rest(self):
         global speed
@@ -149,22 +150,18 @@ class ps4controller(Controller):
     def on_L3_up(self, value):
         global speed
         speed = -value/32767
-        print(value)
 
     def on_L3_down(self, value):
         global speed
         speed = -value/32767
-        print(value)
 
     def on_R3_left(self, value):
         global steering
         steering = value/32767
-        print(value)
 
     def on_R3_right(self, value):
         global steering
         steering = value/32767
-        print(value)
 
 def connect():
     pass
