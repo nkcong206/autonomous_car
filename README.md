@@ -18,27 +18,27 @@ chmod +x ./fix_i2c.sh
 sudo pip install python-can --force-reinstall
 ```
 
-## Run ROS2
+## ROS2
 
 ```
 cd auto_car
 ```
-### Install environment
+### Python environment
 
 ```
 pip install -r requirements.txt
 ```
-### Config connect to server
-Edit file ```/.env```:
+
+### Config connect
+Edit file ```.env```:
 ```
 SERVER_SOCKETIO=http://192.168.200.184:5001
 SERVER_RTMP=rtmp://192.168.200.184:1935
 ID=robot1
 NAME=1234
 ```
-The field SERVER_SOCKETIO and SERVER_RTMP in .env file: you must change the IP address to the server’s IP address.
-
-The field ID in .env file: you must change the ID of robot. It is unique for each robot.
+```SERVER_SOCKETIO``` and ```SERVER_RTMP```: you must change the IP address to the server’s IP address.
+```ID```: you must change the ID of robot. It is unique for each robot.
 
 ### Build node ROS2
 
@@ -49,9 +49,9 @@ colcon build
 
 ```
 source ./install/setup.zsh
-# Different id for each car.
 export ROS_DOMAIN_ID=id
 ```
+Different id for each car.
 ### Check GPS
 
 ```
