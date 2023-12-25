@@ -1,5 +1,4 @@
-#Fix
-
+## Fix error
 ### Fix zsh_history
 
 ```
@@ -19,7 +18,7 @@ chmod +x ./fix_i2c.sh
 pip install python-can --force-reinstall
 ```
 
-# Run Ros2 Eloquent
+## Run Ros2
 
 ```
 cd auto_car
@@ -39,7 +38,7 @@ NAME=1234
 ```
 The field SERVER_SOCKETIO and SERVER_RTMP in .env file: you must change the IP address to the server’s IP address.
 
-The field ID in .env file: you must change the ID of robot. It is unique for each robot
+The field ID in .env file: you must change the ID of robot. It is unique for each robot.
 
 ### Build node ROS2
 
@@ -68,8 +67,9 @@ or
 ```
 ros2 pkg executables
 ```
-### Debug:
+### Debug
 - Permission:
+
 ```
 sudo chmod +x 666 /dev/ttyUSB1
 
@@ -82,13 +82,14 @@ ros2 run auto_car socketio
 ros2 run auto_car planning
 ros2 run auto_car controller
 ```
-### Just run the following command instead of running 4 nodes as above:
+### All-in-One:
+- Just run the following command instead of running 4 nodes as above.
 
 ```
 ros2 launch auto_car auto_car.launch.py
 ```
 
-### Show log in other terminal:
+- Show log in other terminal
 
 ```
 ros2 topic echo /rosout
