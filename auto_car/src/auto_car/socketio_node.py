@@ -160,8 +160,11 @@ class SocketIOListener(Node):
         except Exception as e:
             self.get_logger().info("Error stopping stream:")
 
-    def start(self):    
-        self.sio.connect(self.SERVER_SOCKETIO)
+    def start(self):
+        try:   
+            self.sio.connect(self.SERVER_SOCKETIO)
+        except:
+            pass
         # ReadSignal.get_instance().contructor(self.sio, self.ID)
         # ReadSignal.get_instance().start()
         rclpy.spin(self)
