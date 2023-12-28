@@ -14,6 +14,7 @@ import serial
 package_share_directory = get_package_share_directory('auto_car')
 dotenv_path = os.path.join(package_share_directory, 'config', '.env')
 runstream_path = os.path.join(package_share_directory, 'scripts', 'runstream.sh')
+dqn_path = '/home/soda/Documents/autonomous_car/DQN/DQN.py'
 
 load_dotenv(dotenv_path)
 
@@ -40,6 +41,7 @@ class SocketIOListener(Node):
         self.speed = 0.0
         self.steering = 0.0
         self.process = None
+        self.process_dqn = None
         self.sio = socketio.Client()
         
         self.get_logger().info("SocketIO Started!!!")
@@ -108,10 +110,17 @@ class SocketIOListener(Node):
             if data['type'] == 'Go':
                 g_msg.data = True
                 self.get_logger().info("Start!")
+                try:
+                    self.process_dqn = subprocess.Popen(['python', dqn_path])
+                except Exception as e:
+                    print(f"An error occurred: {e}")
             else:
                 self.get_logger().info("Stop!")
                 g_msg.data = False
-            self.go_stop_publisher.publish(g_msg)
+                if self.process:
+                    self.process_dqn.terminate()
+                    self.process_dqn.wait()
+            #self.go_stop_publisher.publish(g_msg)
             
         @self.sio.on('disconnect')
         def on_disconnect():

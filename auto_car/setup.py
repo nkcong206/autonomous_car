@@ -38,6 +38,7 @@ setup(
             'gps_new = auto_car.gps_new_node:main',
             'controller = auto_car.controller_node:main',
             'controller_ultr = auto_car.ultrasonic_controller:main',
+            'planning_gps = auto_car.planning_new_node_dqn:main'
         ],
     },
 )

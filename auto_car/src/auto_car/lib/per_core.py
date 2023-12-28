@@ -8,6 +8,8 @@ class Perception():
         self.safe_distance = safe_distance
         self.width_of_bin_0 = width_of_bin_0
         self.angle_of_b = 360/n_bins
+        self.l_distance = 0.5
+        self.obstacle_coef = 0.5
        
     def get_bins(self):
         bins = [] 
@@ -83,7 +85,7 @@ class Perception():
         
     def speed_streering_cal( self, yaw, start, end):   
         destination_angle = self.bearing_cal(start, end)
-        # obstacle avoidance 
+        # obstacle avoidance z
         bins, safe_bins = self.get_bins()
         beta = destination_angle - yaw
         bin_id, success = self.compute_desired_bins( beta, bins, safe_bins)
@@ -178,3 +180,65 @@ class Perception():
         end_lon = math.degrees(end_lon)
         new_point = [end_lat, end_lon]
         return new_point
+    
+    def get_state(self):
+        #get lidar
+        front_l =[]
+        behind_l =[]
+        vectors = self.lidar.getVectors()
+        for v in vectors:
+            if 315 <= v[0] and v[0] <= 45:
+                front_l.append(v[1]/1000)
+            if 135 <= v[0] and v[0] <= 225:
+                behind_l.append(v[1]/1000)
+        min_front = min(front_l) if front_l else 10
+        min_behind = min(behind_l) if behind_l else 10
+        return min_front , min_behind
+    
+    def compute_reward(self, state, action):
+        
+        distance, angle, min_fl, min_bl = state
+        
+        #action1: previous speed, positive --> forward, negative --> backward
+        #direction = int(a/abs(a))  #1 > forward, -1 backward
+        if action == 1:
+            direction = -1
+        else:
+            direction = 1
+        reward = 0
+        if distance ==0:
+            return math.tanh(1+ math.cos(angle))
+
+        reward = math.tanh(1/distance+ math.cos(angle)-self.obstacle_coef*(-1/min_fl+1/min_bl)*direction)
+        return reward
+    
+    def step(self, action, min_fl, min_bl):
+        if action == 0:
+            steer = 0
+            if(min_fl < self.l_distance):
+                speed = 0
+            else:
+                speed = 1
+        elif action ==1:
+            steer = 0
+            if(min_bl < self.l_distance):
+                speed = 0
+            else:
+                speed = -1
+        elif action == 2:
+            steer = 1
+            if(min_fl < self.l_distance):
+                speed = 0
+            else:
+                speed = 1
+        elif action == 3:
+            steer = -1
+            if(min_fl < self.l_distance):
+                speed = 0
+            else:
+                speed = 1
+        else:
+            speed = 0
+            steer = 0
+        return speed, steer
+    
