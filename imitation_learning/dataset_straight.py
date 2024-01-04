@@ -5,6 +5,7 @@ import threading
 import cv2
 import os
 import pandas as pd
+import time
 
 from pop import LiDAR, Pilot, Util
 
@@ -85,7 +86,6 @@ class DatasetNode(Node):
         self.car = Pilot.AutoCar()
         self.car.setObstacleDistance(distance=0)
         self.get_logger().info("Dataset Started!!!")
-        
         self.gstr = Util.gstrmer(width =640, height= 480)
         self.camera = cv2.VideoCapture(self.gstr, cv2.CAP_GSTREAMER) 
         self.led = True
@@ -106,11 +106,10 @@ class DatasetNode(Node):
         
     def record(self):
         global speed, steering, record
-        if record:
+        if record and not speed:
             if self.led:
                 self.car.setPixelDisplay(all_positions, record_color)
                 self.led = False
-                        
             ret, frame = self.camera.read()
             if ret:
                 map_result = self.lidar.getMap(size=(300,300), limit_distance=1000)
@@ -168,22 +167,13 @@ class ps4controller(Controller):
         with lock:
             steering = value/32767
 
-def connect():
-    pass
-
-def disconnect():
-    reconnect()
-
-def reconnect():
-    global controller
-    controller = ps4controller(interface="/dev/input/js0").listen(timeout=5)
-    controller.listen(on_connect=connect, on_disconnect=disconnect)
-
 def ps4_thread():
-        try:
-            reconnect()
+    while(True):
+        try:   
+            controller = ps4controller(interface=f"/dev/input/js0").listen(timeout=5)
+            time.sleep(100)
         except:
-            print("disconnect")
+            print("Disconnect PS4")
 
 def main(args=None):
     ps4 = threading.Thread(target=ps4_thread)
