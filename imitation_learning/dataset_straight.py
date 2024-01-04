@@ -16,7 +16,7 @@ speed = 0.0
 steering = 0.0
 max_speed = 70
 
-path = '/home/soda/Documents/dataset'
+path = '/home/soda/Documents/dataset1'
 
 all_positions = 0
 record_color = []
@@ -106,15 +106,16 @@ class DatasetNode(Node):
         
     def record(self):
         global speed, steering, record
-        if record and not speed:
+        if record:
             if self.led:
                 self.car.setPixelDisplay(all_positions, record_color)
                 self.led = False
+            
             ret, frame = self.camera.read()
-            if ret:
+            if ret and speed > 0:
                 map_result = self.lidar.getMap(size=(300,300), limit_distance=1000)
-            self.dataset_manager.add_data(frame,map_result,speed,steering)
-            self.dataset_manager.save_to_csv()            
+                self.dataset_manager.add_data(frame,map_result,speed,steering)
+                self.dataset_manager.save_to_csv()            
         else:
             self.led = True
             self.car.setPixelDisplay(all_positions, empty_color)
