@@ -69,6 +69,7 @@ class PlanningNode(Node):
         self.automatic = data_msg.data
         if not self.automatic:
             self.pl_id = 1
+            self.new_pls = True
             self.notice_pub_callback(-1)
 
     def go_stop_sub_callback(self, data_msg: Bool):
