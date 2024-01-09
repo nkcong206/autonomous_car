@@ -36,7 +36,11 @@ class GPSNode(Node):
 
     def gps_pub_callback(self, lat, lon):
         my_gps = Float64MultiArray()
-        my_gps.data = [float(lat), float(lon)]
+        if lat and lon:
+            status = 1
+        else:
+            status = 0
+        my_gps.data = [float(status),float(lat), float(lon)]
         self.gps_pub.publish(my_gps)  
             
     def stop(self):

@@ -87,24 +87,25 @@ class PlanningNode(Node):
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
-        self.gps_data = gps_msg.data[:2]
-        my_gps = Float64MultiArray()
-        if self.gps_data[0] and self.gps_data[1] and len(self.pls):
-            self.gps_status = True
-            if self.new_pls:
-                self.new_pls = False
-                self.root_position = self.pls[0]
-                self.root_gps_data = self.gps_data
-                self.current_position = self.root_position
+        self.gps_status = False
+        if gps_msg.data[0]:
+            self.gps_data = gps_msg.data[1:3]
+            my_gps = Float64MultiArray()
+            if len(self.pls) and self.go_stop:
+                self.gps_status = True
+                if self.new_pls:
+                    self.new_pls = False
+                    self.root_position = self.pls[0]
+                    self.root_gps_data = self.gps_data
+                    self.current_position = self.root_position
+                else:
+                    be = self.per.bearing_cal(self.root_gps_data, self.gps_data)
+                    dis = self.per.distance_cal(self.root_gps_data, self.gps_data)
+                    self.current_position = self.per.create_new_point(self.root_position, dis, be)
+                my_gps.data = self.current_position
             else:
-                be = self.per.bearing_cal(self.root_gps_data, self.gps_data)
-                dis = self.per.distance_cal(self.root_gps_data, self.gps_data)
-                self.current_position = self.per.create_new_point(self.root_position, dis, be)
-            my_gps.data = self.current_position
-        else:
-            self.gps_status = False     
-            my_gps.data = self.gps_data
-        self.gps_pub_fix.publish(my_gps)
+                my_gps.data = self.gps_data
+            self.gps_pub_fix.publish(my_gps)
             
     def notice_pub_callback(self, noti):
         notice_msg = Int32()
