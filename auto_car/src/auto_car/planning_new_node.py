@@ -82,7 +82,6 @@ class PlanningNode(Node):
                 self.get_logger().info("Error GPS!")
                 self.notice_pub_callback(0)
         else:
-            self.new_pls = True
             self.notice_pub_callback(1)
             
     def yaw_sub_callback(self, yaw_msg = Float64):
