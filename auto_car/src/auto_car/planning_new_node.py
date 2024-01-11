@@ -39,7 +39,6 @@ class PlanningNode(Node):
         # self.notice = -1
         self.pls = []
         self.pl_id = 1
-        self.gps_data = [ 0.0, 0.0]
         self.current_position = [0.0,0.0]
         self.past_gps_data = [0.0,0.0]            
         self.past_position = [0.0,0.0]
@@ -89,22 +88,22 @@ class PlanningNode(Node):
     def gps_sub_callback(self, gps_msg = Float64MultiArray):
         self.gps_status = False
         if gps_msg.data[0]:
-            self.gps_data = gps_msg.data[1:3]
+            gps_data = gps_msg.data[1:3]
             my_gps = Float64MultiArray()
             if len(self.pls) and self.go_stop:
                 self.gps_status = True
                 if self.new_pls:
                     self.new_pls = False
                     self.root_position = self.pls[0]
-                    self.root_gps_data = self.gps_data
+                    self.root_gps_data = gps_data
                     self.current_position = self.root_position
                 else:
-                    be = self.per.bearing_cal(self.root_gps_data, self.gps_data)
-                    dis = self.per.distance_cal(self.root_gps_data, self.gps_data)
+                    be = self.per.bearing_cal(self.root_gps_data, gps_data)
+                    dis = self.per.distance_cal(self.root_gps_data, gps_data)
                     self.current_position = self.per.create_new_point(self.root_position, dis, be)
                 my_gps.data = self.current_position
             else:
-                my_gps.data = self.gps_data
+                my_gps.data = gps_data
             self.gps_pub_fix.publish(my_gps)
             
     def notice_pub_callback(self, noti):
