@@ -40,7 +40,6 @@ class PlanningNode(Node):
         # self.notice = -1
         self.pls = []
         self.pl_id = 1
-        self.gps_data = [ 0.0, 0.0]
         self.current_position = [0.0,0.0]
         self.past_gps_data = [0.0,0.0]            
         self.past_position = [0.0,0.0]
