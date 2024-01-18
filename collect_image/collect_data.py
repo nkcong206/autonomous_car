@@ -6,7 +6,7 @@ import os
 import time
 
 path = '/home/soda/Documents/collect_image'
-max_speed = 60
+max_speed = 40
 
 speed = 0.0
 steering = 0.0
@@ -26,7 +26,7 @@ class ps4controller(Controller):
     def on_L2_release(self):
         global capture
         with lock2:
-            capture = True 
+            capture = not capture 
     
     def on_circle_press(self):
         global junction, route
@@ -101,11 +101,16 @@ class ps4controller(Controller):
         
 def ps4_thread():
     while(True):
+        connected = False
         try:   
-            ps4 = ps4controller(interface="/dev/input/js0",  connecting_using_ds4drv=True).listen(timeout=5)
-            time.sleep(10)
-        except:
-            print("disconnect")
+            if not connected:
+                ps4 = ps4controller(interface="/dev/input/js0",  connecting_using_ds4drv=True).listen(timeout=5)
+                connected = True
+            time.sleep(0.1)
+        except (ConnectionError, IOError):
+            if connected:
+                print("Connection lost. Reconnecting...")
+                connected = False
 
 def controller_thread():
     global speed, steering, capture, junction, route, action
@@ -117,7 +122,7 @@ def controller_thread():
     camera = cv2.VideoCapture(gstr, cv2.CAP_GSTREAMER)    
     max = check_file_number(path)
     try:
-        while(True):
+        while True:
             car.steering = steering            
             car.setSpeed(abs(speed*max_speed))
             if speed > 0:
@@ -128,13 +133,13 @@ def controller_thread():
                 car.stop()
             set_led_color(car,junction, route, action)
             print(junction, route, action)
-            if capture:
+            while capture:
                 ret, frame = camera.read()
                 car.alarm(scale=4, pitch = 8, duration = 0.3)
                 max = max + 1
                 cv2.imwrite(os.path.join(path , f'{max}_{action}_{junction}_{route}.jpg'), frame)
-                with lock2:
-                    capture = False
+                time.sleep(1)
+                
     except KeyboardInterrupt:
         car.steering = 0
         car.camTilt(0)
@@ -155,7 +160,6 @@ def set_led_color(car, junction = -1, route = -1, action = -1):
     elif action == 2:
         car.setPixelDisplay(2**7 + 2**6, [255,255,0])    
  
-    time.sleep(0.3)
     for i in range(8):
         car.setPixelDisplay(2**i, [0,0,0])
 
@@ -171,7 +175,6 @@ def check_file_number(path):
             if number > max_number:
                 max_number = number
         return max_number
-
 
 def main():
     t1 = threading.Thread(target=ps4_thread)
