@@ -10,7 +10,7 @@ from .lib.per_core import Perception
 
 from pop import LiDAR
 
-threshold = 2
+threshold = 3
 dis_gps = 0.2
 
 n_bins = int(12) # 4, 8, 12, 16
