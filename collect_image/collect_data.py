@@ -117,10 +117,6 @@ def controller_thread():
     max = check_file_number(path)
     try:
         while(True):
-            if speed < -99: speed = -99
-            if speed > 99: speed = 99
-            if steering < -1.0: steering = -1.0
-            if steering > 1.0: steering = 1.0
             car.steering = steering            
             car.setSpeed(abs(speed*max_speed))
             if speed > 0:
@@ -141,10 +137,7 @@ def controller_thread():
     except KeyboardInterrupt:
         car.camTilt(0)
 
-def set_led_color(car, capture = False, junction = -1, route = -1, action = -1):
-    if capture:
-        car.setPixelDisplay(2**3 + 2**4, [255,255,255])
-
+def set_led_color(car, junction = -1, route = -1, action = -1):
     if junction:
         car.setPixelDisplay(2**3 + 2**4, [255,0,0])
     
@@ -157,7 +150,7 @@ def set_led_color(car, capture = False, junction = -1, route = -1, action = -1):
         car.setPixelDisplay(2**1 + 2**0, [255,255,0])
     elif action == 2:
         car.setPixelDisplay(2**7 + 2**6, [255,255,0])    
-        
+ 
     time.sleep(0.3)
     for i in range(8):
         car.setPixelDisplay(2**i, [0,0,0])
