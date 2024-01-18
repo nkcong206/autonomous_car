@@ -22,20 +22,18 @@ class ps4controller(Controller):
     def __init__(self, **kwargs):
         super().__init__('ps4controller')
         Controller.__init__(self, **kwargs)
-    
-    def on_left_arrow_press(self):
-        super().on_down_arrow_press
-        print("asdfdsfasdfasd")
-    
+        
     def on_L2_release(self):
         global capture
         with lock2:
             capture = True 
     
     def on_circle_press(self):
-        global junction
+        global junction, route
         with lock2:
-            junction = not junction 
+            junction = 1 - junction
+            if not junction:
+                route = 0 
 
     def on_R2_release(self):
         global action
@@ -56,17 +54,20 @@ class ps4controller(Controller):
     def on_square_press(self):
         global route
         with lock2:
-            route = 0
+            if junction:
+                route = 0
     
     def on_x_press(self):
         global route
         with lock2:
-            route = 1
+            if junction:
+                route = 1
     
     def on_triangle_press(self):
         global route
         with lock2:
-            route = 2
+            if junction:
+                route = 2
     
     def on_L3_release(self):
         global speed
