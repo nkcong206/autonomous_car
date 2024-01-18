@@ -131,11 +131,14 @@ def controller_thread():
                 ret, frame = camera.read()
                 car.alarm(scale=4, pitch = 8, duration = 0.3)
                 max = max + 1
-                cv2.imwrite(os.path.join(path , f'{max}_{route}_{junction}_{action}.jpg'), frame)
+                cv2.imwrite(os.path.join(path , f'{max}_{action}_{junction}_{route}.jpg'), frame)
                 with lock2:
                     capture = False
     except KeyboardInterrupt:
+        car.steering = 0
         car.camTilt(0)
+        car.stop()
+        set_led_color(car, -1, -1, -1)
 
 def set_led_color(car, junction = -1, route = -1, action = -1):
     if junction:
