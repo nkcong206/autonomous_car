@@ -133,12 +133,12 @@ def controller_thread():
                 car.stop()
             set_led_color(car,junction, route, action)
             print(junction, route, action)
-            while capture:
+            if capture:
                 ret, frame = camera.read()
                 car.alarm(scale=4, pitch = 8, duration = 0.3)
                 max = max + 1
                 cv2.imwrite(os.path.join(path , f'{max}_{action}_{junction}_{route}.jpg'), frame)
-                time.sleep(1)
+            time.sleep(1)
                 
     except KeyboardInterrupt:
         car.steering = 0
@@ -154,11 +154,15 @@ def set_led_color(car, junction = -1, route = -1, action = -1):
         car.setPixelDisplay(2**2, [0,0,255])
     elif route == 2:
         car.setPixelDisplay(2**5, [0,0,255])
+    elif route == 0:
+        car.setPixelDisplay(2**5 + 2**2, [0,0,255])
 
     if action == 1:
         car.setPixelDisplay(2**1 + 2**0, [255,255,0])
     elif action == 2:
-        car.setPixelDisplay(2**7 + 2**6, [255,255,0])    
+        car.setPixelDisplay(2**7 + 2**6, [255,255,0])  
+    elif action == 0:
+        car.setPixelDisplay(2**1 + 2**0 + 2**7 + 2**6, [255,255,0])   
  
     for i in range(8):
         car.setPixelDisplay(2**i, [0,0,0])
