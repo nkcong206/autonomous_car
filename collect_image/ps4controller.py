@@ -59,57 +59,68 @@ class MyPS4Controller(Controller):
         super().__init__(interface="/dev/input/js0", connecting_using_ds4drv=False)
         self.node = node
         self.junction = False
-                
+        print("start")
     def on_L2_release(self): 
         self.node.publisher_message("capture",True)
-        
+        print("capture")
+
     def on_circle_press(self):
         self.junction = not self.junction
         if not self.junction:
             self.node.publisher_message("route",0)
         self.node.publisher_message("junction",self.junction)
-        
+        print("junction " + self.junction)
+
     def on_R2_release(self):
         self.node.publisher_message("action",0)
+        print("action 0")
             
     def on_L1_press(self):
         self.node.publisher_message("action",1)    
+        print("action 1")
         
     def on_R1_press(self):
         self.node.publisher_message("action",2)    
-            
+        print("action 2")
+
     def on_square_press(self):
         if self.junction:
             self.node.publisher_message("route",0)
+        print("route 0")
         
-    
     def on_x_press(self):
         if self.junction:
             self.node.publisher_message("route",1)
+        print("route 1")
     
     def on_triangle_press(self):
         if self.junction:
             self.node.publisher_message("route",2)
+        print("route 2")
     
     def on_L3_release(self):
         self.node.publisher_message("speed",0)    
-
+        print("speed 0")
 
     def on_L3_up(self, value):
         self.node.publisher_message("speed",-value/32767)    
-
+        print("speed " + -value/32767)
 
     def on_L3_down(self, value):
         self.node.publisher_message("speed",-value/32767)    
+        print("speed " + -value/32767)
             
     def on_R3_release(self):
         self.node.publisher_message("steering",0)    
+        print("steering 0")
     
     def on_R3_left(self, value):
         self.node.publisher_message("steering",value/32767)    
+        print("steering " + value/32767)
 
     def on_R3_right(self, value):
         self.node.publisher_message("steering",value/32767)    
+        print("steering " + value/32767)
 
 def main():
     rclpy.init()

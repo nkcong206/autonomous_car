@@ -37,28 +37,35 @@ class TopicSubscriberNode(rclpy.node.Node):
         self.junction = 0
 
     def speed_callback(self, msg):
-            speed = msg.data
-            self.car.setSpeed(abs(speed*max_speed))
-            if speed > 0:
-                self.car.forward()
-            elif speed < 0:
-                self.car.backward()
-            else:
-                self.car.stop()
+        speed = msg.data
+        self.car.setSpeed(abs(speed*max_speed))
+        if speed > 0:
+            self.car.forward()
+        elif speed < 0:
+            self.car.backward()
+        else:
+            self.car.stop()
+        print("speed" + speed*max_speed)
+
 
     def steering_callback(self, msg):
         self.car.steering = msg.data
+        print("steering" + self.msg)
 
     def route_callback(self, msg):
         self.route = msg.data
+        print("route" + self.route)
 
     def action_callback(self, msg):
         self.action = msg.data
+        print("action" + self.action)
 
     def junction_callback(self, msg):
         self.junction = msg.data
-        
+        print("junction" + self.junction)
+
     def capture_callback(self, msg):
+        print("capture")
         ret, frame = self.camera.read()
         self.car.alarm(scale=4, pitch = 8, duration = 0.3)
         self.max = self.max + 1
