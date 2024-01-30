@@ -11,6 +11,20 @@ max_speed = 40
 import rclpy
 from std_msgs.msg import Float32, Bool, Int8
 
+def check_file_number(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+        return 0
+    else:    
+        file_list = os.listdir(path)
+        max_number = 0
+        for file in file_list:
+            number = int(file.split('_')[0])
+            if number > max_number:
+                max_number = number
+        return max_number
+
+
 class TopicSubscriberNode(Node):
     def __init__(self):
         super().__init__('topic_subscriber_node')
@@ -82,19 +96,6 @@ class TopicSubscriberNode(Node):
         self.car.stop()
         set_led_color(self.car, -1, -1, -1) 
         
-def main():
-    rclpy.init()
-    topic_subscriber_node = TopicSubscriberNode()
-    try:
-        rclpy.spin(topic_subscriber_node)
-    except KeyboardInterrupt:
-        topic_subscriber_node.stop()
-    topic_subscriber_node.destroy_node()
-    rclpy.shutdown()
-
-if __name__ == '__main__':
-    main()
-
 def set_led_color(car, junction = -1, route = -1, action = -1):
     if junction:
         car.setPixelDisplay(2**3 + 2**4, [255,0,0])
@@ -115,19 +116,16 @@ def set_led_color(car, junction = -1, route = -1, action = -1):
  
     for i in range(8):
         car.setPixelDisplay(2**i, [0,0,0])
-
-def check_file_number(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
-        return 0
-    else:    
-        file_list = os.listdir(path)
-        max_number = 0
-        for file in file_list:
-            number = int(file.split('_')[0])
-            if number > max_number:
-                max_number = number
-        return max_number
+        
+def main():
+    rclpy.init()
+    topic_subscriber_node = TopicSubscriberNode()
+    try:
+        rclpy.spin(topic_subscriber_node)
+    except KeyboardInterrupt:
+        topic_subscriber_node.stop()
+    topic_subscriber_node.destroy_node()
+    rclpy.shutdown()
 
 if __name__ == "__main__":
     main()
