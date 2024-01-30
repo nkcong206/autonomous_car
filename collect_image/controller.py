@@ -25,7 +25,7 @@ class TopicSubscriberNode(Node):
         self.car = Pilot.AutoCar()
         self.car.setObstacleDistance(0)
         self.car.camTilt(-10)
-        self.Util.enable_imshow()
+        Util.enable_imshow()
         self.gstr = Util.gstrmer(width =640, height= 480, fps =30, flip =0)
         self.camera = self.cv2.VideoCapture(self.gstr, cv2.CAP_GSTREAMER) 
         
