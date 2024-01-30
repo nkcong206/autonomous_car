@@ -23,6 +23,7 @@ class ps4controller(Controller):
         super().__init__('ps4controller')
         Controller.__init__(self, **kwargs)
         
+        
     def on_L2_release(self):
         global capture
         with lock2:
