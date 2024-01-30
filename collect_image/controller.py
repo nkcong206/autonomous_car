@@ -2,6 +2,8 @@ from pop import Util, Pilot
 import cv2
 import os
 import time
+from rclpy.node import Node
+import rclpy
 
 path = '/home/soda/Documents/collect_image'
 max_speed = 40
@@ -9,7 +11,7 @@ max_speed = 40
 import rclpy
 from std_msgs.msg import Float32, Bool, Int8
 
-class TopicSubscriberNode(rclpy.node.Node):
+class TopicSubscriberNode(Node):
     def __init__(self):
         super().__init__('topic_subscriber_node')
 
