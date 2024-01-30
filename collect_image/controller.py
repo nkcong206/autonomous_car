@@ -27,7 +27,7 @@ class TopicSubscriberNode(Node):
         self.car.camTilt(-10)
         Util.enable_imshow()
         self.gstr = Util.gstrmer(width =640, height= 480, fps =30, flip =0)
-        self.camera = self.cv2.VideoCapture(self.gstr, cv2.CAP_GSTREAMER) 
+        self.camera = cv2.VideoCapture(self.gstr, cv2.CAP_GSTREAMER) 
         
         timer_led = 0.1
         self.time_led = self.create_timer(timer_led, self.led_display)

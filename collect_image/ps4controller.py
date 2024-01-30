@@ -33,26 +33,26 @@ class PS4ControllerNode(Node):
             ms = Float32()
             ms.data = round(value, 2)
             self.speed_publisher.publish(ms)
-        if type == "steering":
+        elif type == "steering":
             ms = Float32()
             ms.data = round(value, 2)
             self.steering_publisher.publish(ms)
-        if type == "capture":
+        elif type == "capture":
             ms = Bool()
             ms.data = value
-            self.speed_publisher.publish(ms)
-        if type == "route":
+            self.capture_publisher.publish(ms)
+        elif type == "route":
             ms = Int8()
             ms.data = value
-            self.speed_publisher.publish(ms)
-        if type == "action":
+            self.route_publisher.publish(ms)
+        elif type == "action":
             ms = Int8()
             ms.data = value
-            self.speed_publisher.publish(ms)
-        if type == "junction":
+            self.action_publisher.publish(ms)
+        elif type == "junction":
             ms = Bool()
             ms.data = value
-            self.speed_publisher.publish(ms)
+            self.junction_publisher.publish(ms)
             
 class MyPS4Controller(Controller):
     def __init__(self, node):
@@ -60,6 +60,7 @@ class MyPS4Controller(Controller):
         self.node = node
         self.junction = False
         print("start")
+        
     def on_L2_release(self): 
         self.node.publisher_message("capture",True)
         print("capture")
