@@ -114,10 +114,7 @@ class MyPS4Controller(Controller):
 def main():
     rclpy.init()
     ps4_controller_node = PS4ControllerNode()
-    try:
-        rclpy.spin(ps4_controller_node)
-    finally:
-        ps4_controller_node.ps4_controller.stop()
+    rclpy.spin(ps4_controller_node)
     ps4_controller_node.destroy_node()
     rclpy.shutdown()
 
