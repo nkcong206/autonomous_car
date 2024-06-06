@@ -79,7 +79,7 @@ class SocketIOListener(Node):
         
         @self.sio.on("locations_direction_robot")
         def locations_direction(data):
-            pls = data['locations'][1:][0]
+            pls = data['locations']
             places = []
             for point in pls:
                 places.append(float(point[0]))
