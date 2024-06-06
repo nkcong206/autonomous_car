@@ -14,8 +14,8 @@ threshold = 3
 
 n_bins = int(12) # 4, 8, 12, 16
 distance = 1500
-safe_distance = 800
-width_of_bin_0 = 400
+safe_distance = 1000
+width_of_bin_0 = 500
 
 class PlanningNode(Node):
     def __init__(self):
