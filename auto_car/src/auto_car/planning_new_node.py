@@ -104,6 +104,7 @@ class PlanningNode(Node):
                 my_gps.data = self.current_position
             else:
                 my_gps.data = gps_data
+            self.gps_status = True
             self.gps_pub_fix.publish(my_gps)
             
     def notice_pub_callback(self, noti):
