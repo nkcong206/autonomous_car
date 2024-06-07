@@ -10,8 +10,8 @@ from .lib.per_core import Perception
 
 from pop import LiDAR
 
-threshold = 3
-dis_gps = 0.2
+threshold = 2
+threshold_gps = 0.2
 
 n_bins = int(12) # 4, 8, 12, 16
 distance = 1500
@@ -108,8 +108,8 @@ class PlanningNode(Node):
                 else:    
                     be = self.per.bearing_cal(self.past_gps_data, gps_data)
                     dis = self.per.distance_cal(self.past_gps_data, gps_data)
-                    if dis > dis_gps:
-                        dis = dis_gps
+                    if dis > threshold_gps:
+                        dis = threshold_gps
                     self.past_gps_data = self.per.create_new_point(self.past_gps_data, dis, be)                    
                     self.past_position = self.per.create_new_point(self.past_position, dis, be)
                     self.current_position = self.past_position
