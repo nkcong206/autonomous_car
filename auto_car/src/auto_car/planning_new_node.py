@@ -69,16 +69,17 @@ class PlanningNode(Node):
         if not self.automatic:
             self.pl_id = 1
             self.new_pls = True
+            self.pls = []
             self.notice_pub_callback(-1)
 
     def go_stop_sub_callback(self, data_msg: Bool):
         self.go_stop = data_msg.data
         if self.go_stop:
             if not len(self.pls):
-                self.get_logger().info("Route planning is currently empty!")
+                self.get_logger().info("Route planning is empty!")
                 self.notice_pub_callback(2)
                 return
-            if not self.gps_status:                     
+            if not self.gps_status:          
                 self.get_logger().info("Error GPS!")
                 self.notice_pub_callback(0)
         else:
@@ -94,7 +95,7 @@ class PlanningNode(Node):
         if gps_msg.data[0]:
             gps_data = gps_msg.data[1:3]
             my_gps = Float64MultiArray()
-            if len(self.pls) and self.go_stop:
+            if len(self.pls):
                 self.gps_status = True
                 if self.new_pls:
                     self.new_pls = False
