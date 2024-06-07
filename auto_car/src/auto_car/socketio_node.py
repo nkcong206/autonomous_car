@@ -94,11 +94,10 @@ class SocketIOListener(Node):
         def automatic(data):
             auto_msg = Bool()
             if data['type'] == 'Automatic':
-                self.get_logger().info("automatic: Auto")
                 self.automatic = True
             else:
-                self.get_logger().info("automatic: Manual")
                 self.automatic = False
+            self.get_logger().info(f"automatic: {self.automatic}")
             auto_msg.data = self.automatic 
             self.auto_publisher.publish(auto_msg)
 
@@ -107,10 +106,9 @@ class SocketIOListener(Node):
             g_msg = Bool()
             if data['type'] == 'Go':
                 g_msg.data = True
-                self.get_logger().info("go_stop: Start")
             else:
-                self.get_logger().info("go_stop: Stop")
                 g_msg.data = False
+            self.get_logger().info(f"go_stop: {g_msg.data}")
             self.go_stop_publisher.publish(g_msg)
             
         @self.sio.on('disconnect')

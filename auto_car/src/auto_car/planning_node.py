@@ -67,29 +67,24 @@ class PlanningNode(Node):
             
     def automatic_sub_callback(self, data_msg: Bool):
         self.automatic = data_msg.data
+        self.get_logger().info(f"automatic: {self.automatic}")
         if not self.automatic:
             self.target_id = 1
             self.new_pls = True
             self.pls = []
             self.notice_pub_callback(-1)
-            self.get_logger().info("automatic: Manual")
-        else:
-            self.get_logger().info("automatic: Auto")
 
     def go_stop_sub_callback(self, data_msg: Bool):
         self.go_stop = data_msg.data
+        self.get_logger().info(f"go_stop: {self.go_stop}")
         if self.go_stop:
-            self.get_logger().info("go_stop: Start")
             if not len(self.pls):
-                self.get_logger().info("places empty")
                 self.notice_pub_callback(2)
                 return
             if not self.gps_status:                     
-                self.get_logger().info("GPS status: False")
                 self.notice_pub_callback(0)
         else:
             self.notice_pub_callback(1)
-            self.get_logger().info("go_stop: Stop")
             if self.arrived and self.new_pls:
                 self.arrived = False
                 self.target_id = 1
