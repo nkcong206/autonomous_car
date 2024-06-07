@@ -76,6 +76,7 @@ class PlanningNode(Node):
     def go_stop_sub_callback(self, data_msg: Bool):
         self.go_stop = data_msg.data
         if self.go_stop:
+            self.get_logger().info("Start!")
             if not len(self.pls):
                 self.get_logger().info("Route planning is currently empty!")
                 self.notice_pub_callback(2)
@@ -85,6 +86,7 @@ class PlanningNode(Node):
                 self.notice_pub_callback(0)
         else:
             self.notice_pub_callback(1)
+            self.get_logger().info("Stop!")
             if self.arrived and self.new_pls:
                 self.arrived = False
                 self.pl_id = 1
