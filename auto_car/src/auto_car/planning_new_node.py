@@ -46,6 +46,7 @@ class PlanningNode(Node):
         self.gps_status = False
         self.go_stop = False
         self.automatic = False
+        self.arrived = False
         self.yaw = 0.0
                 
         self.lidar = LiDAR.Rplidar()
@@ -82,6 +83,9 @@ class PlanningNode(Node):
                 self.notice_pub_callback(0)
         else:
             self.notice_pub_callback(1)
+            if self.arrived and self.new_pls:
+                self.arrived = False
+                self.pl_id = 1
             
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
@@ -104,7 +108,6 @@ class PlanningNode(Node):
                 my_gps.data = self.current_position
             else:
                 my_gps.data = gps_data
-            self.gps_status = True
             self.gps_pub_fix.publish(my_gps)
             
     def notice_pub_callback(self, noti):
@@ -118,6 +121,7 @@ class PlanningNode(Node):
         self.cmd_vel_pub.publish(cmd_vel)
 
     def planning_thread(self):
+        self.get_logger().info(f"gps: {self.gps_status}, go_stop: {self.go_stop}, automatic: {self.automatic}, arrived: {self.arrived}")   
         if self.automatic:
             if not self.go_stop or not self.gps_status or not len(self.pls):
                 self.cmd_vel_pub_callback(0,0)
@@ -125,17 +129,18 @@ class PlanningNode(Node):
             
             if self.pl_id >= len(self.pls):
                 self.notice_pub_callback(3)
+                self.arrived = True
                 self.get_logger().info("Arrived at the destination!")
                 self.cmd_vel_pub_callback(0,0)
             else:            
                 self.notice_pub_callback(-1)
                 dis = self.per.distance_cal( self.current_position, self.pls[self.pl_id])  
                 if dis >= threshold:
-                    sp, st, beta = self.per.speed_streering_cal( self.yaw, self.current_position, self.pls[self.pl_id]) 
+                    sp, st, beta = self.per.speed_steering_cal( self.yaw, self.current_position, self.pls[self.pl_id]) 
                     if sp == 0.0:
                         self.notice_pub_callback(5)
                     self.cmd_vel_pub_callback(sp,st)
-                    self.get_logger().info(f"beta: {beta:.2f}, distance: {dis:.2f}, place_id: {self.pl_id}\n")
+                    self.get_logger().info(f"pl_id: {self.pl_id}, beta: {beta:.2f}, distance: {dis:.2f}")
                 else:
                     self.pl_id += 1
         # else:

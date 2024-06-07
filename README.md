@@ -92,3 +92,15 @@ ros2 launch auto_car auto_car.launch.py
 ```
 ros2 topic echo /rosout
 ```
+- color:
+error_gps: Orange
+auto_stop_color: Purple
+places_empty: Cyan
+reach_destination_colors: White
+straight_color: Green
+block_colors: Red
+empty_color: Black
+
+planning: 
+
+planning_new: 

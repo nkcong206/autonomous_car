@@ -73,7 +73,7 @@ class Perception():
         else:
             return bin_id, False
         
-    def speed_streering_ultra_cal( self, alpha, yaw, ultra):   
+    def speed_steering_ultra_cal( self, alpha, yaw, ultra):   
         # obstacle avoidance 
         bins, safe_bins = self.get_bins(ultra)
         beta = alpha - yaw

@@ -87,17 +87,17 @@ class SocketIOListener(Node):
             place_msg = Float64MultiArray()
             place_msg.data = places
             self.places_publisher.publish(place_msg)
-            self.get_logger().info(f"Route planning: {pls}")
-            self.get_logger().info(f"length places: {len(pls)}")
+            self.get_logger().info(f"pls: {pls}")
+            self.get_logger().info(f"len pls: {len(pls)}")
 
         @self.sio.on("automatic")
         def automatic(data):
             auto_msg = Bool()
             if data['type'] == 'Automatic':
-                self.get_logger().info("Automatic!")
+                self.get_logger().info("automatic: True")
                 self.automatic = True
             else:
-                self.get_logger().info("Manual!")
+                self.get_logger().info("automatic: False")
                 self.automatic = False
             auto_msg.data = self.automatic 
             self.auto_publisher.publish(auto_msg)
@@ -107,9 +107,9 @@ class SocketIOListener(Node):
             g_msg = Bool()
             if data['type'] == 'Go':
                 g_msg.data = True
-                self.get_logger().info("Start!")
+                self.get_logger().info("go_stop: True")
             else:
-                self.get_logger().info("Stop!")
+                self.get_logger().info("go_stop: False")
                 g_msg.data = False
             self.go_stop_publisher.publish(g_msg)
             
@@ -144,7 +144,7 @@ class SocketIOListener(Node):
     def start_stream_gst(self):
         try:
             process = subprocess.Popen(["bash", runstream_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            self.get_logger().info(f"Stream Started, ID:{process.pid}")
+            self.get_logger().info(f"Stream started, ID:{process.pid}")
             return process
         except Exception as e:
             self.get_logger().info("Error starting stream:")
@@ -156,7 +156,7 @@ class SocketIOListener(Node):
                 id = process.pid
                 process.terminate()
                 process.wait()
-                self.get_logger().info(f"Stream Stopped, ID:{id}")
+                self.get_logger().info(f"Stream stopped, ID:{id}")
         except Exception as e:
             self.get_logger().info("Error stopping stream:")
 

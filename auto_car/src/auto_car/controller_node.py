@@ -50,7 +50,9 @@ class ControllerNode(Node):
                 signal = -1
         else:
             signal = self.notice
-        self.led.display(signal)
+
+        noti = self.led.display(signal)
+        self.get_logger().info(f"notification: {noti}")
             
     def notice_sub_callback(self, notice_msg:Int32):
         self.notice = notice_msg.data
@@ -66,6 +68,7 @@ class ControllerNode(Node):
             self.car.backward()
         else:
             self.car.stop()
+            
     
     def yaw_pub_callback(self, yaw):
         cmd_yaw = Float64()
