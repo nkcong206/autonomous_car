@@ -134,16 +134,16 @@ class PlanningNode(Node):
         self.cmd_vel_pub.publish(cmd_vel)
 
     def planning_thread(self):
-        self.get_logger().info(f"gps: {self.gps_status}, go_stop: {self.go_stop}, automatic: {self.automatic}, arrived: {self.arrived}")   
         if self.automatic:
             if not self.go_stop or not self.gps_status or not len(self.pls):
+                self.get_logger().info(f"go_stop: {self.go_stop}, gps: {self.gps_status}, len pls: {len(self.pls)}")   
                 self.cmd_vel_pub_callback(0,0)
                 return
             
             if self.pl_id >= len(self.pls):
                 self.notice_pub_callback(3)
                 self.arrived = True
-                self.get_logger().info("Arrived at the destination!")
+                self.get_logger().info("Arrived")
                 self.cmd_vel_pub_callback(0,0)
             else:            
                 self.notice_pub_callback(-1)
