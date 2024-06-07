@@ -92,14 +92,17 @@ ros2 launch auto_car auto_car.launch.py
 ```
 ros2 topic echo /rosout
 ```
-- color:
-error_gps_color: Purple
-auto_stop_color: Blue
-places_empty_color: Pink
-arrived_colors: White
-straight_color: Green
-block_colors: Red
+### Version:
+- gps: device 1.
+- gps_new: device 2.
+- planning: based initial GPS data. 
+- planning_new: based on successive GPS data.
 
-planning: based initial GPS data
+### Color:
+- error_gps_color: Purple
+- auto_stop_color: Blue
+- places_empty_color: Pink
+- arrived_colors: White
+- straight_color: Green
+- block_colors: Red
 
-planning_new: based on successive GPS data 
