@@ -39,7 +39,7 @@ class PlanningNode(Node):
 
         # self.notice = -1
         self.pls = []
-        self.pl_id = 1
+        self.target_id = 1
         self.current_position = [0.0,0.0]
         self.past_gps_data = [0.0,0.0]            
         self.past_position = [0.0,0.0]
@@ -61,14 +61,14 @@ class PlanningNode(Node):
         pls_data = [list_point[i:i+2] for i in range(0, len(list_point), 2)]
         if self.pls != pls_data:
             self.get_logger().info("new places")            
-            self.pl_id = 1
+            self.target_id = 1
             self.new_pls = True
         self.pls = pls_data
             
     def automatic_sub_callback(self, data_msg: Bool):
         self.automatic = data_msg.data
         if not self.automatic:
-            self.pl_id = 1
+            self.target_id = 1
             self.new_pls = True
             self.pls = []
             self.notice_pub_callback(-1)
@@ -92,7 +92,7 @@ class PlanningNode(Node):
             self.get_logger().info("go_stop: Stop")
             if self.arrived and self.new_pls:
                 self.arrived = False
-                self.pl_id = 1
+                self.target_id = 1
             
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
@@ -140,22 +140,22 @@ class PlanningNode(Node):
                 self.cmd_vel_pub_callback(0,0)
                 return
             
-            if self.pl_id >= len(self.pls):
+            if self.target_id >= len(self.pls):
                 self.notice_pub_callback(3)
                 self.arrived = True
                 self.get_logger().info("Arrived")
                 self.cmd_vel_pub_callback(0,0)
             else:            
                 self.notice_pub_callback(-1)
-                dis = self.per.distance_cal( self.current_position, self.pls[self.pl_id])  
+                dis = self.per.distance_cal( self.current_position, self.pls[self.target_id])  
                 if dis >= threshold:
-                    sp, st, beta = self.per.speed_steering_cal( self.yaw, self.current_position, self.pls[self.pl_id]) 
+                    sp, st, beta = self.per.speed_steering_cal( self.yaw, self.current_position, self.pls[self.target_id]) 
                     if sp == 0.0:
                         self.notice_pub_callback(5)
                     self.cmd_vel_pub_callback(sp,st)
-                    self.get_logger().info(f"pl_id: {self.pl_id}, beta: {beta:.2f}, distance: {dis:.2f}")
+                    self.get_logger().info(f"target_id: {self.target_id}, beta: {beta:.2f}, distance: {dis:.2f}\ntarget place: [{self.pls[self.target_id]}]")
                 else:
-                    self.pl_id += 1
+                    self.target_id += 1
             
         # else:
         #     self.notice = -1
