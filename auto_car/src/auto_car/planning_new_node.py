@@ -61,6 +61,7 @@ class PlanningNode(Node):
         if self.pls != pls_data:
             self.get_logger().info("new places")            
             self.target_id = 1
+            self.arrived = False   
             self.new_pls = True
         self.pls = pls_data
             
@@ -84,7 +85,7 @@ class PlanningNode(Node):
                 self.notice_pub_callback(0)
         else:
             self.notice_pub_callback(1)
-            if self.arrived and self.new_pls:
+            if self.arrived:
                 self.arrived = False
                 self.target_id = 1
             
