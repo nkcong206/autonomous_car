@@ -52,7 +52,7 @@ class ControllerNode(Node):
             signal = self.notice
 
         noti = self.led.display(signal)
-        self.get_logger().info(f"notification: {noti}")
+        self.get_logger().info(f"{noti}")
             
     def notice_sub_callback(self, notice_msg:Int32):
         self.notice = notice_msg.data
