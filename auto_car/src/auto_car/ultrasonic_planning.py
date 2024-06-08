@@ -73,7 +73,7 @@ class PlanningNode(Node):
                 self.notice = 1
             else:
                 self.notice = -1
-                sp, st, self.beta = self.per.speed_steering_ultra_cal( alpha, self.yaw, self.ultrasonic) 
+                sp, st, self.beta = self.per.speed_streering_ultra_cal( alpha, self.yaw, self.ultrasonic) 
                 self.get_logger().info(f"beta: {self.beta:.2f}\n")
                 if sp == 0.0:
                     self.notice = 5

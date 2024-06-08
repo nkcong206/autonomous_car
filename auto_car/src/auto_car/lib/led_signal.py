@@ -2,14 +2,14 @@ all_positions = 0
 left_positions = 0
 right_positions = 0
 
-error_gps_color = []
+error_gps = []
 auto_stop_color = []
-places_empty_color = []
-arrived_colors = [] 
+places_empty = []
+reach_destination_colors = [] 
 
 straight_color = []
-left_colors = []
-right_colors = []
+turn_left_colors = []
+turn_right_colors = []
 block_colors = []
 
 empty_color = []
@@ -17,10 +17,10 @@ empty_color = []
 #all led
 for i in range(8):
     all_positions += 2**i
-    error_gps_color.append([106,13,173])  
-    auto_stop_color.append([0,0,255])
-    places_empty_color.append([255,0,127])   
-    arrived_colors.append([255,255,255])
+    error_gps.append([255,191,0])  
+    auto_stop_color.append([128,0,255])
+    places_empty.append([0,255,255])   
+    reach_destination_colors.append([255,255,255])
     
     straight_color.append([0,255,0])
     block_colors.append([255,0,0])    
@@ -30,63 +30,50 @@ for i in range(8):
 #4 led on the left
 for i in range(4):
     left_positions += 2**i
-    left_colors.append([255,255,0])
+    turn_left_colors.append([255,255,0])
     
 #4 led on the right    
 for i in range(4,8):
     right_positions += 2**i
-    right_colors.append([255,255,0])    
+    turn_right_colors.append([255,255,0])    
     
 class led_signal():    
     ERROR_GPS = 0
-    AUTO_STOP = 1
+    AUTO_STOP_COLOR = 1
     PLACES_EMPTY = 2
-    ARRIVED = 3
+    REACH_DESTINATION = 3
     
-    STRAIGHT = 4
-    BLOCK = 5
+    STRAIGHT_COLOR = 4
+    BLOCK_COLOR = 5
     
-    RIGHT = 6
-    LEFT = 7
+    RIGHT_COLOR = 6
+    LEFT_COLOR = 7
         
-    EMPTY = -1    
+    EMPTY_COLOR = -1    
     
     def __init__(self, Car):
         self.car = Car
     
-    def display(self, signal):
-        self.car.setPixelDisplay(all_positions, empty_color)  # Reset màu
-
-        if signal == led_signal.ARRIVED:
-            self.car.setPixelDisplay(all_positions, arrived_colors)
-            noti = "ARRIVED"
+    def display( self, signal):
+        self.car.setPixelDisplay(all_positions, empty_color)
+        if signal == led_signal.REACH_DESTINATION:
+            self.car.setPixelDisplay(all_positions, reach_destination_colors)
         elif signal == led_signal.PLACES_EMPTY:
-            self.car.setPixelDisplay(all_positions, places_empty_color)
-            noti = "PLACES_EMPTY"
-        elif signal == led_signal.RIGHT:
-            self.car.setPixelDisplay(right_positions, right_colors)
-            noti = "RIGHT"
-        elif signal == led_signal.LEFT:
-            self.car.setPixelDisplay(left_positions, left_colors)
-            noti = "LEFT"
+            self.car.setPixelDisplay(all_positions, places_empty)
+        elif signal == led_signal.RIGHT_COLOR:
+            self.car.setPixelDisplay(right_positions, turn_right_colors)
+        elif signal == led_signal.LEFT_COLOR:
+            self.car.setPixelDisplay(left_positions, turn_left_colors)
         elif signal == led_signal.ERROR_GPS:  
-            self.car.setPixelDisplay(all_positions, error_gps_color)
-            noti = "ERROR_GPS"
-        elif signal == led_signal.BLOCK:
+            self.car.setPixelDisplay(all_positions, error_gps)
+        elif signal == led_signal.BLOCK_COLOR:
             self.car.setPixelDisplay(all_positions, block_colors)
-            noti = "BLOCK"
-        elif signal == led_signal.AUTO_STOP:
+        elif signal == led_signal.AUTO_STOP_COLOR:
             self.car.setPixelDisplay(all_positions, auto_stop_color)
-            noti = "AUTO_STOP"
-        elif signal == led_signal.STRAIGHT:
+        elif signal == led_signal.STRAIGHT_COLOR:
             self.car.setPixelDisplay(all_positions, straight_color)
-            noti = "STRAIGHT"
-        elif signal == led_signal.EMPTY:
+        elif signal == led_signal.EMPTY_COLOR:
             self.car.setPixelDisplay(all_positions, empty_color)
-            noti = "EMPTY"
-        else:
-            noti = "UNKNOWN_SIGNAL"  
 
-        return noti  
             
 

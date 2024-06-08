@@ -79,7 +79,7 @@ class SocketIOListener(Node):
         
         @self.sio.on("locations_direction_robot")
         def locations_direction(data):
-            pls = data['locations']
+            pls = data['locations'][1:][0]
             places = []
             for point in pls:
                 places.append(float(point[0]))
@@ -87,17 +87,18 @@ class SocketIOListener(Node):
             place_msg = Float64MultiArray()
             place_msg.data = places
             self.places_publisher.publish(place_msg)
-            self.get_logger().info(f"Number places: {len(pls)}")
-            self.get_logger().info(f"Plan: {pls}")
+            self.get_logger().info(f"Route planning: {pls}")
+            self.get_logger().info(f"length places: {len(pls)}")
 
         @self.sio.on("automatic")
         def automatic(data):
             auto_msg = Bool()
             if data['type'] == 'Automatic':
+                self.get_logger().info("Automatic!")
                 self.automatic = True
             else:
+                self.get_logger().info("Manual!")
                 self.automatic = False
-            self.get_logger().info(f"automatic: {self.automatic}")
             auto_msg.data = self.automatic 
             self.auto_publisher.publish(auto_msg)
 
@@ -106,9 +107,10 @@ class SocketIOListener(Node):
             g_msg = Bool()
             if data['type'] == 'Go':
                 g_msg.data = True
+                self.get_logger().info("Start!")
             else:
+                self.get_logger().info("Stop!")
                 g_msg.data = False
-            self.get_logger().info(f"go_stop: {g_msg.data}")
             self.go_stop_publisher.publish(g_msg)
             
         @self.sio.on('disconnect')
@@ -142,7 +144,7 @@ class SocketIOListener(Node):
     def start_stream_gst(self):
         try:
             process = subprocess.Popen(["bash", runstream_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            self.get_logger().info(f"Stream started, ID:{process.pid}")
+            self.get_logger().info(f"Stream Started, ID:{process.pid}")
             return process
         except Exception as e:
             self.get_logger().info("Error starting stream:")
@@ -154,7 +156,7 @@ class SocketIOListener(Node):
                 id = process.pid
                 process.terminate()
                 process.wait()
-                self.get_logger().info(f"Stream stopped, ID:{id}")
+                self.get_logger().info(f"Stream Stopped, ID:{id}")
         except Exception as e:
             self.get_logger().info("Error stopping stream:")
 

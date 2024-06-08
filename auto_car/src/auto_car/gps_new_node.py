@@ -45,8 +45,8 @@ class GPSNode(Node):
         else:
             status = 0
         my_gps.data = [float(status),float(lat), float(lon)]
+        self.get_logger().info(f"[{float(lat)},{float(lon)}]") 
         self.gps_pub.publish(my_gps) 
-        self.get_logger().info(f"{lat},{lon}")
             
     def stop(self):
         self.ser.close()

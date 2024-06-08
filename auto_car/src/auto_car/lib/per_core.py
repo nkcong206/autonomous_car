@@ -81,7 +81,7 @@ class Perception():
         else:
             return bin_id, False
         
-    def speed_steering_cal( self, yaw, start, end):   
+    def speed_streering_cal( self, yaw, start, end):   
         destination_angle = self.bearing_cal(start, end)
         # obstacle avoidance 
         bins, safe_bins = self.get_bins()
