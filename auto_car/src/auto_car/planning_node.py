@@ -72,22 +72,23 @@ class PlanningNode(Node):
             self.target_id = 1
             self.new_pls = True
             self.pls = []
-            self.notice_pub_callback(-1)
+            self.cmd_vel_pub_callback(0,0)
 
     def go_stop_sub_callback(self, data_msg: Bool):
         self.go_stop = data_msg.data
         self.get_logger().info(f"go_stop: {self.go_stop}")
-        if self.go_stop:
-            if not len(self.pls):
-                self.notice_pub_callback(2)
-                return
-            if not self.gps_status:                     
-                self.notice_pub_callback(0)
-        else:
-            self.notice_pub_callback(1)
-            if self.arrived:
-                self.arrived = False
-                self.target_id = 1
+        if self.automatic:
+            if self.go_stop:
+                if not len(self.pls):
+                    self.notice_pub_callback(2)
+                    return
+                if not self.gps_status:                     
+                    self.notice_pub_callback(0)
+            else:
+                self.notice_pub_callback(1)
+                if self.arrived:
+                    self.arrived = False
+                    self.target_id = 1
             
     def yaw_sub_callback(self, yaw_msg = Float64):
         self.yaw = yaw_msg.data
@@ -151,9 +152,8 @@ class PlanningNode(Node):
                     self.get_logger().info(f"target_id: {self.target_id}, beta: {beta:.2f}, distance: {dis:.2f}\ntarget place: [{self.pls[self.target_id]}]")
                 else:
                     self.target_id += 1
-            
-        # else:
-        #     self.notice = -1
+        else:
+            self.notice_pub_callback(-1)
             
     def stop(self):
         self.lidar.stopMotor()
