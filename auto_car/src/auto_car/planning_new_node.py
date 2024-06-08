@@ -119,7 +119,7 @@ class PlanningNode(Node):
     def planning_thread(self):
         if self.automatic:
             if not self.go_stop or not self.gps_status or not len(self.pls):
-                self.get_logger().info(f"go_stop: {self.go_stop}, gps_status: {self.gps_status}")
+                self.get_logger().info(f"go_stop: {self.go_stop}, gps: {self.gps_status}, len pls: {len(self.pls)}")   
                 self.cmd_vel_pub_callback(0,0)
                 return
             
